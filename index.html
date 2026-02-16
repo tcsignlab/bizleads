@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Business Directory</title>
+  <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+<div id="login-screen">
+  <h2>Private Access</h2>
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="checkPassword()">Enter</button>
+  <p id="login-error"></p>
+</div>
+
+<div id="app" style="display:none;">
+  <header>
+    <h1>Business Directory</h1>
+    <button id="toggleTheme">🌙 Dark Mode</button>
+    <input type="text" id="search" placeholder="Search businesses...">
+    <select id="stateFilter">
+      <option value="">All States</option>
+    </select>
+  </header>
+
+  <main id="results"></main>
+</div>
+
+<script src="static/js/app.js"></script>
+</body>
+</html>
