@@ -1,0 +1,19 @@
+
+name: nightly scrape
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: playwright install chromium
+      - run: python scrapers/super_scraper.py
+      - run: python alerts/alerts.py
