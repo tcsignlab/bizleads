@@ -1,14 +1,30 @@
+import requests
+from bs4 import BeautifulSoup
+from ..utils import HEADERS
 
-from ..common import safe_get
+STATE_CODE = "PA"
+SEARCH_URL = ""  # TODO: real endpoint
 
 def scrape():
-    # Placeholder endpoint per state (replace with real registry endpoint)
-    url = "https://example.com/pennsylvania-registry"
-    r = safe_get(url)
-    if not r:
+    results = []
+
+    try:
+        r = requests.get(SEARCH_URL, headers=HEADERS, timeout=20)
+        if r.status_code != 200:
+            print(f"[{STATE_CODE}] Non-200 status:", r.status_code)
+            return []
+
+        # Hardened: handle non-JSON responses safely
+        content_type = r.headers.get("Content-Type", "")
+        if "json" in content_type:
+            data = r.json()
+            # TODO: parse JSON
+            return []
+        else:
+            soup = BeautifulSoup(r.text, "html.parser")
+            # TODO: parse HTML
+            return []
+
+    except Exception as e:
+        print(f"[{STATE_CODE}] Error:", e)
         return []
-    return [{
-        "name": "Pennsylvania Example Biz",
-        "state": "PE",
-        "date": ""
-    }]
