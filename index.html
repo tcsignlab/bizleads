@@ -1,33 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Business Directory</title>
-  <link rel="stylesheet" href="static/css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGN LEADS USA — National Lead Intelligence Map</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  background:#0a0c10;
+  color:#f0f4ff;
+  font-family:Inter,sans-serif;
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 32px;
+  background:#0a0c10;
+  border-bottom:1px solid #1e2330;
+}
+.logo-text{
+  font-family:Bebas Neue;
+  font-size:2rem;
+  letter-spacing:2px;
+}
+.header-stats{display:flex;gap:40px;}
+.hstat-val{color:#e8291c;font-size:2rem;font-family:Bebas Neue;}
+.main{padding:40px;text-align:center;}
+#map{max-width:900px;margin:auto;}
+.state{
+  fill:#1a1f2e;
+  stroke:#000;
+  cursor:pointer;
+}
+.tier-1{fill:#2d3748;}
+.tier-50{fill:#1a3a6e;}
+.tier-200{fill:#6d28d9;}
+.tier-500{fill:#e8291c;}
+.tooltip{
+  position:fixed;
+  background:#111318;
+  border:1px solid #1e2330;
+  padding:12px;
+  border-radius:8px;
+  display:none;
+}
+</style>
 </head>
+
 <body>
 
-<div id="login-screen">
-  <h2>Private Access</h2>
-  <input type="password" id="password" placeholder="Enter password">
-  <button onclick="checkPassword()">Enter</button>
-  <p id="login-error"></p>
+<header>
+  <div class="logo-text">SIGN LEADS USA</div>
+  <div class="header-stats">
+    <div>
+      <div class="hstat-val" id="totalLeads">—</div>
+      <div>Total Leads</div>
+    </div>
+    <div>
+      <div class="hstat-val" id="activeStates">—</div>
+      <div>Active States</div>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+  <h2>NATIONAL INTELLIGENCE MAP</h2>
+  <svg id="map" viewBox="0 0 959 593"></svg>
 </div>
 
-<div id="app" style="display:none;">
-  <header>
-    <h1>Business Directory</h1>
+<div class="tooltip" id="tooltip"></div>
 
-    <input type="text" id="search" placeholder="Search businesses...">
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
 
-    <select id="stateFilter">
-      <option value="">All States</option>
-    </select>
-  </header>
+<script>
+let stateCounts = {};
 
-  <main id="results"></main>
-</div>
+// ----------------------------
+// LOAD SCRAPER DATA
+// ----------------------------
+async function loadData(){
+  const res = await fetch("data/businesses.json");
+  const data = await res.json();
 
-<script src="static/js/app.js"></script>
+  data.forEach(b=>{
+    if(!stateCounts[b.state]) stateCounts[b.state]=0;
+    stateCounts[b.state]++;
+  });
+
+  updateStats();
+}
+
+// ----------------------------
+function updateStats(){
+  let total=0;
+  let active=0;
+  Object.values(stateCounts).forEach(v=>{
+    total+=v;
+    if(v>0) active++;
+  });
+  document.getElementById("totalLeads").innerText = total.toLocaleString();
+  document.getElementById("activeStates").innerText = active;
+}
+
+// ----------------------------
+function tier(n){
+  if(n>=500) return "tier-500";
+  if(n>=200) return "tier-200";
+  if(n>=50) return "tier-50";
+  if(n>=1) return "tier-1";
+  return "";
+}
+
+// ----------------------------
+async function drawMap(){
+  const svg = d3.select("#map");
+  const us = await d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json");
+
+  const projection = d3.geoAlbersUsa().scale(1100).translate([480,300]);
+  const path = d3.geoPath().projection(projection);
+
+  const states = topojson.feature(us, us.objects.states).features;
+
+  svg.selectAll("path")
+    .data(states)
+    .enter()
+    .append("path")
+    .attr("d",path)
+    .attr("class",d=>{
+      const abbr = fips[d.id];
+      return "state "+tier(stateCounts[abbr]||0);
+    })
+    .on("mousemove",(e,d)=>{
+      const abbr=fips[d.id];
+      const count=stateCounts[abbr]||0;
+      const tip=document.getElementById("tooltip");
+      tip.style.display="block";
+      tip.style.left=e.clientX+10+"px";
+      tip.style.top=e.clientY+10+"px";
+      tip.innerHTML=`<b>${abbr}</b><br>${count} leads`;
+    })
+    .on("mouseout",()=>document.getElementById("tooltip").style.display="none")
+    .on("click",(e,d)=>{
+      const abbr=fips[d.id];
+      window.location.href="directory.html?state="+abbr;
+    });
+}
+
+// ----------------------------
+const fips={
+1:"AL",2:"AK",4:"AZ",5:"AR",6:"CA",8:"CO",9:"CT",10:"DE",
+12:"FL",13:"GA",15:"HI",16:"ID",17:"IL",18:"IN",19:"IA",
+20:"KS",21:"KY",22:"LA",23:"ME",24:"MD",25:"MA",26:"MI",
+27:"MN",28:"MS",29:"MO",30:"MT",31:"NE",32:"NV",33:"NH",
+34:"NJ",35:"NM",36:"NY",37:"NC",38:"ND",39:"OH",40:"OK",
+41:"OR",42:"PA",44:"RI",45:"SC",46:"SD",47:"TN",48:"TX",
+49:"UT",50:"VT",51:"VA",53:"WA",54:"WV",55:"WI",56:"WY"
+};
+
+// ----------------------------
+async function init(){
+  await loadData();
+  await drawMap();
+}
+init();
+</script>
+
 </body>
 </html>
