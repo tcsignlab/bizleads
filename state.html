@@ -372,6 +372,55 @@ header {
 }
 .source-badge a { color:var(--accent); text-decoration:none; }
 
+/* ─── FAVORITES ─── */
+.fav-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: transform 0.15s, background 0.15s;
+  z-index: 2;
+  color: var(--muted);
+  opacity: 0.5;
+}
+.fav-btn:hover { transform: scale(1.2); opacity: 1; background: rgba(255,200,0,0.1); }
+.fav-btn.active { color: #ffd700; opacity: 1; filter: drop-shadow(0 0 6px rgba(255,215,0,0.6)); }
+.business-card.new-today .fav-btn { right: 100px; }
+
+.fav-filter-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.fav-filter-btn:hover { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.06); }
+.fav-filter-btn.active { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.12); }
+.fav-count-badge {
+  background: #ffd700;
+  color: #000;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  min-width: 18px;
+  text-align: center;
+}
+
 /* ─── EMPTY ─── */
 .empty-state { text-align:center; padding:60px 40px; }
 .empty-state h2 { font-family:'Bebas Neue',sans-serif; font-size:2rem; margin-bottom:12px; color:#ff9800; }
@@ -511,7 +560,10 @@ header {
       <div class="results-container">
         <div class="results-header">
           <div class="panel-title">📋 BUSINESS REGISTRATIONS</div>
-          <div class="result-count" id="result-count"></div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="fav-filter-btn" id="favFilterBtn" title="Show favorited businesses">⭐ Favorites <span class="fav-count-badge" id="favCountBadge">0</span></button>
+            <div class="result-count" id="result-count"></div>
+          </div>
         </div>
         <div class="results-scroll-wrapper" id="results-scroll">
           <!-- SCROLL BUTTONS -->
@@ -546,6 +598,33 @@ header {
 // CONFIG
 // ═══════════════════════════════════════════════
 const stateCode = new URLSearchParams(window.location.search).get('state') || 'GA';
+
+// ─── FAVORITES ───
+const FAV_KEY = `leadsource_favs_${stateCode}`;
+let favorites = new Set(JSON.parse(localStorage.getItem(FAV_KEY) || '[]'));
+let showFavoritesOnly = false;
+
+function saveFavorites() {
+  localStorage.setItem(FAV_KEY, JSON.stringify([...favorites]));
+}
+function toggleFavorite(bizId) {
+  if (favorites.has(bizId)) {
+    favorites.delete(bizId);
+  } else {
+    favorites.add(bizId);
+  }
+  saveFavorites();
+  updateFavBadge();
+  // Update button state without full re-render
+  document.querySelectorAll(`.fav-btn[data-id="${CSS.escape(bizId)}"]`).forEach(btn => {
+    btn.classList.toggle('active', favorites.has(bizId));
+    btn.title = favorites.has(bizId) ? 'Remove from favorites' : 'Add to favorites';
+  });
+  if (showFavoritesOnly) renderBusinesses();
+}
+function updateFavBadge() {
+  document.getElementById('favCountBadge').textContent = favorites.size;
+}
 
 const stateNames = {
   'AL':'Alabama','AK':'Alaska','AZ':'Arizona','AR':'Arkansas','CA':'California','CO':'Colorado',
@@ -1095,10 +1174,17 @@ function renderBusinesses() {
   document.getElementById('result-count').textContent =
     `${filteredBusinesses.length.toLocaleString()} result${filteredBusinesses.length !== 1 ? 's' : ''}`;
 
-  if (!filteredBusinesses.length) {
+  const displayList = showFavoritesOnly
+    ? filteredBusinesses.filter(b => {
+        const bizId = (b.name || b.entity_name || 'Unknown') + '|' + (b.registration_date || b.date || '');
+        return favorites.has(bizId);
+      })
+    : filteredBusinesses;
+
+  if (!displayList.length) {
     document.getElementById('emptyState').style.display = 'block';
-    document.getElementById('emptyState').querySelector('h2').textContent = 'No Results';
-    document.getElementById('emptyState').querySelector('p').textContent = 'Try adjusting your filters.';
+    document.getElementById('emptyState').querySelector('h2').textContent = showFavoritesOnly ? 'No Favorites Yet' : 'No Results';
+    document.getElementById('emptyState').querySelector('p').textContent = showFavoritesOnly ? 'Star a card to save it here.' : 'Try adjusting your filters.';
     return;
   }
   document.getElementById('emptyState').style.display = 'none';
@@ -1108,8 +1194,10 @@ function renderBusinesses() {
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split('T')[0];
 
-  filteredBusinesses.forEach(biz => {
+  displayList.forEach(biz => {
     const bizName  = biz.name || biz.entity_name || 'Unknown';
+    const bizId = bizName + '|' + (biz.registration_date || biz.date || '');
+    const isFav = favorites.has(bizId);
     const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(bizName + ' ' + (stateNames[stateCode] || stateCode))}`;
     const card = document.createElement('div');
     card.className = 'business-card';
@@ -1123,6 +1211,7 @@ function renderBusinesses() {
     }
     
     card.innerHTML = `
+      <button class="fav-btn${isFav ? ' active' : ''}" data-id="${bizId.replace(/"/g,'&quot;')}" title="${isFav ? 'Remove from favorites' : 'Add to favorites'}">⭐</button>
       <div class="business-name">
         <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="Search the web for this business">${bizName} 🔍</a>
       </div>
@@ -1146,6 +1235,10 @@ function renderBusinesses() {
       </div>
       ${src ? `<div class="source-badge">📋 Source: <span><a href="${src.url}" target="_blank" rel="noopener noreferrer">${src.label}</a></span></div>` : ''}
     `;
+    card.querySelector('.fav-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFavorite(bizId);
+    });
     list.appendChild(card);
   });
 }
@@ -1159,6 +1252,15 @@ document.getElementById('zipFilter').addEventListener('change', function() {
   applyFilters();
 });
 document.getElementById('sortBy').addEventListener('change', applyFilters);
+
+document.getElementById('favFilterBtn').addEventListener('click', function() {
+  showFavoritesOnly = !showFavoritesOnly;
+  this.classList.toggle('active', showFavoritesOnly);
+  renderBusinesses();
+});
+
+// Initialize badge count
+updateFavBadge();
 
 // Scroll buttons
 const scrollContainer = document.getElementById('results-scroll');
