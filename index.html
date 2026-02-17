@@ -261,11 +261,13 @@
   <!-- RIGHT PANEL: ADS -->
   <div class="ads-panel">
     <div class="panel-title">📢 SPONSORED</div>
-    <div class="ad-slot" style="padding:0;border:none;background:none;margin-bottom:14px;min-height:120px;"></div>
+    <div class="ad-slot" style="margin-bottom:14px;">
+      <div class="ad-label">Advertisement</div>
+      <div style="height:120px; display:flex; align-items:center; justify-content:center;">
+        <div class="ad-placeholder">160 × 120<br>Ad Space</div>
+      </div>
+    </div>
     <style>
-      @keyframes adSlideIn { from{transform:translateX(-100%)} to{transform:translateX(0)} }
-      @keyframes adFadeIn  { to{opacity:1} }
-      @keyframes adPulse   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
       @keyframes bgMove { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
       @keyframes floatUp { from{bottom:-10px;transform:scale(0.6)} to{bottom:210px;transform:scale(1.2)} }
       @keyframes adPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
@@ -273,10 +275,10 @@
     </style>
     <div class="ad-slot" style="padding:0;border:none;background:none;margin-bottom:14px;">
       <a href="https://tcsignlab.github.io/bizleads/index.html" target="_blank" style="text-decoration:none;">
-        <div style="width:120px;height:200px;position:relative;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(270deg,#7f00ff,#00c6ff,#00ff99);background-size:600% 600%;animation:bgMove 6s ease infinite;border-radius:10px;box-shadow:0 0 18px rgba(0,255,200,0.6);">
+        <div style="width:160px;height:200px;position:relative;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(270deg,#7f00ff,#00c6ff,#00ff99);background-size:600% 600%;animation:bgMove 6s ease infinite;border-radius:10px;box-shadow:0 0 18px rgba(0,255,200,0.6);">
           <div style="position:absolute;left:20px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:0s;"></div>
-          <div style="position:absolute;left:60px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:1s;"></div>
-          <div style="position:absolute;left:90px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:2s;"></div>
+          <div style="position:absolute;left:80px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:1s;"></div>
+          <div style="position:absolute;left:130px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:2s;"></div>
           <div style="position:relative;z-index:2;padding:10px;text-align:center;color:#fff;">
             <div style="font-size:15px;font-weight:bold;line-height:1.1;text-shadow:0 0 8px #000;animation:adPop 1.5s infinite;">NEED<br>MORE<br>LEADS?</div>
             <div style="margin-top:10px;font-size:12px;font-weight:bold;">Grow Fast</div>
