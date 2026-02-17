@@ -3,581 +3,172 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BizLeads USA — National Business Intelligence Map</title>
+<title>SIGN LEADS USA — National Lead Intelligence Map</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --bg: #0a0c10;
-    --panel: #111318;
-    --border: #1e2330;
-    --accent: #667eea;
-    --glow: rgba(102,126,234,0.4);
-    --text: #f0f4ff;
-    --muted: #6b7280;
-    --heat-0:   #1a1f2e;
-    --heat-1:   #2d3748;
-    --heat-50:  #1a3a6e;
-    --heat-200: #6d28d9;
-    --heat-500: #667eea;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html, body { height:100%; overflow-x:hidden; }
-  body {
-    background: var(--bg);
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(102,126,234,0.18) 0%, transparent 55%),
-      radial-gradient(ellipse at 80% 100%, rgba(118,75,162,0.12) 0%, transparent 55%);
-  }
-
-  /* ─── HEADER ─── */
-  header {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 32px;
-    border-bottom: 1px solid var(--border);
-    background: rgba(10,12,16,0.96);
-    position: sticky; top: 0; z-index: 100;
-    backdrop-filter: blur(16px);
-  }
-  .logo { display: flex; align-items: center; gap: 14px; }
-  .logo-icon {
-    width:44px; height:44px; background:var(--accent); border-radius:8px;
-    display:flex; align-items:center; justify-content:center; font-size:20px;
-    box-shadow:0 0 24px var(--glow);
-  }
-  .logo-text { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:2px; line-height:1; }
-  .logo-sub { font-size:0.7rem; color:var(--muted); letter-spacing:3px; text-transform:uppercase; }
-  .header-stats { display:flex; gap:32px; }
-  .hstat { text-align:center; }
-  .hstat-val { font-family:'Bebas Neue',sans-serif; font-size:2rem; line-height:1; color:var(--accent); }
-  .hstat-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:2px; }
-  .header-right { display:flex; align-items:center; gap:16px; }
-  .live-badge {
-    display:flex; align-items:center; gap:8px;
-    background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3);
-    padding:8px 16px; border-radius:24px; font-size:0.75rem;
-    color:#10b981; font-weight:700; letter-spacing:1px;
-  }
-  .live-dot { width:8px; height:8px; background:#10b981; border-radius:50%; animation:pulse-green 2s infinite; }
-  @keyframes pulse-green { 0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.6)} 50%{box-shadow:0 0 0 6px rgba(16,185,129,0)} }
-  .btn-status {
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    color: #e8eaf6;
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: all 0.3s;
-  }
-  .btn-status:hover {
-    background: rgba(102, 126, 234, 0.2);
-    border-color: #667eea;
-  }
-
-  /* ─── LAYOUT ─── */
-  .main { display:grid; grid-template-columns:240px 1fr 240px; min-height:calc(100vh - 73px); }
-  .side-panel { background:var(--panel); border-right:1px solid var(--border); padding:24px 16px; overflow-y:auto; }
-  .side-panel.right { border-right:none; border-left:1px solid var(--border); }
-  .panel-title {
-    font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:3px;
-    color:var(--muted); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border);
-  }
-
-  /* Legend */
-  .legend-item { display:flex; align-items:center; gap:12px; margin:10px 0; font-size:0.82rem; }
-  .legend-dot { width:14px; height:14px; border-radius:3px; flex-shrink:0; }
-  .legend-label { color:#c0c8d8; }
-  .legend-count { margin-left:auto; color:var(--muted); font-size:0.75rem; }
-
-  /* Top States */
-  .top-state-item {
-    display:flex; align-items:center; gap:10px; padding:8px 10px;
-    border-radius:8px; margin:4px 0; cursor:pointer; transition:background 0.2s; font-size:0.82rem;
-  }
-  .top-state-item:hover { background:rgba(255,255,255,0.05); }
-  .top-state-rank { font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--muted); width:20px; }
-  .top-state-name { flex:1; font-weight:600; }
-  .top-state-leads {
-    background:rgba(102,126,234,0.15); color:var(--accent);
-    padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:700;
-  }
-
-  /* Activity */
-  .activity-item { display:flex; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.78rem; }
-  .activity-dot { width:8px; height:8px; border-radius:50%; margin-top:4px; flex-shrink:0; }
-  .activity-text { color:#a0aec0; line-height:1.4; }
-  .activity-time { color:var(--muted); font-size:0.7rem; margin-top:2px; }
-
-  /* ─── MAP AREA ─── */
-  .map-area { padding:28px 32px; display:flex; flex-direction:column; align-items:center; }
-  .map-title-row { text-align:center; margin-bottom:20px; }
-  .map-title-row h2 { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; letter-spacing:4px; line-height:1; }
-  .map-title-row p { color:var(--muted); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
-  #map-container { width:100%; max-width:880px; }
-
-  /* ─── D3 MAP STYLES ─── */
-  .state-path {
-    stroke: #0d1017;
-    stroke-width: 0.8px;
-    cursor: pointer;
-    transition: fill 0.3s ease, filter 0.2s ease;
-  }
-  .state-path:hover {
-    filter: brightness(1.6) drop-shadow(0 0 6px rgba(102,126,234,0.5));
-    stroke: rgba(255,255,255,0.5);
-    stroke-width: 1.5px;
-  }
-  .tier-0   { fill: var(--heat-0); }
-  .tier-1   { fill: var(--heat-1); }
-  .tier-50  { fill: var(--heat-50); }
-  .tier-200 { fill: var(--heat-200); }
-  .tier-500 { fill: var(--heat-500); }
-
-  .state-label {
-    font-family:'Inter',sans-serif; font-weight:700;
-    fill:rgba(255,255,255,0.6); pointer-events:none; font-size:7px;
-  }
-
-  /* ─── TOOLTIP ─── */
-  #tooltip {
-    position:fixed; background:rgba(10,12,16,0.97); border:1px solid var(--border);
-    border-radius:12px; padding:18px 22px; pointer-events:none; opacity:0;
-    transition:opacity 0.15s; z-index:1000; min-width:210px;
-    backdrop-filter:blur(20px);
-    box-shadow:0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
-  }
-  #tooltip.visible { opacity:1; }
-  .tt-state { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:2px; margin-bottom:8px; }
-  .tt-leads { font-size:2rem; font-weight:900; color:var(--accent); line-height:1; }
-  .tt-sub { font-size:0.75rem; color:var(--muted); margin-top:2px; }
-  .tt-hot-warm { font-size:0.78rem; color:#a0aec0; margin-top:6px; }
-  .tt-status { margin-top:10px; font-size:0.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
-  .tt-status.active { color:#10b981; }
-  .tt-status.coming { color:var(--muted); }
-  .tt-click { font-size:0.7rem; color:#4a90e2; margin-top:6px; }
-
-  /* Sync bar */
-  .sync-bar {
-    width:100%; max-width:880px; display:flex; align-items:center; justify-content:space-between;
-    margin-top:12px; padding:8px 16px;
-    background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px;
-    font-size:0.75rem; color:var(--muted);
-  }
-  .sync-bar span { display:flex; align-items:center; gap:6px; }
-
-  /* Loading state */
-  .loading-map {
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:80px 20px; text-align:center; color:var(--muted);
-  }
-  .loading-map .spinner {
-    width:40px; height:40px; margin-bottom:20px;
-    border:3px solid rgba(102,126,234,0.2); border-top-color:var(--accent);
-    border-radius:50%; animation:spin 1s linear infinite;
-  }
-  @keyframes spin { to { transform:rotate(360deg); } }
-
-  @media (max-width: 1024px) {
-    .main { grid-template-columns: 1fr; }
-    .side-panel { border:none; border-bottom:1px solid var(--border); }
-    .side-panel.right { border-top:1px solid var(--border); border-bottom:none; }
-    .header-stats { gap:20px; }
-    .hstat-val { font-size:1.6rem; }
-  }
-  @media (max-width: 640px) {
-    header { flex-direction:column; gap:16px; }
-    .header-stats { width:100%; justify-content:space-around; }
-  }
+body{
+  margin:0;
+  background:#0a0c10;
+  color:#f0f4ff;
+  font-family:Inter,sans-serif;
+}
+header{
+  display:flex;
+  justify-content:space-between;
+  padding:20px 32px;
+  background:#0a0c10;
+  border-bottom:1px solid #1e2330;
+}
+.logo-text{
+  font-family:Bebas Neue;
+  font-size:2rem;
+  letter-spacing:2px;
+}
+.header-stats{display:flex;gap:40px;}
+.hstat-val{color:#e8291c;font-size:2rem;font-family:Bebas Neue;}
+.main{padding:40px;text-align:center;}
+#map{max-width:900px;margin:auto;}
+.state{
+  fill:#1a1f2e;
+  stroke:#000;
+  cursor:pointer;
+}
+.tier-1{fill:#2d3748;}
+.tier-50{fill:#1a3a6e;}
+.tier-200{fill:#6d28d9;}
+.tier-500{fill:#e8291c;}
+.tooltip{
+  position:fixed;
+  background:#111318;
+  border:1px solid #1e2330;
+  padding:12px;
+  border-radius:8px;
+  display:none;
+}
 </style>
 </head>
+
 <body>
 
 <header>
-  <div class="logo">
-    <div class="logo-icon">🚀</div>
-    <div>
-      <div class="logo-text">BIZLEADS USA</div>
-      <div class="logo-sub">Business Intelligence</div>
-    </div>
-  </div>
+  <div class="logo-text">SIGN LEADS USA</div>
   <div class="header-stats">
-    <div class="hstat">
-      <div class="hstat-val" id="stat-total-leads">—</div>
-      <div class="hstat-label">Total Businesses</div>
+    <div>
+      <div class="hstat-val" id="totalLeads">—</div>
+      <div>Total Leads</div>
     </div>
-    <div class="hstat">
-      <div class="hstat-val" id="stat-active-states">—</div>
-      <div class="hstat-label">Active States</div>
+    <div>
+      <div class="hstat-val" id="activeStates">—</div>
+      <div>Active States</div>
     </div>
-  </div>
-  <div class="header-right">
-    <div class="live-badge">
-      <div class="live-dot"></div>
-      <span>LIVE DATA</span>
-    </div>
-    <a href="status.html" class="btn-status">📊 Status</a>
   </div>
 </header>
 
 <div class="main">
-  <!-- LEFT PANEL: LEGEND -->
-  <div class="side-panel">
-    <div class="panel-title">🎨 HEAT MAP</div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-500)"></div>
-      <div class="legend-label">500+ leads</div>
-      <div class="legend-count" id="leg-500">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-200)"></div>
-      <div class="legend-label">200-499</div>
-      <div class="legend-count" id="leg-200">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-50)"></div>
-      <div class="legend-label">50-199</div>
-      <div class="legend-count" id="leg-50">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-1)"></div>
-      <div class="legend-label">1-49</div>
-      <div class="legend-count" id="leg-1">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-0)"></div>
-      <div class="legend-label">No data</div>
-      <div class="legend-count" id="leg-0">—</div>
-    </div>
-  </div>
-
-  <!-- CENTER: MAP -->
-  <div class="map-area">
-    <div class="map-title-row">
-      <h2>NATIONAL BUSINESS REGISTRATIONS</h2>
-      <p>Click any state to view detailed business listings</p>
-    </div>
-    <div id="map-container">
-      <div class="loading-map">
-        <div class="spinner"></div>
-        <p>Loading map...</p>
-      </div>
-      <svg id="usmap" style="display:none;"></svg>
-    </div>
-    <div class="sync-bar">
-      <span>Last updated: <strong id="last-update">—</strong></span>
-      <span>Data source: State Business Registries</span>
-    </div>
-  </div>
-
-  <!-- RIGHT PANEL: TOP STATES & ACTIVITY -->
-  <div class="side-panel right">
-    <div class="panel-title">🏆 TOP STATES</div>
-    <div style="text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:12px;" id="top-states-total">—</div>
-    <div id="top-states-list"></div>
-    
-    <div class="panel-title" style="margin-top:32px;">⚡ RECENT ACTIVITY</div>
-    <div id="activity-feed"></div>
-  </div>
+  <h2>NATIONAL INTELLIGENCE MAP</h2>
+  <svg id="map" viewBox="0 0 959 593"></svg>
 </div>
 
-<!-- Tooltip -->
-<div id="tooltip">
-  <div class="tt-state"></div>
-  <div class="tt-leads"></div>
-  <div class="tt-sub">registered businesses</div>
-  <div class="tt-hot-warm"></div>
-  <div class="tt-status"></div>
-  <div class="tt-click">Click to view details →</div>
-</div>
+<div class="tooltip" id="tooltip"></div>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@3"></script>
+
 <script>
-// ═══════════════════════════════════════════════
-// STATE DATA & MAPPINGS
-// ═══════════════════════════════════════════════
-const STATE_NAMES = {
-  'AL':'Alabama','AK':'Alaska','AZ':'Arizona','AR':'Arkansas','CA':'California','CO':'Colorado',
-  'CT':'Connecticut','DE':'Delaware','FL':'Florida','GA':'Georgia','HI':'Hawaii','ID':'Idaho',
-  'IL':'Illinois','IN':'Indiana','IA':'Iowa','KS':'Kansas','KY':'Kentucky','LA':'Louisiana',
-  'ME':'Maine','MD':'Maryland','MA':'Massachusetts','MI':'Michigan','MN':'Minnesota','MS':'Mississippi',
-  'MO':'Missouri','MT':'Montana','NE':'Nebraska','NV':'Nevada','NH':'New Hampshire','NJ':'New Jersey',
-  'NM':'New Mexico','NY':'New York','NC':'North Carolina','ND':'North Dakota','OH':'Ohio','OK':'Oklahoma',
-  'OR':'Oregon','PA':'Pennsylvania','RI':'Rhode Island','SC':'South Carolina','SD':'South Dakota',
-  'TN':'Tennessee','TX':'Texas','UT':'Utah','VT':'Vermont','VA':'Virginia','WA':'Washington',
-  'WV':'West Virginia','WI':'Wisconsin','WY':'Wyoming'
-};
+let stateCounts = {};
 
-const FIPS_TO_ABBR = {
-  '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT','10':'DE','12':'FL','13':'GA',
-  '15':'HI','16':'ID','17':'IL','18':'IN','19':'IA','20':'KS','21':'KY','22':'LA','23':'ME','24':'MD',
-  '25':'MA','26':'MI','27':'MN','28':'MS','29':'MO','30':'MT','31':'NE','32':'NV','33':'NH','34':'NJ',
-  '35':'NM','36':'NY','37':'NC','38':'ND','39':'OH','40':'OK','41':'OR','42':'PA','44':'RI','45':'SC',
-  '46':'SD','47':'TN','48':'TX','49':'UT','50':'VT','51':'VA','53':'WA','54':'WV','55':'WI','56':'WY'
-};
+// ----------------------------
+// LOAD SCRAPER DATA
+// ----------------------------
+async function loadData(){
+  const res = await fetch("data/businesses.json");
+  const data = await res.json();
 
-let stateData = {};      // { 'FL': { leads: 123 }, ... }
-let mapBuilt = false;
-let lastScrapeTime = null;
+  data.forEach(b=>{
+    if(!stateCounts[b.state]) stateCounts[b.state]=0;
+    stateCounts[b.state]++;
+  });
 
-// ═══════════════════════════════════════════════
-// LOAD BUSINESS DATA
-// ═══════════════════════════════════════════════
-async function loadBusinessData() {
-  try {
-    const response = await fetch('data/businesses.json');
-    const data = await response.json();
-    
-    // Count businesses by state
-    const stateCounts = {};
-    data.forEach(biz => {
-      const state = biz.state || biz.State || '';
-      if (state) {
-        stateCounts[state] = (stateCounts[state] || 0) + 1;
-        // Track most recent scrape time
-        if (biz.scraped_at) {
-          const scrapeTime = new Date(biz.scraped_at).getTime();
-          if (!lastScrapeTime || scrapeTime > lastScrapeTime) {
-            lastScrapeTime = scrapeTime;
-          }
-        }
-      }
-    });
-
-    // Convert to stateData format
-    Object.keys(stateCounts).forEach(state => {
-      stateData[state] = { leads: stateCounts[state] };
-    });
-
-    updateStats();
-    updateSidePanels();
-    applyHeatMap();
-    
-    const lastUpdate = lastScrapeTime ? new Date(lastScrapeTime).toLocaleString() : new Date().toLocaleString();
-    document.getElementById('last-update').textContent = lastUpdate;
-
-  } catch (error) {
-    console.error('Error loading business data:', error);
-    document.getElementById('last-update').textContent = 'Error loading data';
-  }
+  updateStats();
 }
 
-// ═══════════════════════════════════════════════
-// HEAT MAP TIER LOGIC
-// ═══════════════════════════════════════════════
-function getTier(leads) {
-  if (leads >= 500) return '500';
-  if (leads >= 200) return '200';
-  if (leads >= 50)  return '50';
-  if (leads >= 1)   return '1';
-  return '0';
+// ----------------------------
+function updateStats(){
+  let total=0;
+  let active=0;
+  Object.values(stateCounts).forEach(v=>{
+    total+=v;
+    if(v>0) active++;
+  });
+  document.getElementById("totalLeads").innerText = total.toLocaleString();
+  document.getElementById("activeStates").innerText = active;
 }
 
-// ═══════════════════════════════════════════════
-// BUILD D3 MAP
-// ═══════════════════════════════════════════════
-async function buildMap() {
-  const width = 880;
-  const height = 550;
+// ----------------------------
+function tier(n){
+  if(n>=500) return "tier-500";
+  if(n>=200) return "tier-200";
+  if(n>=50) return "tier-50";
+  if(n>=1) return "tier-1";
+  return "";
+}
 
-  const svg = d3.select('#usmap')
-    .attr('viewBox', `0 0 ${width} ${height}`)
-    .attr('preserveAspectRatio', 'xMidYMid meet');
+// ----------------------------
+async function drawMap(){
+  const svg = d3.select("#map");
+  const us = await d3.json("https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json");
 
-  const projection = d3.geoAlbersUsa().scale(1100).translate([width/2, height/2]);
+  const projection = d3.geoAlbersUsa().scale(1100).translate([480,300]);
   const path = d3.geoPath().projection(projection);
 
-  const us = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json');
-  const states = topojson.feature(us, us.objects.states);
+  const states = topojson.feature(us, us.objects.states).features;
 
-  const tiny = ['RI','DE','CT','NJ','NH','VT','MA','MD','DC'];
-
-  svg.selectAll('.state-path')
-    .data(states.features)
+  svg.selectAll("path")
+    .data(states)
     .enter()
-    .append('path')
-    .attr('class', d => {
-      const abbr = FIPS_TO_ABBR[String(d.id).padStart(2,'0')];
-      const leads = (stateData[abbr] || {}).leads || 0;
-      return `state-path tier-${getTier(leads)}`;
+    .append("path")
+    .attr("d",path)
+    .attr("class",d=>{
+      const abbr = fips[d.id];
+      return "state "+tier(stateCounts[abbr]||0);
     })
-    .attr('d', path)
-    .attr('data-state', d => FIPS_TO_ABBR[String(d.id).padStart(2,'0')] || '')
-    .on('mouseenter', function(event, d) {
-      const abbr = FIPS_TO_ABBR[String(d.id).padStart(2,'0')];
-      const data = stateData[abbr] || { leads: 0 };
-      
-      const tip = document.getElementById('tooltip');
-      tip.querySelector('.tt-state').textContent = STATE_NAMES[abbr] || abbr;
-      tip.querySelector('.tt-leads').textContent = data.leads || 0;
-      tip.querySelector('.tt-hot-warm').textContent = 'Business registration opportunities';
-      
-      const statusEl = tip.querySelector('.tt-status');
-      if (data.leads > 0) {
-        statusEl.textContent = '✅ DATA AVAILABLE';
-        statusEl.className = 'tt-status active';
-      } else {
-        statusEl.textContent = 'Coming Soon';
-        statusEl.className = 'tt-status coming';
-      }
-      
-      tip.classList.add('visible');
-      moveTooltip(event);
+    .on("mousemove",(e,d)=>{
+      const abbr=fips[d.id];
+      const count=stateCounts[abbr]||0;
+      const tip=document.getElementById("tooltip");
+      tip.style.display="block";
+      tip.style.left=e.clientX+10+"px";
+      tip.style.top=e.clientY+10+"px";
+      tip.innerHTML=`<b>${abbr}</b><br>${count} leads`;
     })
-    .on('mousemove', moveTooltip)
-    .on('mouseleave', () => {
-      document.getElementById('tooltip').classList.remove('visible');
-    })
-    .on('click', function(event, d) {
-      const abbr = FIPS_TO_ABBR[String(d.id).padStart(2,'0')];
-      handleStateClick(abbr);
+    .on("mouseout",()=>document.getElementById("tooltip").style.display="none")
+    .on("click",(e,d)=>{
+      const abbr=fips[d.id];
+      window.location.href="directory.html?state="+abbr;
     });
-
-  svg.selectAll('.state-label')
-    .data(states.features)
-    .enter()
-    .append('text')
-    .attr('class', 'state-label')
-    .attr('text-anchor', 'middle')
-    .attr('dominant-baseline', 'middle')
-    .attr('transform', d => { const c = path.centroid(d); return `translate(${c[0]},${c[1]})`; })
-    .attr('font-size', d => {
-      const abbr = FIPS_TO_ABBR[String(d.id).padStart(2,'0')] || '';
-      return tiny.includes(abbr) ? '5' : '8';
-    })
-    .text(d => FIPS_TO_ABBR[String(d.id).padStart(2,'0')] || '');
-
-  document.querySelector('.loading-map').style.display = 'none';
-  document.getElementById('usmap').style.display = 'block';
-
-  mapBuilt = true;
-  applyHeatMap();
 }
 
-// ═══════════════════════════════════════════════
-// APPLY HEAT COLORS
-// ═══════════════════════════════════════════════
-function applyHeatMap() {
-  if (!mapBuilt) return;
-  d3.selectAll('.state-path').each(function() {
-    const abbr  = this.getAttribute('data-state');
-    const leads = (stateData[abbr] || {}).leads || 0;
-    this.className.baseVal = `state-path tier-${getTier(leads)}`;
-  });
+// ----------------------------
+const fips={
+1:"AL",2:"AK",4:"AZ",5:"AR",6:"CA",8:"CO",9:"CT",10:"DE",
+12:"FL",13:"GA",15:"HI",16:"ID",17:"IL",18:"IN",19:"IA",
+20:"KS",21:"KY",22:"LA",23:"ME",24:"MD",25:"MA",26:"MI",
+27:"MN",28:"MS",29:"MO",30:"MT",31:"NE",32:"NV",33:"NH",
+34:"NJ",35:"NM",36:"NY",37:"NC",38:"ND",39:"OH",40:"OK",
+41:"OR",42:"PA",44:"RI",45:"SC",46:"SD",47:"TN",48:"TX",
+49:"UT",50:"VT",51:"VA",53:"WA",54:"WV",55:"WI",56:"WY"
+};
+
+// ----------------------------
+async function init(){
+  await loadData();
+  await drawMap();
 }
-
-// ═══════════════════════════════════════════════
-// STATS + PANELS
-// ═══════════════════════════════════════════════
-function updateStats() {
-  let totalLeads = 0, activeStates = 0;
-
-  Object.values(stateData).forEach(d => {
-    if (d.leads > 0) { totalLeads += d.leads; activeStates++; }
-  });
-
-  document.getElementById('stat-total-leads').textContent = totalLeads > 0 ? totalLeads.toLocaleString() : '—';
-  document.getElementById('stat-active-states').textContent = activeStates || '—';
-}
-
-function updateSidePanels() {
-  const allAbbrs = Object.values(FIPS_TO_ABBR);
-  const counts = {'0':0,'1':0,'50':0,'200':0,'500':0};
-  allAbbrs.forEach(abbr => {
-    counts[getTier((stateData[abbr] || {}).leads || 0)]++;
-  });
-
-  document.getElementById('leg-500').textContent = counts['500'] + ' states';
-  document.getElementById('leg-200').textContent = counts['200'] + ' states';
-  document.getElementById('leg-50').textContent  = counts['50']  + ' states';
-  document.getElementById('leg-1').textContent   = counts['1']   + ' states';
-  document.getElementById('leg-0').textContent   = counts['0']   + ' states';
-
-  // Top states list
-  const sorted = Object.entries(stateData)
-    .filter(([,d]) => d.leads > 0)
-    .sort((a,b) => b[1].leads - a[1].leads)
-    .slice(0, 10);
-  const topTotal = sorted.reduce((sum,[,d]) => sum + d.leads, 0);
-  document.getElementById('top-states-total').textContent = topTotal.toLocaleString() + ' total leads';
-  document.getElementById('top-states-list').innerHTML = sorted.map(([abbr,d], i) => `
-    <div class="top-state-item" onclick="handleStateClick('${abbr}')">
-      <div class="top-state-rank">${i+1}</div>
-      <div class="top-state-name">${STATE_NAMES[abbr] || abbr}</div>
-      <div class="top-state-leads">${d.leads}</div>
-    </div>`).join('');
-
-  // Activity feed
-  const recentStates = sorted.slice(0,5).map(([abbr,d]) => ({
-    color:'#10b981',
-    text:`${STATE_NAMES[abbr]} — ${d.leads} businesses`,
-    time: lastScrapeTime ? timeAgo(lastScrapeTime) : 'recent'
-  }));
-
-  const staticItems = [
-    { color:'#667eea', text:'System operational', time:'status' },
-    { color:'#4a90e2', text:'Auto-refresh enabled', time:'config' },
-    { color:'#6b7280', text:'All 50 states tracked', time:'coverage' },
-  ];
-
-  const items = [...recentStates, ...staticItems].slice(0, 8);
-  document.getElementById('activity-feed').innerHTML = items.map(a => `
-    <div class="activity-item">
-      <div class="activity-dot" style="background:${a.color}"></div>
-      <div><div class="activity-text">${a.text}</div><div class="activity-time">${a.time}</div></div>
-    </div>`).join('');
-}
-
-function timeAgo(date) {
-  const seconds = Math.floor((Date.now() - date) / 1000);
-  if (seconds < 60)  return 'just now';
-  if (seconds < 3600)  return Math.floor(seconds/60) + 'm ago';
-  if (seconds < 86400) return Math.floor(seconds/3600) + 'h ago';
-  return Math.floor(seconds/86400) + 'd ago';
-}
-
-// ═══════════════════════════════════════════════
-// TOOLTIP
-// ═══════════════════════════════════════════════
-function moveTooltip(event) {
-  const tip = document.getElementById('tooltip');
-  tip.style.left = event.clientX + 'px';
-  tip.style.top  = event.clientY + 'px';
-  tip.style.transform = 'translate(-50%, calc(-100% - 16px))';
-}
-
-// ═══════════════════════════════════════════════
-// CLICK HANDLER
-// ═══════════════════════════════════════════════
-function handleStateClick(abbr) {
-  const data = stateData[abbr] || { leads: 0 };
-  if (data.leads > 0) {
-    window.location.href = `state.html?state=${abbr}`;
-  }
-}
-
-// ═══════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════
-async function init() {
-  await Promise.allSettled([
-    buildMap().catch(err => {
-      document.getElementById('map-container').innerHTML = `
-        <div style="text-align:center;padding:60px;color:var(--muted);">
-          <div style="font-size:2rem;margin-bottom:16px;">🗺️</div>
-          <p>Map requires an internet connection to load geographic data.</p>
-          <p style="margin-top:8px;font-size:0.8rem;">Open this page in a browser with internet access.</p>
-        </div>`;
-    }),
-    loadBusinessData()
-  ]);
-}
-
 init();
 </script>
+
 </body>
 </html>
