@@ -71,6 +71,7 @@ jobs:
         name: scraper-log
         path: scraper.log
         retention-days: 30
+        if-no-files-found: ignore  # Don't fail if log file doesn't exist
 
     - name: Create summary
       if: always()
