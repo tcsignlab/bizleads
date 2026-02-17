@@ -33,9 +33,9 @@ def scrape():
         return results
     except Exception as e:
         logger.warning(f"Michigan scraper delegation failed ({e}), running inline")
-        return _inline_generate(300)
+        return _inline_generate(1000)
 
-def _inline_generate(count=300):
+def _inline_generate(count=1000):
     """Fallback: generate inline without importing the scheduler module."""
     import hashlib, random
     from datetime import datetime, timedelta
