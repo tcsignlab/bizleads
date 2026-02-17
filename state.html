@@ -336,11 +336,9 @@ header {
   background: rgba(255,77,125,0.12);
   border-color: rgba(255,77,125,0.6);
 }
-.business-card.new-today::before {
-  content: "NEW TODAY";
-  position: absolute;
-  top: 12px;
-  right: 12px;
+.new-today-badge {
+  display: inline-flex;
+  align-items: center;
   background: linear-gradient(135deg, #ff0033, #ff6b9d);
   color: white;
   font-size: 0.65rem;
@@ -349,6 +347,13 @@ header {
   border-radius: 12px;
   letter-spacing: 1px;
   box-shadow: 0 2px 8px rgba(255,0,51,0.3);
+}
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 .business-name {
   font-size:1.15rem; font-weight:700; margin-bottom:12px;
@@ -391,7 +396,7 @@ header {
 }
 .fav-btn:hover { transform: scale(1.2); opacity: 1; background: rgba(255,200,0,0.1); }
 .fav-btn.active { color: #ffd700; opacity: 1; filter: drop-shadow(0 0 6px rgba(255,215,0,0.6)); }
-.business-card.new-today .fav-btn { right: 100px; }
+
 
 .fav-filter-btn {
   padding: 8px 16px;
@@ -1233,7 +1238,10 @@ function renderBusinesses() {
           <div class="detail-value">${biz.address}</div>
         </div>` : ''}
       </div>
-      ${src ? `<div class="source-badge">📋 Source: <span><a href="${src.url}" target="_blank" rel="noopener noreferrer">${src.label}</a></span></div>` : ''}
+      <div class="card-footer">
+        ${src ? `<div class="source-badge">📋 Source: <span><a href="${src.url}" target="_blank" rel="noopener noreferrer">${src.label}</a></span></div>` : ''}
+        ${isNewToday ? `<span class="new-today-badge">NEW TODAY</span>` : ''}
+      </div>
     `;
     card.querySelector('.fav-btn').addEventListener('click', (e) => {
       e.stopPropagation();
