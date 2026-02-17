@@ -2,29 +2,54 @@ import requests
 from bs4 import BeautifulSoup
 from ..utils import HEADERS
 
-STATE_CODE = "FL"
-SEARCH_URL = ""  # TODO: real endpoint
+SEARCH_URL = "https://search.sunbiz.org/Inquiry/CorporationSearch/SearchResults"
 
 def scrape():
     results = []
+    page = 1
 
-    try:
-        r = requests.get(SEARCH_URL, headers=HEADERS, timeout=20)
+    while True:
+        payload = {
+            "SearchTerm": "",
+            "SearchNameOrder": "StartsWith",
+            "SearchType": "Keyword",
+            "PageNumber": page
+        }
+
+        r = requests.post(SEARCH_URL, headers=HEADERS, data=payload, timeout=20)
         if r.status_code != 200:
-            print(f"[{STATE_CODE}] Non-200 status:", r.status_code)
-            return []
+            break
 
-        # Hardened: handle non-JSON responses safely
-        content_type = r.headers.get("Content-Type", "")
-        if "json" in content_type:
-            data = r.json()
-            # TODO: parse JSON
-            return []
-        else:
-            soup = BeautifulSoup(r.text, "html.parser")
-            # TODO: parse HTML
-            return []
+        soup = BeautifulSoup(r.text, "html.parser")
+        rows = soup.select("tr.search-result")
 
+        if not rows:
+            break
+
+        for row in rows:
+            cols = row.find_all("td")
+            if len(cols) < 2:
+                continue
+
+            name = cols[0].get_text(strip=True)
+            status = cols[1].get_text(strip=True)
+
+            results.append({
+                "name": name,
+                "state": "FL",
+                "status": status
+            })
+
+        page += 1
+
+        # Safety cap (avoid infinite loops / rate limits)
+        if page > 20:
+            break
+for s in STATES:
+    try:
+        mod = importlib.import_module(f"scrapers.states.{s}")
+        data = mod.scrape()
+        all_results.extend(data)
     except Exception as e:
-        print(f"[{STATE_CODE}] Error:", e)
-        return []
+        print(f"[ERROR] {s}: {e}")
+    return results
