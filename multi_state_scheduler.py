@@ -35,13 +35,18 @@ CONFIG = {
         'texas': {
             'script': 'texas_scheduler.py',
             'enabled': True,
-            'delay_minutes': 0,  # Run immediately
+            'delay_minutes': 0,   # Run immediately
         },
         'florida': {
             'script': 'florida_scheduler.py',
             'enabled': True,
-            'delay_minutes': 5,  # Run 5 minutes after Texas
-        }
+            'delay_minutes': 5,   # Run 5 minutes after Texas
+        },
+        'alabama': {
+            'script': 'alabama_scheduler.py',
+            'enabled': True,
+            'delay_minutes': 10,  # Run 10 minutes after Texas
+        },
     }
 }
 
@@ -200,20 +205,19 @@ def main():
     parser = argparse.ArgumentParser(description='Multi-State Business Scraper - 24-Hour Scheduler')
     parser.add_argument('--once', action='store_true', help='Run once and exit')
     parser.add_argument('--interval', type=int, default=24, help='Hours between runs (default: 24)')
-    parser.add_argument('--state', choices=['texas', 'florida', 'both'], default='both', 
-                       help='Which state(s) to run (default: both)')
-    
+    parser.add_argument('--state', choices=['texas', 'florida', 'alabama', 'all'], default='all',
+                       help='Which state(s) to run (default: all)')
+
     args = parser.parse_args()
-    
+
     # Update config based on arguments
     config = CONFIG.copy()
     config['run_interval_hours'] = args.interval
-    
+
     # Disable states based on argument
-    if args.state == 'texas':
-        config['states']['florida']['enabled'] = False
-    elif args.state == 'florida':
-        config['states']['texas']['enabled'] = False
+    if args.state != 'all':
+        for s in config['states']:
+            config['states'][s]['enabled'] = (s == args.state)
     
     # Create scheduler
     scheduler = MultiStateScheduler(config)
