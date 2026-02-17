@@ -1,14 +1,30 @@
+"""
+Oregon Business Registration Scraper
+Status: Not yet implemented - returns empty results
+"""
+import logging
 
-from ..common import safe_get
+logger = logging.getLogger(__name__)
 
 def scrape():
-    # Placeholder endpoint per state (replace with real registry endpoint)
-    url = "https://example.com/oregon-registry"
-    r = safe_get(url)
-    if not r:
-        return []
-    return [{
-        "name": "Oregon Example Biz",
-        "state": "OR",
-        "date": ""
-    }]
+    """
+    Scrape new Oregon business registrations from last 30 days
+    
+    Status: NOT YET IMPLEMENTED
+    This is a placeholder that returns empty results to prevent errors.
+    
+    To implement:
+    1. See scrapers/states/_template.py for full implementation guide
+    2. Update search URL and configuration
+    3. Customize HTML parsing for Oregon's website
+    4. Test locally before deploying
+    
+    Returns:
+        Empty list (placeholder)
+    """
+    logger.info("Oregon scraper not yet implemented - returning empty results")
+    return []
+
+if __name__ == "__main__":
+    results = scrape()
+    print(f"Found {len(results)} new Oregon businesses (not implemented)")
