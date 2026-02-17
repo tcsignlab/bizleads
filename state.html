@@ -1042,8 +1042,8 @@ async function buildCountyMap() {
         .attr('cx', cx).attr('cy', cy)
         .attr('r', rScale(count))
         .attr('fill', count >= maxZipCount * 0.7 ? '#178236'
-                     : count >= maxZipCount * 0.3 ? '#FFD230'
-                     : '#E7180B')
+                     : count >= maxZipCount * 0.3 ? '#ff0000'
+                     : '#40403f')
         .attr('stroke', 'rgba(255,255,255,0.6)')
         .attr('stroke-width', '0.8')
         .attr('opacity', '0.9')
