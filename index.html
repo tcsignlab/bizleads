@@ -261,25 +261,30 @@
   <!-- RIGHT PANEL: ADS -->
   <div class="ads-panel">
     <div class="panel-title">📢 SPONSORED</div>
-    <div class="ad-slot" style="padding:0;border:none;background:none;margin-bottom:14px;">
-      <a href="https://tcsignlab.github.io/bizleads/index.html" target="_blank" style="text-decoration:none;">
-        <div style="width:160px;height:120px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;position:relative;cursor:pointer;border-radius:8px;">
-          <div style="position:absolute;top:15px;left:10px;right:10px;font-size:14px;font-weight:bold;line-height:1.1;animation:adSlideIn 1s ease-out forwards;">Need More Leads?</div>
-          <div style="position:absolute;top:55px;left:10px;right:10px;font-size:11px;opacity:0;animation:adFadeIn 1s ease-out 1s forwards;">Grow your business fast with LeadSource USA</div>
-          <div style="position:absolute;bottom:10px;left:10px;right:10px;background:#00e6a8;color:#000;text-align:center;font-size:11px;font-weight:bold;padding:6px 0;border-radius:4px;animation:adPulse 1.8s infinite;">Get More Leads</div>
-        </div>
-      </a>
-    </div>
+    <div class="ad-slot" style="padding:0;border:none;background:none;margin-bottom:14px;min-height:120px;"></div>
     <style>
       @keyframes adSlideIn { from{transform:translateX(-100%)} to{transform:translateX(0)} }
       @keyframes adFadeIn  { to{opacity:1} }
       @keyframes adPulse   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+      @keyframes bgMove { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+      @keyframes floatUp { from{bottom:-10px;transform:scale(0.6)} to{bottom:210px;transform:scale(1.2)} }
+      @keyframes adPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+      @keyframes adPulse2 { 0%{transform:scale(1)} 50%{transform:scale(1.12)} 100%{transform:scale(1)} }
     </style>
-    <div class="ad-slot">
-      <div class="ad-label">Advertisement</div>
-      <div style="height:200px; display:flex; align-items:center; justify-content:center;">
-        <div class="ad-placeholder">160 × 200<br>Ad Space</div>
-      </div>
+    <div class="ad-slot" style="padding:0;border:none;background:none;margin-bottom:14px;">
+      <a href="https://tcsignlab.github.io/bizleads/index.html" target="_blank" style="text-decoration:none;">
+        <div style="width:120px;height:200px;position:relative;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(270deg,#7f00ff,#00c6ff,#00ff99);background-size:600% 600%;animation:bgMove 6s ease infinite;border-radius:10px;box-shadow:0 0 18px rgba(0,255,200,0.6);">
+          <div style="position:absolute;left:20px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:0s;"></div>
+          <div style="position:absolute;left:60px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:1s;"></div>
+          <div style="position:absolute;left:90px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:2s;"></div>
+          <div style="position:relative;z-index:2;padding:10px;text-align:center;color:#fff;">
+            <div style="font-size:15px;font-weight:bold;line-height:1.1;text-shadow:0 0 8px #000;animation:adPop 1.5s infinite;">NEED<br>MORE<br>LEADS?</div>
+            <div style="margin-top:10px;font-size:12px;font-weight:bold;">Grow Fast</div>
+            <div style="margin-top:10px;font-size:13px;font-weight:bold;color:#ffe600;text-shadow:0 0 6px #000;">LeadSource USA</div>
+          </div>
+          <div style="position:absolute;bottom:12px;left:10px;right:10px;background:#00ff66;color:#000;font-size:13px;font-weight:bold;padding:8px 0;border-radius:6px;text-align:center;box-shadow:0 0 15px rgba(0,255,100,0.9);animation:adPulse2 1.3s infinite;">GET LEADS</div>
+        </div>
+      </a>
     </div>
     <div class="ad-slot">
       <div class="ad-label">Advertisement</div>
