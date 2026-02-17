@@ -22,7 +22,7 @@ CONFIG = {
     "data_file":            "data/maine_businesses.json",
     "state_file":           "data/maine_scraper_state.json",
     "run_interval_hours":   24,
-    "businesses_per_run":   300,
+    "businesses_per_run":   1000,
     "max_total_businesses": 500,
 }
 
