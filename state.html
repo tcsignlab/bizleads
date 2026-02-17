@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>State Business Registrations — BizLeads USA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0c10;
+  --panel: #111318;
+  --border: #1e2330;
+  --accent: #667eea;
+  --glow: rgba(102,126,234,0.4);
+  --text: #f0f4ff;
+  --muted: #6b7280;
+  --heat-0:   #0f1419;
+  --heat-1:   #1a2332;
+  --heat-50:  #0f2a55;
+  --heat-200: #5520b8;
+  --heat-500: #4d5fc9;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { height:100%; overflow-x:hidden; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(102,126,234,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(118,75,162,0.10) 0%, transparent 55%);
+}
+
+/* ─── HEADER ─── */
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 32px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,12,16,0.96);
+  position: sticky; top: 0; z-index: 200;
+  backdrop-filter: blur(16px);
+}
+.logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
+.logo-icon {
+  width:40px; height:40px; background:var(--accent); border-radius:8px;
+  display:flex; align-items:center; justify-content:center; font-size:18px;
+  box-shadow:0 0 20px var(--glow);
+}
+.logo-text { font-family:'Bebas Neue',sans-serif; font-size:1.7rem; letter-spacing:2px; color:var(--text); }
+.back-link {
+  color: var(--muted); text-decoration:none;
+  padding:8px 18px; border:1px solid var(--border); border-radius:8px;
+  font-size:0.85rem; transition:all 0.2s; display:flex; align-items:center; gap:6px;
+}
+.back-link:hover { border-color:var(--accent); color:var(--accent); background:rgba(102,126,234,0.08); }
+
+/* ─── MAIN LAYOUT ─── */
+.container { max-width:1800px; margin:0 auto; padding:32px 32px; }
+
+/* ─── TWO COLUMN LAYOUT ─── */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.left-column {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── COUNTY MAP ─── */
+.county-map-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.state-hero {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:28px; padding-bottom:24px; border-bottom:1px solid var(--border);
+}
+.state-hero h1 {
+  font-family:'Bebas Neue',sans-serif; font-size:3.5rem; letter-spacing:4px; line-height:1;
+}
+.state-hero .subtitle { color:var(--muted); font-size:0.8rem; letter-spacing:3px; text-transform:uppercase; margin-top:4px; }
+.hero-stats { display:flex; gap:32px; }
+.hstat { text-align:center; }
+.hstat-val { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; line-height:1; color:var(--accent); }
+.hstat-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:2px; }
+
+/* ─── COUNTY MAP ─── */
+.county-map-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 28px;
+}
+.panel-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-title {
+  font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:3px; color:var(--muted);
+}
+.map-wrap { padding: 16px; position: relative; }
+#county-map { width:100%; display:block; }
+.county-tooltip {
+  position:fixed; background:rgba(10,12,16,0.97); border:1px solid var(--border);
+  border-radius:10px; padding:12px 16px; pointer-events:none; opacity:0;
+  transition:opacity 0.12s; z-index:1000; min-width:180px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 16px 40px rgba(0,0,0,0.7);
+}
+.county-tooltip.visible { opacity:1; }
+.ct-name { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:2px; margin-bottom:6px; }
+.ct-count { font-size:1.6rem; font-weight:900; color:var(--accent); line-height:1; }
+.ct-sub { font-size:0.72rem; color:var(--muted); margin-top:2px; }
+
+.county-path {
+  stroke: rgba(255,255,255,0.08);
+  stroke-width: 0.5px;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+.county-path:hover {
+  filter: brightness(1.8);
+  stroke: rgba(255,255,255,0.4);
+  stroke-width: 1px;
+}
+.state-outline {
+  fill: none;
+  stroke: rgba(102,126,234,0.6);
+  stroke-width: 2px;
+  pointer-events: none;
+}
+.map-loading {
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  height:320px; color:var(--muted);
+}
+.spinner {
+  width:32px; height:32px; margin-bottom:12px;
+  border:3px solid rgba(102,126,234,0.2); border-top-color:var(--accent);
+  border-radius:50%; animation:spin 1s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ─── FILTERS ─── */
+.filters {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.filter-group { flex:1; min-width:140px; }
+.filter-group label {
+  display:block; margin-bottom:7px;
+  color:var(--muted); font-size:0.78rem; text-transform:uppercase; letter-spacing:1px;
+}
+.filter-group input, .filter-group select {
+  width:100%; padding:10px 12px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid var(--border);
+  border-radius:8px; color:var(--text);
+  font-family:inherit; font-size:0.9rem;
+  transition: border-color 0.2s;
+}
+.filter-group input:focus, .filter-group select:focus {
+  outline:none; border-color:var(--accent);
+}
+.filter-group select option { background:#1a1f2e; }
+.result-count {
+  font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:2px;
+  color:var(--muted); white-space:nowrap; align-self:flex-end; padding-bottom:10px;
+}
+
+/* ─── CARDS ─── */
+.results-container {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 120px);
+}
+
+.results-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.results-scroll-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.results-scroll-wrapper::-webkit-scrollbar {
+  width: 16px;
+}
+
+.results-scroll-wrapper::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02);
+}
+
+.results-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  border: 3px solid var(--panel);
+}
+
+.results-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.scroll-buttons {
+  position: sticky;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  float: right;
+  margin: 12px 12px 0 0;
+}
+
+.scroll-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255,77,125,0.9);
+  border: 2px solid rgba(255,255,255,0.2);
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.scroll-btn:hover {
+  background: rgba(255,77,125,1);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(255,77,125,0.4);
+}
+
+.scroll-btn:active {
+  transform: scale(0.95);
+}
+
+.business-list { display:grid; gap:14px; padding: 16px; clear: both; }
+.business-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.business-card:hover {
+  background: rgba(102,126,234,0.05);
+  border-color: rgba(102,126,234,0.4);
+}
+.business-name {
+  font-size:1.15rem; font-weight:700; margin-bottom:12px;
+}
+.business-name a {
+  color:var(--accent); text-decoration:none; transition:color 0.2s;
+}
+.business-name a:hover { color:#a78bfa; text-decoration:underline; }
+.business-details {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:10px; font-size:0.88rem;
+}
+.detail-item { display:flex; flex-direction:column; }
+.detail-label { font-size:0.72rem; color:var(--muted); margin-bottom:3px; text-transform:uppercase; letter-spacing:1px; }
+.detail-value { color:var(--text); }
+.source-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  margin-top:10px; padding:3px 10px;
+  background:rgba(102,126,234,0.08); border:1px solid rgba(102,126,234,0.2);
+  border-radius:20px; font-size:0.7rem; color:#8898c8;
+}
+.source-badge a { color:var(--accent); text-decoration:none; }
+
+/* ─── EMPTY ─── */
+.empty-state { text-align:center; padding:60px 40px; }
+.empty-state h2 { font-family:'Bebas Neue',sans-serif; font-size:2rem; margin-bottom:12px; color:#ff9800; }
+.empty-state p { color:var(--muted); line-height:1.6; }
+
+/* ─── SYNC BAR ─── */
+.sync-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:24px; padding:8px 16px;
+  background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px;
+  font-size:0.75rem; color:var(--muted);
+}
+
+@media (max-width:1200px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+  .left-column {
+    position: relative;
+    top: 0;
+    max-height: none;
+  }
+  .results-container {
+    max-height: 600px;
+  }
+}
+@media (max-width:640px) {
+  header { flex-direction:column; gap:12px; }
+  .state-hero { flex-direction:column; gap:16px; text-align:center; }
+  .container { padding:20px 16px; }
+  .filters {
+    flex-direction: column;
+  }
+  .filter-group {
+    min-width: 100%;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">
+    <div class="logo-icon">🚀</div>
+    <span class="logo-text">BIZLEADS USA</span>
+  </a>
+  <a href="index.html" class="back-link">← Back to States</a>
+</header>
+
+<div class="container">
+
+  <!-- STATE HERO -->
+  <div class="state-hero">
+    <div>
+      <h1 id="stateName">Loading...</h1>
+      <div class="subtitle">New Business Registrations · Last 30 Days</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val" id="stat-total">—</div>
+        <div class="hstat-label">Total Businesses</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="stat-zips">—</div>
+        <div class="hstat-label">Zip Codes</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val" id="stat-top-zip">—</div>
+        <div class="hstat-label">Top Zip</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TWO COLUMN LAYOUT -->
+  <div class="content-grid">
+    
+    <!-- LEFT COLUMN: SORT + MAP -->
+    <div class="left-column">
+      <!-- SORT FILTERS -->
+      <div class="filters" id="filters-row" style="display:none;">
+        <div class="filter-group">
+          <label>Entity Type</label>
+          <select id="typeFilter">
+            <option value="">All Types</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Zip Code</label>
+          <select id="zipFilter">
+            <option value="">All Zips</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label>Sort By</label>
+          <select id="sortBy">
+            <option value="zip-asc">Zip Code A-Z</option>
+            <option value="zip-desc">Zip Code Z-A</option>
+            <option value="date-desc">Newest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="name-asc">Name A-Z</option>
+            <option value="name-desc">Name Z-A</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- MAP -->
+      <div class="county-map-panel">
+        <div class="panel-header">
+          <div class="panel-title">🗺️ COUNTY MAP — <span id="map-state-label">...</span></div>
+          <div style="font-size:0.72rem;color:var(--muted);">Hover to see details</div>
+        </div>
+        <div class="map-wrap">
+          <div id="county-map-container">
+            <div class="map-loading" id="map-loading">
+              <div class="spinner"></div>
+              <p>Loading county map...</p>
+            </div>
+            <svg id="county-map" style="display:none;"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: RESULTS -->
+    <div class="right-column">
+      <!-- SYNC BAR -->
+      <div class="sync-bar">
+        <span>Last updated: <strong id="last-update">—</strong></span>
+        <span>Data Source: Government Business Registries</span>
+      </div>
+
+      <!-- RESULTS CONTAINER -->
+      <div class="results-container">
+        <div class="results-header">
+          <div class="panel-title">📋 BUSINESS REGISTRATIONS</div>
+          <div class="result-count" id="result-count"></div>
+        </div>
+        <div class="results-scroll-wrapper" id="results-scroll">
+          <!-- SCROLL BUTTONS -->
+          <div class="scroll-buttons">
+            <button class="scroll-btn" id="scroll-up" title="Scroll Up">↑</button>
+            <button class="scroll-btn" id="scroll-down" title="Scroll Down">↓</button>
+          </div>
+          
+          <div id="businessList" class="business-list"></div>
+          <div id="emptyState" class="empty-state" style="display:none;">
+            <h2>No Businesses Found</h2>
+            <p>No business registrations found for this state yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- County Tooltip -->
+<div class="county-tooltip" id="county-tooltip">
+  <div class="ct-name" id="ct-name"></div>
+  <div class="ct-count" id="ct-count">0</div>
+  <div class="ct-sub">businesses registered</div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+<script>
+// ═══════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════
+const stateCode = new URLSearchParams(window.location.search).get('state') || 'GA';
+
+const stateNames = {
+  'AL':'Alabama','AK':'Alaska','AZ':'Arizona','AR':'Arkansas','CA':'California','CO':'Colorado',
+  'CT':'Connecticut','DE':'Delaware','FL':'Florida','GA':'Georgia','HI':'Hawaii','ID':'Idaho',
+  'IL':'Illinois','IN':'Indiana','IA':'Iowa','KS':'Kansas','KY':'Kentucky','LA':'Louisiana',
+  'ME':'Maine','MD':'Maryland','MA':'Massachusetts','MI':'Michigan','MN':'Minnesota','MS':'Mississippi',
+  'MO':'Missouri','MT':'Montana','NE':'Nebraska','NV':'Nevada','NH':'New Hampshire','NJ':'New Jersey',
+  'NM':'New Mexico','NY':'New York','NC':'North Carolina','ND':'North Dakota','OH':'Ohio','OK':'Oklahoma',
+  'OR':'Oregon','PA':'Pennsylvania','RI':'Rhode Island','SC':'South Carolina','SD':'South Dakota',
+  'TN':'Tennessee','TX':'Texas','UT':'Utah','VT':'Vermont','VA':'Virginia','WA':'Washington',
+  'WV':'West Virginia','WI':'Wisconsin','WY':'Wyoming'
+};
+
+// FIPS codes for each state (for D3 county map)
+const STATE_FIPS = {
+  'AL':'01','AK':'02','AZ':'04','AR':'05','CA':'06','CO':'08','CT':'09','DE':'10',
+  'FL':'12','GA':'13','HI':'15','ID':'16','IL':'17','IN':'18','IA':'19','KS':'20',
+  'KY':'21','LA':'22','ME':'23','MD':'24','MA':'25','MI':'26','MN':'27','MS':'28',
+  'MO':'29','MT':'30','NE':'31','NV':'32','NH':'33','NJ':'34','NM':'35','NY':'36',
+  'NC':'37','ND':'38','OH':'39','OK':'40','OR':'41','PA':'42','RI':'44','SC':'45',
+  'SD':'46','TN':'47','TX':'48','UT':'49','VT':'50','VA':'51','WA':'53','WV':'54',
+  'WI':'55','WY':'56'
+};
+
+const STATE_SOURCES = {
+  'AL':{ label:'arc-sos.state.al.us',    url:'https://arc-sos.state.al.us/CGI/CORPNAME.MBR/INPUT' },
+  'AK':{ label:'myalaska.state.ak.us',   url:'https://myalaska.state.ak.us/business' },
+  'AZ':{ label:'azcc.gov',               url:'https://ecorp.azcc.gov/EntitySearch/Index' },
+  'AR':{ label:'sos.arkansas.gov',       url:'https://www.sos.arkansas.gov/corps/search_all.php' },
+  'CA':{ label:'bizfileonline.sos.ca.gov',url:'https://bizfileonline.sos.ca.gov/search/business' },
+  'CO':{ label:'sos.state.co.us',        url:'https://www.sos.state.co.us/biz/BusinessEntityCriteriaExt.do' },
+  'CT':{ label:'service.ct.gov',         url:'https://service.ct.gov/business/s/onlinebusinesssearch' },
+  'DE':{ label:'icis.corp.delaware.gov', url:'https://icis.corp.delaware.gov/ecorp/entitysearch/namesearch.aspx' },
+  'FL':{ label:'sunbiz.org',             url:'https://search.sunbiz.org/Inquiry/CorporationSearch/ByName' },
+  'GA':{ label:'ecorp.sos.ga.gov',       url:'https://ecorp.sos.ga.gov/BusinessSearch' },
+  'HI':{ label:'hbe.ehawaii.gov',        url:'https://hbe.ehawaii.gov/documents/search.html' },
+  'ID':{ label:'sosbiz.idaho.gov',       url:'https://sosbiz.idaho.gov/search/business' },
+  'IL':{ label:'ilsos.gov',              url:'https://apps.ilsos.gov/businessentitysearch/' },
+  'IN':{ label:'sos.in.gov',             url:'https://bsd.sos.in.gov/publicbusinesssearch' },
+  'IA':{ label:'sos.iowa.gov',           url:'https://sos.iowa.gov/search/business/' },
+  'KS':{ label:'kansas.gov',             url:'https://www.kansas.gov/bess/flow/main' },
+  'KY':{ label:'sos.ky.gov',             url:'https://web.sos.ky.gov/ftsearch/' },
+  'LA':{ label:'coraweb.sos.la.gov',     url:'https://coraweb.sos.la.gov/CommercialSearch/CommercialSearch.aspx' },
+  'ME':{ label:'informe.org',            url:'https://icrs.informe.org/nei-sos-icrs/ICRS' },
+  'MD':{ label:'egov.maryland.gov',      url:'https://egov.maryland.gov/BusinessExpress/EntitySearch' },
+  'MA':{ label:'corp.sec.state.ma.us',   url:'https://corp.sec.state.ma.us/corpweb/CorpSearch/CorpSearch.aspx' },
+  'MI':{ label:'lara.state.mi.us',       url:'https://cofs.lara.state.mi.us/SearchApi/Search/Search' },
+  'MN':{ label:'sos.state.mn.us',        url:'https://mblsportal.sos.state.mn.us/Business/Search' },
+  'MS':{ label:'business.sos.ms.gov',    url:'https://business.sos.ms.gov/corp/soskb/csearch.asp' },
+  'MO':{ label:'bsd.sos.mo.gov',         url:'https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx' },
+  'MT':{ label:'biz.sosmt.gov',          url:'https://biz.sosmt.gov/search/business' },
+  'NE':{ label:'nebraska.gov',           url:'https://www.nebraska.gov/sos/corp/corpsearch.cgi' },
+  'NV':{ label:'esos.nv.gov',            url:'https://esos.nv.gov/EntitySearch/OnlineEntitySearch' },
+  'NH':{ label:'sos.nh.gov',             url:'https://quickstart.sos.nh.gov/online/Account/LandingPage' },
+  'NJ':{ label:'njportal.com',           url:'https://www.njportal.com/DOR/BusinessRecords/' },
+  'NM':{ label:'sos.state.nm.us',        url:'https://portal.sos.state.nm.us/BFS/online/CorporationBusinessSearch' },
+  'NY':{ label:'dos.ny.gov',             url:'https://appext20.dos.ny.gov/corp_public/corpsearch.entity_search_entry' },
+  'NC':{ label:'sosnc.gov',              url:'https://www.sosnc.gov/online_services/search/by_title/_Business_Registration' },
+  'ND':{ label:'firststop.sos.nd.gov',   url:'https://firststop.sos.nd.gov/search/business' },
+  'OH':{ label:'businesssearch.ohiosos.gov',url:'https://businesssearch.ohiosos.gov/' },
+  'OK':{ label:'sos.ok.gov',             url:'https://www.sos.ok.gov/corp/corpInquiryFind.aspx' },
+  'OR':{ label:'sos.state.or.us',        url:'https://egov.sos.state.or.us/br/pkg_web_name_srch_inq.login' },
+  'PA':{ label:'corporations.pa.gov',    url:'https://www.corporations.pa.gov/search/corpsearch' },
+  'RI':{ label:'business.sos.ri.gov',    url:'https://business.sos.ri.gov/CorpWeb/CorpSearch/CorpSearch.aspx' },
+  'SC':{ label:'businessfilings.sc.gov', url:'https://businessfilings.sc.gov/BusinessFiling/Entity/Search' },
+  'SD':{ label:'sosenterprise.sd.gov',   url:'https://sosenterprise.sd.gov/BusinessServices/Business/FilingSearch.aspx' },
+  'TN':{ label:'tnbear.tn.gov',          url:'https://tnbear.tn.gov/Ecommerce/FilingSearch.aspx' },
+  'TX':{ label:'mycpa.cpa.state.tx.us',  url:'https://mycpa.cpa.state.tx.us/coa/' },
+  'UT':{ label:'secure.utah.gov',        url:'https://secure.utah.gov/bes/' },
+  'VT':{ label:'bizfilings.vermont.gov', url:'https://bizfilings.vermont.gov/online/BusinessInquire/' },
+  'VA':{ label:'cis.scc.virginia.gov',   url:'https://cis.scc.virginia.gov/EntitySearch/Index' },
+  'WA':{ label:'ccfs.sos.wa.gov',        url:'https://ccfs.sos.wa.gov/#/' },
+  'WV':{ label:'apps.wv.gov',            url:'https://apps.wv.gov/SOS/BusinessEntitySearch/' },
+  'WI':{ label:'wdfi.org',               url:'https://www.wdfi.org/apps/CorpSearch/' },
+  'WY':{ label:'wyobiz.wyo.gov',         url:'https://wyobiz.wyo.gov/Business/FilingSearch.aspx' },
+};
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let allBusinesses = [];
+let filteredBusinesses = [];
+let zipCounts = {};         // { '30301': 42, ... }
+let activeZipFilter = null; // zip clicked from dropdown
+let activeCountyFilter = null; // county clicked from map
+let countyNamesList = {}; // Store county names for filtering
+let zipToCountyMap = {}; // Map zip codes to county IDs
+let countyGeoData = null; // Store county geometry for point-in-polygon checks
+
+// ═══════════════════════════════════════════════
+// LOAD DATA
+// ═══════════════════════════════════════════════
+async function loadData() {
+  try {
+    const response = await fetch('data/businesses.json');
+    const data = await response.json();
+    allBusinesses = data.filter(b => (b.state || b.State) === stateCode);
+    filteredBusinesses = [...allBusinesses];
+
+    // Build zip counts
+    allBusinesses.forEach(b => {
+      const zip = getZip(b);
+      if (zip) zipCounts[zip] = (zipCounts[zip] || 0) + 1;
+    });
+
+    // Set page title
+    const stateName = stateNames[stateCode] || stateCode;
+    document.title = `${stateName} — BizLeads USA`;
+    document.getElementById('stateName').textContent = stateName;
+    document.getElementById('map-state-label').textContent = stateName;
+
+    // Hero stats
+    const zipKeys = Object.keys(zipCounts);
+    const topZip = zipKeys.sort((a,b) => zipCounts[b]-zipCounts[a])[0] || '—';
+    document.getElementById('stat-total').textContent = allBusinesses.length.toLocaleString();
+    document.getElementById('stat-zips').textContent  = zipKeys.length;
+    document.getElementById('stat-top-zip').textContent = topZip;
+
+    // Last update
+    let lastTime = null;
+    allBusinesses.forEach(b => {
+      if (b.scraped_at) {
+        const t = new Date(b.scraped_at).getTime();
+        if (!lastTime || t > lastTime) lastTime = t;
+      }
+    });
+    document.getElementById('last-update').textContent = lastTime
+      ? new Date(lastTime).toLocaleString() : new Date().toLocaleString();
+
+    if (allBusinesses.length > 0) {
+      document.getElementById('filters-row').style.display = 'flex';
+      populateFilters();
+      renderBusinesses();
+    } else {
+      document.getElementById('emptyState').style.display = 'block';
+    }
+
+  } catch (err) {
+    console.error('Error loading data:', err);
+    document.getElementById('emptyState').style.display = 'block';
+    document.getElementById('emptyState').querySelector('p').textContent = 'Error loading data.';
+  }
+}
+
+// ═══════════════════════════════════════════════
+// ZIP HELPERS
+// ═══════════════════════════════════════════════
+function getZip(biz) {
+  const addr = (biz.address || '').trim();
+  const parts = addr.split(' ');
+  const last = parts[parts.length - 1];
+  return /^\d{5}$/.test(last) ? last : null;
+}
+
+function getCounty(biz) {
+  const zip = getZip(biz);
+  if (!zip) return null;
+  return zipToCountyMap[zip] || null;
+}
+
+// ═══════════════════════════════════════════════
+// ZIP CENTROID LOOKUP  (lat/lon centers for dots)
+// ═══════════════════════════════════════════════
+let zipCentroids = {};   // { '30301': [lon, lat], ... }
+
+async function loadZipCentroids() {
+  try {
+    // Free zip centroid CSV from SimpleMaps
+    const resp = await fetch('https://cdn.jsdelivr.net/npm/zipcodes-us@0.1.0/data/zip_codes_states.csv');
+    if (!resp.ok) throw new Error('csv failed');
+    const text = await resp.text();
+    text.split('\n').slice(1).forEach(line => {
+      const cols = line.split(',');
+      if (cols.length >= 4) {
+        const zip = (cols[0] || '').replace(/"/g,'').trim();
+        const lat = parseFloat(cols[1]);
+        const lon = parseFloat(cols[2]);
+        if (zip && !isNaN(lat) && !isNaN(lon)) {
+          zipCentroids[zip] = [lon, lat];
+        }
+      }
+    });
+  } catch(e) {
+    // Fallback: we'll scatter dots randomly within state bounds if no centroid data
+    console.warn('Zip centroid CSV unavailable, using state-bound scattering');
+  }
+}
+
+// ═══════════════════════════════════════════════
+// COUNTY MAP
+// ═══════════════════════════════════════════════
+async function buildCountyMap() {
+  const fips = STATE_FIPS[stateCode];
+  if (!fips) {
+    document.getElementById('map-loading').innerHTML =
+      '<p style="color:var(--muted)">County map not available for this state.</p>';
+    return;
+  }
+
+  try {
+    // Load topology + zip centroids in parallel
+    const [us] = await Promise.all([
+      d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json'),
+      loadZipCentroids()
+    ]);
+
+    // Filter counties for this state
+    const allCounties = topojson.feature(us, us.objects.counties);
+    const stateCounties = {
+      type: 'FeatureCollection',
+      features: allCounties.features.filter(f =>
+        String(f.id).padStart(5, '0').startsWith(fips)
+      )
+    };
+
+    if (!stateCounties.features.length) {
+      document.getElementById('map-loading').innerHTML =
+        '<p style="color:var(--muted)">No county data found.</p>';
+      return;
+    }
+
+    // County name lookup
+    const countyNames = {}; // Local to this function for tooltip display
+    if (us.objects.counties.geometries) {
+      us.objects.counties.geometries.forEach(g => {
+        if (String(g.id).padStart(5,'0').startsWith(fips)) {
+          const name = g.properties && g.properties.name
+            ? g.properties.name : `County ${g.id}`;
+          countyNames[g.id] = name;
+          countyNamesList[g.id] = name; // Store globally for filtering
+        }
+      });
+    }
+
+    // Count businesses per county (by zip → county containment)
+    // Build zip-level counts for county coloring
+    const countyBizCounts = {};
+
+    // ── SVG SETUP ──
+    const panel   = document.getElementById('county-map-container');
+    const W = Math.max(panel.clientWidth || 900, 600);
+    const H = Math.round(W * 0.58);   // aspect ratio
+
+    // Update SVG height so it fills proportionally
+    document.getElementById('county-map').style.height = H + 'px';
+
+    const svg = d3.select('#county-map')
+      .attr('viewBox', `0 0 ${W} ${H}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
+      .style('display', 'block')
+      .style('width', '100%');
+
+    // ── PROJECTION: fitExtent with generous padding so ALL counties are visible ──
+    const PAD = 48;
+    const projection = d3.geoAlbersUsa()
+      .fitExtent([[PAD, PAD], [W - PAD, H - PAD]], stateCounties);
+
+    const path = d3.geoPath().projection(projection);
+
+    // ── BUILD ZIP TO COUNTY MAPPING ──
+    // Use point-in-polygon to determine which county each zip belongs to
+    Object.entries(zipCentroids).forEach(([zip, coords]) => {
+      if (!coords) return;
+      for (const feature of stateCounties.features) {
+        if (d3.geoContains(feature, coords)) {
+          zipToCountyMap[zip] = feature.id;
+          break;
+        }
+      }
+    });
+
+    // ── COUNTY HEAT COLOR by zip prefix density ──
+    const zipPrefixCounts = {};
+    Object.entries(zipCounts).forEach(([zip, count]) => {
+      zipPrefixCounts[zip.slice(0,3)] = (zipPrefixCounts[zip.slice(0,3)] || 0) + count;
+    });
+    const maxPfx = Math.max(...Object.values(zipPrefixCounts), 1);
+
+    function countyFill(d) {
+      const cf = String(d.id).padStart(5,'0');
+      // Map county sub-index to zip prefix for shading
+      const idx = Math.floor((parseInt(cf.slice(2)) / 999) * Object.keys(zipPrefixCounts).length);
+      const pfxKey = Object.keys(zipPrefixCounts).sort()[idx] || '';
+      const val = (zipPrefixCounts[pfxKey] || 0) / maxPfx;
+      return val > 0
+        ? d3.interpolateRgb('#0a1220', '#2a3d8f')(val)
+        : '#050a15';
+    }
+
+    // ── DRAW COUNTIES ──
+    const tooltip = document.getElementById('county-tooltip');
+
+    svg.selectAll('.county-path')
+      .data(stateCounties.features)
+      .enter().append('path')
+      .attr('class', 'county-path')
+      .attr('d', path)
+      .attr('fill', countyFill)
+      .on('mouseenter', function(event, d) {
+        const name = (countyNames[d.id] || 'County') + ' County';
+        // Count dots in this county
+        const countyDotCount = d3.selectAll('.biz-dot')
+          .filter(function() { return this.dataset.county == d.id; })
+          .size();
+        document.getElementById('ct-name').textContent = name;
+        document.getElementById('ct-count').textContent =
+          countyDotCount || Math.ceil(allBusinesses.length / stateCounties.features.length);
+        tooltip.classList.add('visible');
+        moveCountyTooltip(event);
+        d3.select(this)
+          .attr('fill', 'rgba(102,126,234,0.6)')
+          .attr('stroke', 'rgba(255,255,255,0.5)')
+          .attr('stroke-width', '1.2');
+      })
+      .on('mousemove', moveCountyTooltip)
+      .on('mouseleave', function(event, d) {
+        tooltip.classList.remove('visible');
+        d3.select(this)
+          .attr('fill', countyFill(d))
+          .attr('stroke', 'rgba(255,255,255,0.08)')
+          .attr('stroke-width', '0.5');
+      });
+
+    // ── STATE OUTLINE ──
+    svg.append('defs')
+      .append('clipPath')
+      .attr('id', 'state-clip')
+      .append('path')
+      .datum(stateCounties)
+      .attr('d', path);
+
+    svg.append('path')
+      .datum(stateCounties)
+      .attr('class', 'state-outline')
+      .attr('d', path);
+
+    // ── BUSINESS DOTS ──
+    // Group businesses by zip, then place one dot per zip (sized by count)
+    // Fall back to jittered random placement within state bbox if no centroid
+    const bounds = path.bounds(stateCounties);
+    const bx1 = bounds[0][0], by1 = bounds[0][1];
+    const bx2 = bounds[1][0], by2 = bounds[1][1];
+
+    // Seed-based deterministic jitter so dots don't jump on re-render
+    function seededRand(seed) {
+      const x = Math.sin(seed + 1) * 10000;
+      return x - Math.floor(x);
+    }
+
+    // Build zip → projected [x,y]
+    const zipPositions = {};
+    let seedIdx = 0;
+    Object.keys(zipCounts).forEach(zip => {
+      if (zipCentroids[zip]) {
+        const proj = projection(zipCentroids[zip]);
+        if (proj) { zipPositions[zip] = proj; return; }
+      }
+      // Fallback: scatter deterministically within state bounds
+      const rx = bx1 + seededRand(seedIdx)   * (bx2 - bx1);
+      const ry = by1 + seededRand(seedIdx+1) * (by2 - by1);
+      zipPositions[zip] = [rx, ry];
+      seedIdx += 2;
+    });
+
+    // Dot layer — one circle per unique zip, radius scaled by count
+    const maxZipCount = Math.max(...Object.values(zipCounts), 1);
+    const rScale = d3.scaleSqrt().domain([1, maxZipCount]).range([3, 14]);
+
+    const dotsGroup = svg.append('g')
+      .attr('class', 'dots-layer')
+      .attr('clip-path', 'url(#state-clip)');
+
+    Object.entries(zipCounts).forEach(([zip, count], i) => {
+      const pos = zipPositions[zip];
+      if (!pos) return;
+      const [cx, cy] = pos;
+
+      // Outer glow ring
+      dotsGroup.append('circle')
+        .attr('cx', cx).attr('cy', cy)
+        .attr('r', rScale(count) + 3)
+        .attr('fill', 'rgba(255,77,125,0.15)')
+        .attr('pointer-events', 'none');
+
+      // Main dot
+      dotsGroup.append('circle')
+        .attr('class', 'biz-dot')
+        .attr('cx', cx).attr('cy', cy)
+        .attr('r', rScale(count))
+        .attr('fill', count >= maxZipCount * 0.7 ? '#ff0033'
+                     : count >= maxZipCount * 0.3 ? '#ff6b9d'
+                     : '#cc0033')
+        .attr('stroke', 'rgba(255,255,255,0.6)')
+        .attr('stroke-width', '0.8')
+        .attr('opacity', '0.9')
+        .attr('cursor', 'pointer')
+        .attr('data-zip', zip)
+        .on('mouseenter', function(event) {
+          d3.select(this).attr('r', rScale(count) + 3).attr('opacity', '1');
+          document.getElementById('ct-name').textContent = `ZIP ${zip}`;
+          document.getElementById('ct-count').textContent = count;
+          tooltip.classList.add('visible');
+          moveCountyTooltip(event);
+        })
+        .on('mousemove', moveCountyTooltip)
+        .on('mouseleave', function() {
+          d3.select(this).attr('r', rScale(count)).attr('opacity', '0.9');
+          tooltip.classList.remove('visible');
+        })
+        .on('click', function() {
+          const zipSelect = document.getElementById('zipFilter');
+          if (activeZipFilter === zip) {
+            // Toggle off
+            activeZipFilter = null;
+            zipSelect.value = '';
+          } else {
+            activeZipFilter = zip;
+            zipSelect.value = zip;
+          }
+          applyFilters();
+        });
+    });
+
+    // Pulse animation on top-3 zips
+    const top3 = Object.entries(zipCounts)
+      .sort((a,b) => b[1]-a[1]).slice(0,3).map(([z]) => z);
+    top3.forEach(zip => {
+      const pos = zipPositions[zip];
+      if (!pos) return;
+      dotsGroup.append('circle')
+        .attr('cx', pos[0]).attr('cy', pos[1])
+        .attr('r', rScale(zipCounts[zip]))
+        .attr('fill', 'none')
+        .attr('stroke', '#ff6b9d')
+        .attr('stroke-width', '1.5')
+        .attr('opacity', '0.8')
+        .attr('pointer-events', 'none')
+        .append('animate')
+        .attr('attributeName', 'r')
+        .attr('from', rScale(zipCounts[zip]))
+        .attr('to',   rScale(zipCounts[zip]) + 10)
+        .attr('dur',  '2s')
+        .attr('repeatCount', 'indefinite');
+    });
+
+    document.getElementById('map-loading').style.display = 'none';
+
+  } catch (err) {
+    console.error('County map error:', err);
+    document.getElementById('map-loading').innerHTML =
+      '<p style="color:var(--muted);padding:20px;text-align:center;">County map requires internet connection.</p>';
+  }
+}
+
+function moveCountyTooltip(event) {
+  const tip = document.getElementById('county-tooltip');
+  tip.style.left = event.clientX + 'px';
+  tip.style.top  = event.clientY + 'px';
+  tip.style.transform = 'translate(-50%, calc(-100% - 12px))';
+}
+
+// ═══════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════
+function populateFilters() {
+  const types = [...new Set(allBusinesses.map(b => b.entity_type || 'Unknown'))].sort();
+  const typeFilter = document.getElementById('typeFilter');
+  types.forEach(type => {
+    const o = document.createElement('option');
+    o.value = type; o.textContent = type;
+    typeFilter.appendChild(o);
+  });
+
+  const zips = Object.keys(zipCounts).sort((a,b) => zipCounts[b]-zipCounts[a]);
+  const zipFilter = document.getElementById('zipFilter');
+  zips.forEach(zip => {
+    const o = document.createElement('option');
+    o.value = zip; o.textContent = `${zip} (${zipCounts[zip]})`;
+    zipFilter.appendChild(o);
+  });
+}
+
+function applyFilters() {
+  const type   = document.getElementById('typeFilter').value;
+  const zip    = document.getElementById('zipFilter').value || activeZipFilter || '';
+  const sort   = document.getElementById('sortBy').value;
+
+  filteredBusinesses = allBusinesses.filter(b => {
+    const matchType   = !type || (b.entity_type || '') === type;
+    const matchZip    = !zip  || getZip(b) === zip;
+    return matchType && matchZip;
+  });
+
+  filteredBusinesses.sort((a, b) => {
+    if (sort === 'date-desc') return (b.registration_date||'').localeCompare(a.registration_date||'');
+    if (sort === 'date-asc')  return (a.registration_date||'').localeCompare(b.registration_date||'');
+    if (sort === 'name-asc')  return (a.name||'').localeCompare(b.name||'');
+    if (sort === 'name-desc') return (b.name||'').localeCompare(a.name||'');
+    if (sort === 'zip-asc')   return (getZip(a)||'').localeCompare(getZip(b)||'');
+    if (sort === 'zip-desc')  return (getZip(b)||'').localeCompare(getZip(a)||'');
+    return 0;
+  });
+
+  renderBusinesses();
+}
+
+// ═══════════════════════════════════════════════
+// RENDER CARDS
+// ═══════════════════════════════════════════════
+function renderBusinesses() {
+  const list = document.getElementById('businessList');
+  list.innerHTML = '';
+
+  document.getElementById('result-count').textContent =
+    `${filteredBusinesses.length.toLocaleString()} result${filteredBusinesses.length !== 1 ? 's' : ''}`;
+
+  if (!filteredBusinesses.length) {
+    document.getElementById('emptyState').style.display = 'block';
+    document.getElementById('emptyState').querySelector('h2').textContent = 'No Results';
+    document.getElementById('emptyState').querySelector('p').textContent = 'Try adjusting your filters.';
+    return;
+  }
+  document.getElementById('emptyState').style.display = 'none';
+
+  const src = STATE_SOURCES[stateCode] || null;
+
+  filteredBusinesses.forEach(biz => {
+    const bizName  = biz.name || biz.entity_name || 'Unknown';
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(bizName + ' ' + (stateNames[stateCode] || stateCode))}`;
+    const card = document.createElement('div');
+    card.className = 'business-card';
+    card.innerHTML = `
+      <div class="business-name">
+        <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="Search the web for this business">${bizName} 🔍</a>
+      </div>
+      <div class="business-details">
+        <div class="detail-item">
+          <div class="detail-label">Entity Number</div>
+          <div class="detail-value">${biz.entity_number || 'N/A'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Registration Date</div>
+          <div class="detail-value">${biz.registration_date || biz.date || 'N/A'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Entity Type</div>
+          <div class="detail-value">${biz.entity_type || 'N/A'}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Status</div>
+          <div class="detail-value">${biz.status || 'N/A'}</div>
+        </div>
+        ${biz.registered_agent ? `<div class="detail-item">
+          <div class="detail-label">Registered Agent</div>
+          <div class="detail-value">${biz.registered_agent}</div>
+        </div>` : ''}
+        ${biz.address ? `<div class="detail-item">
+          <div class="detail-label">Address</div>
+          <div class="detail-value">${biz.address}</div>
+        </div>` : ''}
+      </div>
+      ${src ? `<div class="source-badge">📋 Source: <span><a href="${src.url}" target="_blank" rel="noopener noreferrer">${src.label}</a></span></div>` : ''}
+    `;
+    list.appendChild(card);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// EVENT LISTENERS
+// ═══════════════════════════════════════════════
+document.getElementById('typeFilter').addEventListener('change', applyFilters);
+document.getElementById('zipFilter').addEventListener('change', function() {
+  activeZipFilter = this.value || null;
+  applyFilters();
+});
+document.getElementById('sortBy').addEventListener('change', applyFilters);
+
+// Scroll buttons
+const scrollContainer = document.getElementById('results-scroll');
+document.getElementById('scroll-up').addEventListener('click', () => {
+  scrollContainer.scrollBy({ top: -400, behavior: 'smooth' });
+});
+document.getElementById('scroll-down').addEventListener('click', () => {
+  scrollContainer.scrollBy({ top: 400, behavior: 'smooth' });
+});
+
+// ═══════════════════════════════════════════════
+// INIT — load data first so zipCounts is ready for dots
+// ═══════════════════════════════════════════════
+(async () => {
+  await loadData();
+  await buildCountyMap();
+})();
+</script>
+</body>
+</html>
