@@ -74,7 +74,7 @@
   }
 
   /* ─── LAYOUT ─── */
-  .main { display:grid; grid-template-columns:220px 1fr 200px; min-height:calc(100vh - 73px); }
+  .main { display:grid; grid-template-columns:1fr 200px; min-height:calc(100vh - 73px); }
   .side-panel { background:var(--panel); border-right:1px solid var(--border); padding:24px 16px; overflow-y:auto; }
   .side-panel.right { border-right:none; border-left:1px solid var(--border); }
   .panel-title {
@@ -183,17 +183,47 @@
   .ad-slot .ad-label { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.15); margin-bottom:8px; }
   .ad-slot .ad-placeholder { font-size:0.7rem; color:rgba(255,255,255,0.12); }
 
+  /* Top States Below Map */
+  .top-states-below {
+    width:100%; max-width:880px; margin-top:20px;
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:20px 24px;
+  }
+  .top-states-below .panel-title { margin-bottom:12px; }
+  .top-states-grid {
+    display:grid; grid-template-columns:repeat(5,1fr); gap:6px;
+  }
+  .top-state-item {
+    display:flex; align-items:center; gap:10px; padding:8px 10px;
+    border-radius:8px; margin:4px 0; cursor:pointer; transition:background 0.2s; font-size:0.82rem;
+  }
+  .top-state-item:hover { background:rgba(255,255,255,0.05); }
+  .top-state-rank { font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--muted); width:20px; }
+  .top-state-name { flex:1; font-weight:600; }
+  .top-state-leads {
+    background:rgba(102,126,234,0.15); color:var(--accent);
+    padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:700;
+  }
+
   @media (max-width: 1024px) {
     .main { grid-template-columns: 1fr; }
     .side-panel { border:none; border-bottom:1px solid var(--border); }
-    .side-panel.right { border-top:1px solid var(--border); border-bottom:none; }
-    .ads-panel { border-top:1px solid var(--border); border-left:none; }
+    .ads-panel {
+      border-top:1px solid var(--border); border-left:none;
+      display:flex; flex-direction:row; flex-wrap:wrap;
+      gap:12px; padding:16px; align-items:flex-start; justify-content:center;
+    }
+    .ads-panel .panel-title { width:100%; }
+    .ad-slot { margin-bottom:0 !important; }
+    .top-states-grid { grid-template-columns:repeat(2,1fr); }
     .header-stats { gap:20px; }
     .hstat-val { font-size:1.6rem; }
   }
   @media (max-width: 640px) {
     header { flex-direction:column; gap:16px; }
     .header-stats { width:100%; justify-content:space-around; }
+    .ads-panel { justify-content:center; }
+    .top-states-grid { grid-template-columns:1fr; }
+    .map-area { padding:16px; }
   }
 </style>
 </head>
@@ -232,13 +262,6 @@
 
 <div class="main">
 
-  <!-- LEFT PANEL: TOP STATES -->
-  <div class="side-panel">
-    <div class="panel-title">🏆 TOP STATES</div>
-    <div style="text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:12px;" id="top-states-total">—</div>
-    <div id="top-states-list"></div>
-  </div>
-
   <!-- CENTER: MAP -->
   <div class="map-area">
     <div class="map-title-row">
@@ -255,6 +278,13 @@
     <div class="sync-bar">
       <span>Last updated: <strong id="last-update">—</strong></span>
       <span>Data Source: Government New Business Registries</span>
+    </div>
+
+    <!-- TOP STATES BELOW MAP -->
+    <div class="top-states-below">
+      <div class="panel-title">🏆 TOP STATES</div>
+      <div style="text-align:left; font-size:0.75rem; color:var(--muted); margin-bottom:12px;" id="top-states-total">—</div>
+      <div class="top-states-grid" id="top-states-list"></div>
     </div>
   </div>
 
