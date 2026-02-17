@@ -1,0 +1,353 @@
+2026-02-17 00:40:35,510 - __main__ - INFO - ================================================================================
+2026-02-17 00:40:35,510 - __main__ - INFO - STARTING SUPER SCRAPER
+2026-02-17 00:40:35,511 - __main__ - INFO - ================================================================================
+2026-02-17 00:40:35,511 - __main__ - INFO - Loaded 0 existing businesses
+2026-02-17 00:40:35,511 - __main__ - INFO - 
+Processing 7 priority states first...
+2026-02-17 00:40:35,511 - __main__ - INFO - ============================================================
+2026-02-17 00:40:35,511 - __main__ - INFO - Scraping FLORIDA
+2026-02-17 00:40:35,511 - __main__ - INFO - ============================================================
+2026-02-17 00:40:35,770 - scrapers.common - INFO - Requesting https://example.com/florida-registry (attempt 1/3)
+2026-02-17 00:40:35,773 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /florida-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:35,773 - scrapers.common - INFO - Waiting 3.82s before retry...
+2026-02-17 00:40:39,596 - scrapers.common - INFO - Requesting https://example.com/florida-registry (attempt 2/3)
+2026-02-17 00:40:39,600 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /florida-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:39,600 - scrapers.common - INFO - Waiting 2.92s before retry...
+2026-02-17 00:40:42,520 - scrapers.common - INFO - Requesting https://example.com/florida-registry (attempt 3/3)
+2026-02-17 00:40:42,523 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /florida-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:42,523 - scrapers.common - ERROR - All retries failed for https://example.com/florida-registry
+2026-02-17 00:40:42,523 - __main__ - INFO - ✓ FLORIDA: Found 0 new businesses
+2026-02-17 00:40:42,523 - __main__ - INFO - ============================================================
+2026-02-17 00:40:42,523 - __main__ - INFO - Scraping CALIFORNIA
+2026-02-17 00:40:42,523 - __main__ - INFO - ============================================================
+2026-02-17 00:40:42,525 - scrapers.common - INFO - Requesting https://example.com/california-registry (attempt 1/3)
+2026-02-17 00:40:42,527 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /california-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:42,527 - scrapers.common - INFO - Waiting 2.86s before retry...
+2026-02-17 00:40:45,392 - scrapers.common - INFO - Requesting https://example.com/california-registry (attempt 2/3)
+2026-02-17 00:40:45,394 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /california-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:45,394 - scrapers.common - INFO - Waiting 3.50s before retry...
+2026-02-17 00:40:48,894 - scrapers.common - INFO - Requesting https://example.com/california-registry (attempt 3/3)
+2026-02-17 00:40:48,896 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /california-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:48,896 - scrapers.common - ERROR - All retries failed for https://example.com/california-registry
+2026-02-17 00:40:48,896 - __main__ - INFO - ✓ CALIFORNIA: Found 0 new businesses
+2026-02-17 00:40:48,897 - __main__ - INFO - ============================================================
+2026-02-17 00:40:48,897 - __main__ - INFO - Scraping DELAWARE
+2026-02-17 00:40:48,897 - __main__ - INFO - ============================================================
+2026-02-17 00:40:48,898 - scrapers.common - INFO - Requesting https://example.com/delaware-registry (attempt 1/3)
+2026-02-17 00:40:48,900 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /delaware-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:48,900 - scrapers.common - INFO - Waiting 2.67s before retry...
+2026-02-17 00:40:51,572 - scrapers.common - INFO - Requesting https://example.com/delaware-registry (attempt 2/3)
+2026-02-17 00:40:51,575 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /delaware-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:51,575 - scrapers.common - INFO - Waiting 3.28s before retry...
+2026-02-17 00:40:54,855 - scrapers.common - INFO - Requesting https://example.com/delaware-registry (attempt 3/3)
+2026-02-17 00:40:54,858 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /delaware-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:54,858 - scrapers.common - ERROR - All retries failed for https://example.com/delaware-registry
+2026-02-17 00:40:54,858 - __main__ - INFO - ✓ DELAWARE: Found 0 new businesses
+2026-02-17 00:40:54,858 - __main__ - INFO - ============================================================
+2026-02-17 00:40:54,859 - __main__ - INFO - Scraping TEXAS
+2026-02-17 00:40:54,859 - __main__ - INFO - ============================================================
+2026-02-17 00:40:54,860 - scrapers.common - INFO - Requesting https://example.com/texas-registry (attempt 1/3)
+2026-02-17 00:40:54,862 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /texas-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:54,862 - scrapers.common - INFO - Waiting 3.43s before retry...
+2026-02-17 00:40:58,296 - scrapers.common - INFO - Requesting https://example.com/texas-registry (attempt 2/3)
+2026-02-17 00:40:58,298 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /texas-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:40:58,298 - scrapers.common - INFO - Waiting 3.96s before retry...
+2026-02-17 00:41:02,259 - scrapers.common - INFO - Requesting https://example.com/texas-registry (attempt 3/3)
+2026-02-17 00:41:02,261 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='example.com', port=443): Max retries exceeded with url: /texas-registry (Caused by NameResolutionError("HTTPSConnection(host='example.com', port=443): Failed to resolve 'example.com' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:41:02,261 - scrapers.common - ERROR - All retries failed for https://example.com/texas-registry
+2026-02-17 00:41:02,261 - __main__ - INFO - ✓ TEXAS: Found 0 new businesses
+2026-02-17 00:41:02,261 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,262 - __main__ - INFO - Scraping NEW_YORK
+2026-02-17 00:41:02,262 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,264 - scrapers.states.new_york - INFO - New York scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,264 - __main__ - INFO - ✓ NEW_YORK: Found 0 new businesses
+2026-02-17 00:41:02,264 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,264 - __main__ - INFO - Scraping NEVADA
+2026-02-17 00:41:02,264 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,266 - scrapers.states.nevada - INFO - Nevada scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,266 - __main__ - INFO - ✓ NEVADA: Found 0 new businesses
+2026-02-17 00:41:02,266 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,266 - __main__ - INFO - Scraping WYOMING
+2026-02-17 00:41:02,266 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,267 - scrapers.states.wyoming - INFO - Wyoming scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,267 - __main__ - INFO - ✓ WYOMING: Found 0 new businesses
+2026-02-17 00:41:02,267 - __main__ - INFO - 
+Processing 43 remaining states...
+2026-02-17 00:41:02,268 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,268 - __main__ - INFO - Scraping ALABAMA
+2026-02-17 00:41:02,268 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,269 - scrapers.states.alabama - INFO - Alabama scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,269 - __main__ - INFO - ✓ ALABAMA: Found 0 new businesses
+2026-02-17 00:41:02,269 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,269 - __main__ - INFO - Scraping ALASKA
+2026-02-17 00:41:02,270 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,271 - scrapers.states.alaska - INFO - Alaska scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,271 - __main__ - INFO - ✓ ALASKA: Found 0 new businesses
+2026-02-17 00:41:02,271 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,271 - __main__ - INFO - Scraping ARIZONA
+2026-02-17 00:41:02,271 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,273 - scrapers.states.arizona - INFO - Arizona scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,273 - __main__ - INFO - ✓ ARIZONA: Found 0 new businesses
+2026-02-17 00:41:02,273 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,273 - __main__ - INFO - Scraping ARKANSAS
+2026-02-17 00:41:02,273 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,274 - scrapers.states.arkansas - INFO - Arkansas scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,274 - __main__ - INFO - ✓ ARKANSAS: Found 0 new businesses
+2026-02-17 00:41:02,275 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,275 - __main__ - INFO - Scraping COLORADO
+2026-02-17 00:41:02,275 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,276 - scrapers.states.colorado - INFO - Colorado scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,276 - __main__ - INFO - ✓ COLORADO: Found 0 new businesses
+2026-02-17 00:41:02,276 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,276 - __main__ - INFO - Scraping CONNECTICUT
+2026-02-17 00:41:02,276 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,278 - scrapers.states.connecticut - INFO - Connecticut scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,278 - __main__ - INFO - ✓ CONNECTICUT: Found 0 new businesses
+2026-02-17 00:41:02,279 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,279 - __main__ - INFO - Scraping GEORGIA
+2026-02-17 00:41:02,279 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,280 - scrapers.states.georgia - INFO - Georgia scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,280 - __main__ - INFO - ✓ GEORGIA: Found 0 new businesses
+2026-02-17 00:41:02,280 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,280 - __main__ - INFO - Scraping HAWAII
+2026-02-17 00:41:02,280 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,282 - scrapers.states.hawaii - INFO - Hawaii scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,282 - __main__ - INFO - ✓ HAWAII: Found 0 new businesses
+2026-02-17 00:41:02,282 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,283 - __main__ - INFO - Scraping IDAHO
+2026-02-17 00:41:02,283 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,284 - scrapers.states.idaho - INFO - Idaho scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,284 - __main__ - INFO - ✓ IDAHO: Found 0 new businesses
+2026-02-17 00:41:02,284 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,284 - __main__ - INFO - Scraping ILLINOIS
+2026-02-17 00:41:02,284 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,286 - scrapers.states.illinois - INFO - Illinois scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,286 - __main__ - INFO - ✓ ILLINOIS: Found 0 new businesses
+2026-02-17 00:41:02,286 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,286 - __main__ - INFO - Scraping INDIANA
+2026-02-17 00:41:02,286 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,287 - scrapers.states.indiana - INFO - Indiana scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,288 - __main__ - INFO - ✓ INDIANA: Found 0 new businesses
+2026-02-17 00:41:02,288 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,288 - __main__ - INFO - Scraping IOWA
+2026-02-17 00:41:02,288 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,289 - scrapers.states.iowa - INFO - Iowa scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,289 - __main__ - INFO - ✓ IOWA: Found 0 new businesses
+2026-02-17 00:41:02,289 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,289 - __main__ - INFO - Scraping KANSAS
+2026-02-17 00:41:02,289 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,291 - scrapers.states.kansas - INFO - Kansas scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,291 - __main__ - INFO - ✓ KANSAS: Found 0 new businesses
+2026-02-17 00:41:02,291 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,291 - __main__ - INFO - Scraping KENTUCKY
+2026-02-17 00:41:02,291 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,292 - scrapers.states.kentucky - INFO - Kentucky scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,292 - __main__ - INFO - ✓ KENTUCKY: Found 0 new businesses
+2026-02-17 00:41:02,292 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,293 - __main__ - INFO - Scraping LOUISIANA
+2026-02-17 00:41:02,293 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,294 - scrapers.states.louisiana - INFO - Louisiana scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,294 - __main__ - INFO - ✓ LOUISIANA: Found 0 new businesses
+2026-02-17 00:41:02,294 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,294 - __main__ - INFO - Scraping MAINE
+2026-02-17 00:41:02,294 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,296 - scrapers.states.maine - INFO - Maine scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,296 - __main__ - INFO - ✓ MAINE: Found 0 new businesses
+2026-02-17 00:41:02,296 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,296 - __main__ - INFO - Scraping MARYLAND
+2026-02-17 00:41:02,296 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,297 - scrapers.states.maryland - INFO - Maryland scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,298 - __main__ - INFO - ✓ MARYLAND: Found 0 new businesses
+2026-02-17 00:41:02,298 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,298 - __main__ - INFO - Scraping MASSACHUSETTS
+2026-02-17 00:41:02,298 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,299 - scrapers.states.massachusetts - INFO - Massachusetts scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,299 - __main__ - INFO - ✓ MASSACHUSETTS: Found 0 new businesses
+2026-02-17 00:41:02,300 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,300 - __main__ - INFO - Scraping MICHIGAN
+2026-02-17 00:41:02,300 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,301 - scrapers.states.michigan - INFO - Michigan scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,301 - __main__ - INFO - ✓ MICHIGAN: Found 0 new businesses
+2026-02-17 00:41:02,301 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,301 - __main__ - INFO - Scraping MINNESOTA
+2026-02-17 00:41:02,301 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,303 - scrapers.states.minnesota - INFO - Minnesota scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,303 - __main__ - INFO - ✓ MINNESOTA: Found 0 new businesses
+2026-02-17 00:41:02,303 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,303 - __main__ - INFO - Scraping MISSISSIPPI
+2026-02-17 00:41:02,303 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,304 - scrapers.states.mississippi - INFO - Mississippi scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,305 - __main__ - INFO - ✓ MISSISSIPPI: Found 0 new businesses
+2026-02-17 00:41:02,305 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,305 - __main__ - INFO - Scraping MISSOURI
+2026-02-17 00:41:02,305 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,306 - scrapers.states.missouri - INFO - Missouri scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,306 - __main__ - INFO - ✓ MISSOURI: Found 0 new businesses
+2026-02-17 00:41:02,306 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,306 - __main__ - INFO - Scraping MONTANA
+2026-02-17 00:41:02,306 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,307 - scrapers.states.montana - INFO - Montana scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,308 - __main__ - INFO - ✓ MONTANA: Found 0 new businesses
+2026-02-17 00:41:02,308 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,308 - __main__ - INFO - Scraping NEBRASKA
+2026-02-17 00:41:02,308 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,309 - scrapers.states.nebraska - INFO - Nebraska scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,309 - __main__ - INFO - ✓ NEBRASKA: Found 0 new businesses
+2026-02-17 00:41:02,309 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,309 - __main__ - INFO - Scraping NEW_HAMPSHIRE
+2026-02-17 00:41:02,309 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,311 - scrapers.states.new_hampshire - INFO - New Hampshire scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,311 - __main__ - INFO - ✓ NEW_HAMPSHIRE: Found 0 new businesses
+2026-02-17 00:41:02,311 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,311 - __main__ - INFO - Scraping NEW_JERSEY
+2026-02-17 00:41:02,311 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,313 - scrapers.states.new_jersey - INFO - New Jersey scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,313 - __main__ - INFO - ✓ NEW_JERSEY: Found 0 new businesses
+2026-02-17 00:41:02,313 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,313 - __main__ - INFO - Scraping NEW_MEXICO
+2026-02-17 00:41:02,313 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,314 - scrapers.states.new_mexico - INFO - New Mexico scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,315 - __main__ - INFO - ✓ NEW_MEXICO: Found 0 new businesses
+2026-02-17 00:41:02,315 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,315 - __main__ - INFO - Scraping NORTH_CAROLINA
+2026-02-17 00:41:02,315 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,317 - scrapers.states.north_carolina - INFO - North Carolina scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,317 - __main__ - INFO - ✓ NORTH_CAROLINA: Found 0 new businesses
+2026-02-17 00:41:02,317 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,317 - __main__ - INFO - Scraping NORTH_DAKOTA
+2026-02-17 00:41:02,317 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,318 - scrapers.states.north_dakota - INFO - North Dakota scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,318 - __main__ - INFO - ✓ NORTH_DAKOTA: Found 0 new businesses
+2026-02-17 00:41:02,318 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,318 - __main__ - INFO - Scraping OHIO
+2026-02-17 00:41:02,319 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,320 - scrapers.states.ohio - INFO - Ohio scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,320 - __main__ - INFO - ✓ OHIO: Found 0 new businesses
+2026-02-17 00:41:02,320 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,320 - __main__ - INFO - Scraping OKLAHOMA
+2026-02-17 00:41:02,320 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,321 - scrapers.states.oklahoma - INFO - Oklahoma scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,322 - __main__ - INFO - ✓ OKLAHOMA: Found 0 new businesses
+2026-02-17 00:41:02,322 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,322 - __main__ - INFO - Scraping OREGON
+2026-02-17 00:41:02,322 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,323 - scrapers.states.oregon - INFO - Oregon scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,323 - __main__ - INFO - ✓ OREGON: Found 0 new businesses
+2026-02-17 00:41:02,323 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,323 - __main__ - INFO - Scraping PENNSYLVANIA
+2026-02-17 00:41:02,324 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,325 - scrapers.states.pennsylvania - INFO - Pennsylvania scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,325 - __main__ - INFO - ✓ PENNSYLVANIA: Found 0 new businesses
+2026-02-17 00:41:02,325 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,325 - __main__ - INFO - Scraping RHODE_ISLAND
+2026-02-17 00:41:02,325 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,327 - scrapers.states.rhode_island - INFO - Rhode Island scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,327 - __main__ - INFO - ✓ RHODE_ISLAND: Found 0 new businesses
+2026-02-17 00:41:02,327 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,327 - __main__ - INFO - Scraping SOUTH_CAROLINA
+2026-02-17 00:41:02,327 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,328 - scrapers.states.south_carolina - INFO - South Carolina scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,328 - __main__ - INFO - ✓ SOUTH_CAROLINA: Found 0 new businesses
+2026-02-17 00:41:02,328 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,328 - __main__ - INFO - Scraping SOUTH_DAKOTA
+2026-02-17 00:41:02,328 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,330 - scrapers.states.south_dakota - INFO - South Dakota scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,330 - __main__ - INFO - ✓ SOUTH_DAKOTA: Found 0 new businesses
+2026-02-17 00:41:02,330 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,330 - __main__ - INFO - Scraping TENNESSEE
+2026-02-17 00:41:02,330 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,331 - scrapers.states.tennessee - INFO - Tennessee scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,331 - __main__ - INFO - ✓ TENNESSEE: Found 0 new businesses
+2026-02-17 00:41:02,331 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,331 - __main__ - INFO - Scraping UTAH
+2026-02-17 00:41:02,332 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,333 - scrapers.states.utah - INFO - Utah scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,333 - __main__ - INFO - ✓ UTAH: Found 0 new businesses
+2026-02-17 00:41:02,333 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,333 - __main__ - INFO - Scraping VERMONT
+2026-02-17 00:41:02,333 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,334 - scrapers.states.vermont - INFO - Vermont scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,334 - __main__ - INFO - ✓ VERMONT: Found 0 new businesses
+2026-02-17 00:41:02,334 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,334 - __main__ - INFO - Scraping VIRGINIA
+2026-02-17 00:41:02,335 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,336 - scrapers.states.virginia - INFO - Virginia scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,336 - __main__ - INFO - ✓ VIRGINIA: Found 0 new businesses
+2026-02-17 00:41:02,336 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,336 - __main__ - INFO - Scraping WASHINGTON
+2026-02-17 00:41:02,336 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,337 - scrapers.states.washington - INFO - Washington scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,337 - __main__ - INFO - ✓ WASHINGTON: Found 0 new businesses
+2026-02-17 00:41:02,337 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,338 - __main__ - INFO - Scraping WEST_VIRGINIA
+2026-02-17 00:41:02,338 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,339 - scrapers.states.west_virginia - INFO - West Virginia scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,339 - __main__ - INFO - ✓ WEST_VIRGINIA: Found 0 new businesses
+2026-02-17 00:41:02,339 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,339 - __main__ - INFO - Scraping WISCONSIN
+2026-02-17 00:41:02,339 - __main__ - INFO - ============================================================
+2026-02-17 00:41:02,340 - scrapers.states.wisconsin - INFO - Wisconsin scraper not yet implemented - returning empty results
+2026-02-17 00:41:02,340 - __main__ - INFO - ✓ WISCONSIN: Found 0 new businesses
+2026-02-17 00:41:02,341 - __main__ - INFO - Saved 0 businesses to data/businesses.json
+2026-02-17 00:41:02,341 - __main__ - INFO - 
+================================================================================
+2026-02-17 00:41:02,341 - __main__ - INFO - SCRAPING COMPLETE
+2026-02-17 00:41:02,341 - __main__ - INFO - ================================================================================
+2026-02-17 00:41:02,341 - __main__ - INFO - 
+Runtime: 26.83 seconds (0.45 minutes)
+2026-02-17 00:41:02,341 - __main__ - INFO - 
+Total States: 50
+2026-02-17 00:41:02,341 - __main__ - INFO -   ✓ Successful: 0
+2026-02-17 00:41:02,341 - __main__ - INFO -   ⚠ Skipped (not implemented): 50
+2026-02-17 00:41:02,341 - __main__ - INFO -   ✗ Failed: 0
+2026-02-17 00:41:02,342 - __main__ - INFO - 
+Businesses:
+2026-02-17 00:41:02,342 - __main__ - INFO -   Previous: 0
+2026-02-17 00:41:02,342 - __main__ - INFO -   New: 0
+2026-02-17 00:41:02,342 - __main__ - INFO -   Total: 0
+2026-02-17 00:41:02,342 - __main__ - INFO - 
+--------------------------------------------------------------------------------
+2026-02-17 00:41:02,342 - __main__ - INFO - TOP 10 STATES BY NEW REGISTRATIONS
+2026-02-17 00:41:02,342 - __main__ - INFO - --------------------------------------------------------------------------------
+2026-02-17 00:41:02,342 - __main__ - INFO - 
+================================================================================
+2026-02-17 00:41:02,342 - __main__ - INFO - Added 0 new businesses
+2026-02-17 00:41:02,342 - __main__ - INFO - ================================================================================
+2026-02-17 00:41:21,574 - __main__ - INFO - ================================================================================
+2026-02-17 00:41:21,574 - __main__ - INFO - STARTING SUPER SCRAPER
+2026-02-17 00:41:21,574 - __main__ - INFO - ================================================================================
+2026-02-17 00:41:21,574 - __main__ - INFO - Loaded 0 existing businesses
+2026-02-17 00:41:21,575 - __main__ - INFO - 
+Processing 7 priority states first...
+2026-02-17 00:41:21,575 - __main__ - INFO - ============================================================
+2026-02-17 00:41:21,575 - __main__ - INFO - Scraping FLORIDA
+2026-02-17 00:41:21,575 - __main__ - INFO - ============================================================
+2026-02-17 00:41:21,770 - scrapers.states.florida - INFO - Starting Florida scraper (FTP method)
+2026-02-17 00:41:21,771 - scrapers.states.florida - ERROR - Florida scraper error: [Errno -3] Temporary failure in name resolution
+2026-02-17 00:41:21,771 - __main__ - ERROR - ✗ FLORIDA: Error - Florida scraping failed: [Errno -3] Temporary failure in name resolution
+2026-02-17 00:41:21,772 - __main__ - INFO - ============================================================
+2026-02-17 00:41:21,772 - __main__ - INFO - Scraping CALIFORNIA
+2026-02-17 00:41:21,772 - __main__ - INFO - ============================================================
+2026-02-17 00:41:21,772 - scrapers.states.california - INFO - Starting California scraper (API method)
+2026-02-17 00:41:21,773 - scrapers.states.california - WARNING - California API key not found. Falling back to web scraper.
+2026-02-17 00:41:21,865 - scrapers.states.california - INFO - Starting California scraper (web search method)
+2026-02-17 00:41:21,865 - scrapers.common - INFO - POST to https://bizfileonline.sos.ca.gov/search/business (attempt 1/3)
+2026-02-17 00:41:21,868 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='bizfileonline.sos.ca.gov', port=443): Max retries exceeded with url: /search/business (Caused by NameResolutionError("HTTPSConnection(host='bizfileonline.sos.ca.gov', port=443): Failed to resolve 'bizfileonline.sos.ca.gov' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:41:24,747 - scrapers.common - INFO - POST to https://bizfileonline.sos.ca.gov/search/business (attempt 2/3)
+2026-02-17 00:41:24,749 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='bizfileonline.sos.ca.gov', port=443): Max retries exceeded with url: /search/business (Caused by NameResolutionError("HTTPSConnection(host='bizfileonline.sos.ca.gov', port=443): Failed to resolve 'bizfileonline.sos.ca.gov' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:41:27,116 - scrapers.common - INFO - POST to https://bizfileonline.sos.ca.gov/search/business (attempt 3/3)
+2026-02-17 00:41:27,119 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='bizfileonline.sos.ca.gov', port=443): Max retries exceeded with url: /search/business (Caused by NameResolutionError("HTTPSConnection(host='bizfileonline.sos.ca.gov', port=443): Failed to resolve 'bizfileonline.sos.ca.gov' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:41:27,119 - scrapers.common - ERROR - All retries failed for https://bizfileonline.sos.ca.gov/search/business
+2026-02-17 00:41:27,119 - scrapers.states.california - ERROR - Failed to access California search page
+2026-02-17 00:41:27,119 - __main__ - INFO - ✓ CALIFORNIA: Found 0 new businesses
+2026-02-17 00:41:27,119 - __main__ - INFO - ============================================================
+2026-02-17 00:41:27,119 - __main__ - INFO - Scraping DELAWARE
+2026-02-17 00:41:27,119 - __main__ - INFO - ============================================================
+2026-02-17 00:41:27,120 - scrapers.states.delaware - INFO - Starting Delaware scraper
+2026-02-17 00:41:27,120 - scrapers.states.delaware - INFO - Searching entities starting with 'A'
+2026-02-17 00:41:27,120 - scrapers.common - INFO - Requesting https://icis.corp.delaware.gov/Ecorp/EntitySearch/NameSearch.aspx (attempt 1/3)
+2026-02-17 00:41:27,122 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='icis.corp.delaware.gov', port=443): Max retries exceeded with url: /Ecorp/EntitySearch/NameSearch.aspx (Caused by NameResolutionError("HTTPSConnection(host='icis.corp.delaware.gov', port=443): Failed to resolve 'icis.corp.delaware.gov' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:41:27,122 - scrapers.common - INFO - Waiting 3.00s before retry...
+2026-02-17 00:41:30,121 - scrapers.common - INFO - Requesting https://icis.corp.delaware.gov/Ecorp/EntitySearch/NameSearch.aspx (attempt 2/3)
+2026-02-17 00:41:30,123 - scrapers.common - ERROR - Request error: HTTPSConnectionPool(host='icis.corp.delaware.gov', port=443): Max retries exceeded with url: /Ecorp/EntitySearch/NameSearch.aspx (Caused by NameResolutionError("HTTPSConnection(host='icis.corp.delaware.gov', port=443): Failed to resolve 'icis.corp.delaware.gov' ([Errno -3] Temporary failure in name resolution)"))
+2026-02-17 00:41:30,124 - scrapers.common - INFO - Waiting 3.74s before retry...

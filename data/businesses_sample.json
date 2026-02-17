@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Sunshine Tech Solutions LLC",
+    "state": "FL",
+    "entity_number": "L24000123456",
+    "registration_date": "2024-02-10",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "John Smith",
+    "address": "123 Ocean Drive, Miami, FL 33139",
+    "scraped_at": "2024-02-16T10:30:00"
+  },
+  {
+    "name": "Coastal Consulting Group Inc",
+    "state": "FL",
+    "entity_number": "P24000234567",
+    "registration_date": "2024-02-12",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "Legal Services Inc",
+    "address": "456 Beach Blvd, Tampa, FL 33602",
+    "scraped_at": "2024-02-16T10:30:00"
+  },
+  {
+    "name": "Florida Marketing Agency LLC",
+    "state": "FL",
+    "entity_number": "L24000345678",
+    "registration_date": "2024-02-13",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "Mary Johnson",
+    "address": "789 Palm Ave, Orlando, FL 32801",
+    "scraped_at": "2024-02-16T10:30:00"
+  },
+  {
+    "name": "Bay Area Ventures LLC",
+    "state": "CA",
+    "entity_number": "202400567890",
+    "registration_date": "2024-02-11",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "Corporate Agents Inc",
+    "address": "100 Market St, San Francisco, CA 94105",
+    "scraped_at": "2024-02-16T10:30:00"
+  },
+  {
+    "name": "Golden State Innovations Inc",
+    "state": "CA",
+    "entity_number": "C4567890",
+    "registration_date": "2024-02-14",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "Registered Agent Services",
+    "address": "200 Tech Blvd, San Jose, CA 95110",
+    "scraped_at": "2024-02-16T10:30:00"
+  },
+  {
+    "name": "Delaware Holdings LLC",
+    "state": "DE",
+    "entity_number": "7654321",
+    "registration_date": "2024-02-09",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "Delaware Registered Agent",
+    "address": "1209 Orange St, Wilmington, DE 19801",
+    "scraped_at": "2024-02-16T10:30:00"
+  },
+  {
+    "name": "Lone Star Energy LLC",
+    "state": "TX",
+    "entity_number": "0803456789",
+    "registration_date": "2024-02-15",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "Texas Agent Services",
+    "address": "500 Congress Ave, Austin, TX 78701",
+    "scraped_at": "2024-02-16T10:30:00"
+  }
+]
