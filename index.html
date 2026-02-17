@@ -154,11 +154,16 @@
 
   /* Sync bar */
   .sync-bar {
-    width:100%; max-width:880px; display:flex; align-items:center; justify-content:space-between;
-    margin-top:12px; padding:8px 16px;
+    width:100%; max-width:880px; display:flex; flex-direction:column;
+    margin-top:12px;
     background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px;
-    font-size:0.75rem; color:var(--muted);
+    font-size:0.75rem; color:var(--muted); overflow:hidden;
   }
+  .sync-bar-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:8px 16px;
+  }
+  .sync-bar-row + .sync-bar-row { border-top:1px solid var(--border); }
   .sync-bar span { display:flex; align-items:center; gap:6px; }
 
   /* Loading state */
@@ -325,8 +330,11 @@
       <svg id="usmap" style="display:none;"></svg>
     </div>
     <div class="sync-bar">
-      <span>Last updated: <strong id="last-update">—</strong></span>
-      <span>Data Source: Government New Business Registries</span>
+      <div class="sync-bar-row">
+        <span>Last updated: <strong id="last-update">—</strong></span>
+        <span><a href="YOUR_FORM_URL_HERE" target="_blank" rel="noopener noreferrer" style="color:var(--muted);text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">✉️ Contact Us</a></span>
+        <span>Data Source: Government New Business Registries</span>
+      </div>
     </div>
   </div>
 
