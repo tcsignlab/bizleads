@@ -328,13 +328,11 @@ header {
   border-color: rgba(102,126,234,0.4);
 }
 .business-card.new-today {
-  background: rgba(255,77,125,0.08);
-  border: 2px solid rgba(255,77,125,0.4);
-  box-shadow: 0 0 20px rgba(255,77,125,0.15);
+  border: 2px solid rgba(255,77,125,0.6);
+  box-shadow: 0 0 12px rgba(255,77,125,0.15);
 }
 .business-card.new-today:hover {
-  background: rgba(255,77,125,0.12);
-  border-color: rgba(255,77,125,0.6);
+  border-color: rgba(255,77,125,0.9);
 }
 .new-today-badge {
   display: inline-flex;
@@ -762,7 +760,7 @@ async function loadData() {
     if (allBusinesses.length > 0) {
       document.getElementById('filters-row').style.display = 'flex';
       populateFilters();
-      renderBusinesses();
+      applyFilters();
     } else {
       document.getElementById('emptyState').style.display = 'block';
     }
