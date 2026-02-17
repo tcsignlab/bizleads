@@ -422,6 +422,8 @@ let zipCounts = {};         // { '30301': 42, ... }
 let activeZipFilter = null; // zip clicked from dropdown
 let activeCountyFilter = null; // county clicked from map
 let countyNamesList = {}; // Store county names for filtering
+let zipToCountyMap = {}; // Map zip codes to county IDs
+let countyGeoData = null; // Store county geometry for point-in-polygon checks
 
 // ═══════════════════════════════════════════════
 // LOAD DATA
@@ -489,14 +491,9 @@ function getZip(biz) {
 }
 
 function getCounty(biz) {
-  const addr = (biz.address || '').toLowerCase();
-  // Look for county name in address
-  for (const [id, name] of Object.entries(countyNamesList)) {
-    if (addr.includes(name.toLowerCase())) {
-      return id;
-    }
-  }
-  return null;
+  const zip = getZip(biz);
+  if (!zip) return null;
+  return zipToCountyMap[zip] || null;
 }
 
 // ═══════════════════════════════════════════════
@@ -597,6 +594,18 @@ async function buildCountyMap() {
       .fitExtent([[PAD, PAD], [W - PAD, H - PAD]], stateCounties);
 
     const path = d3.geoPath().projection(projection);
+
+    // ── BUILD ZIP TO COUNTY MAPPING ──
+    // Use point-in-polygon to determine which county each zip belongs to
+    Object.entries(zipCentroids).forEach(([zip, coords]) => {
+      if (!coords) return;
+      for (const feature of stateCounties.features) {
+        if (d3.geoContains(feature, coords)) {
+          zipToCountyMap[zip] = feature.id;
+          break;
+        }
+      }
+    });
 
     // ── COUNTY HEAT COLOR by zip prefix density ──
     const zipPrefixCounts = {};
