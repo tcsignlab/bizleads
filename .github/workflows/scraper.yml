@@ -2,8 +2,9 @@ name: Run Scraper
 
 on:
   schedule:
+    # Run daily at 3 AM UTC (24-hour refresh cycle)
     - cron: "0 3 * * *"
-  workflow_dispatch:
+  workflow_dispatch:  # Allow manual trigger
 
 permissions:
   contents: write
@@ -11,6 +12,7 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
+    timeout-minutes: 120  # 2 hour timeout for all states
 
     steps:
     - name: Checkout repo
@@ -19,23 +21,67 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: "3.10"
+        python-version: "3.11"
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
+        pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Install Playwright browsers (if needed)
+      run: |
+        playwright install chromium
+      continue-on-error: true
+
     - name: Run scraper
+      env:
+        CA_SOS_API_KEY: ${{ secrets.CA_SOS_API_KEY }}
       run: |
         python -m scrapers.super_scraper
+      continue-on-error: true  # Don't fail workflow if some states fail
 
-    - name: Commit data
+    - name: Check for changes
+      id: git-check
       run: |
-        git config user.email "bot@github.com"
-        git config user.name "github-bot"
+        git diff --exit-code data/businesses.json || echo "changed=true" >> $GITHUB_OUTPUT
+
+    - name: Commit and push data
+      if: steps.git-check.outputs.changed == 'true'
+      run: |
+        git config user.email "bizleads-bot@github.com"
+        git config user.name "BizLeads Scraper Bot"
         git add data/businesses.json
-        git commit -m "Update data" || echo "No changes"
-
-    - name: Push changes
-      run: |
+        git add scraper.log
+        timestamp=$(date -u)
+        git commit -m "🔄 Update business data - ${timestamp}"
         git push
+
+    - name: Upload scraper log
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: scraper-log
+        path: scraper.log
+        retention-days: 30
+
+    - name: Create summary
+      if: always()
+      run: |
+        echo "## Scraper Run Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f scraper.log ]; then
+          echo "### Last 20 lines of log:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -n 20 scraper.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        fi
