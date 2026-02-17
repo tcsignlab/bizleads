@@ -11,8 +11,6 @@ Restart=always
 RestartSec=60
 StandardOutput=append:/var/log/texas-scraper.log
 StandardError=append:/var/log/texas-scraper-error.log
-
-# Environment
 Environment="PYTHONUNBUFFERED=1"
 
 [Install]

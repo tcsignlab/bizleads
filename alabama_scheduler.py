@@ -22,8 +22,7 @@ CONFIG = {
     'data_file':            'data/businesses.json',
     'state_file':           'data/alabama_scraper_state.json',
     'run_interval_hours':   24,
-    'businesses_per_run':   20,
-    'max_total_businesses': 500,
+    'businesses_per_run':   1000,
 }
 
 AL_CITIES = [
@@ -133,7 +132,7 @@ class AlabamaScheduledScraper:
             if bid in self.state['business_ids']:
                 continue
 
-            days_ago = min(int(random.expovariate(1 / 10)), 30)
+            days_ago = max(1, min(int(random.expovariate(1 / 10)), 30))
             filing_date = today - timedelta(days=days_ago)
             status = random.choices(['Active', 'Inactive'], weights=[96, 4], k=1)[0]
             city = random.choice(AL_CITIES)
@@ -173,17 +172,17 @@ class AlabamaScheduledScraper:
         logger.info(f"✓ Saved {len(businesses)} total businesses to {df}")
 
     def _merge(self, existing, new):
+        from datetime import datetime, timedelta
+        cutoff = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
         seen, unique = set(), []
         for biz in existing + new:
             en = biz.get('entity_number')
-            if en and en not in seen:
+            reg = biz.get('registration_date', '')
+            if en and en not in seen and reg >= cutoff:
                 seen.add(en)
                 unique.append(biz)
         unique.sort(key=lambda x: x.get('registration_date', ''), reverse=True)
-        cap = self.config.get('max_total_businesses')
-        if cap and len(unique) > cap:
-            logger.info(f"Capping at {cap} most-recent businesses")
-            unique = unique[:cap]
+        logger.info(f"Retained {len(unique)} businesses registered in last 30 days")
         return unique
 
     def run_once(self):
