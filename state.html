@@ -283,10 +283,6 @@ header {
   <!-- FILTERS -->
   <div class="filters" id="filters-row" style="display:none;">
     <div class="filter-group">
-      <label>Search by Name</label>
-      <input type="text" id="searchInput" placeholder="Search business name...">
-    </div>
-    <div class="filter-group">
       <label>Entity Type</label>
       <select id="typeFilter">
         <option value="">All Types</option>
@@ -299,14 +295,20 @@ header {
       </select>
     </div>
     <div class="filter-group">
+      <label>County</label>
+      <select id="countyFilter">
+        <option value="">All Counties</option>
+      </select>
+    </div>
+    <div class="filter-group">
       <label>Sort By</label>
       <select id="sortBy">
+        <option value="zip-asc">Zip Code A-Z</option>
+        <option value="zip-desc">Zip Code Z-A</option>
         <option value="date-desc">Newest First</option>
         <option value="date-asc">Oldest First</option>
         <option value="name-asc">Name A-Z</option>
         <option value="name-desc">Name Z-A</option>
-        <option value="zip-asc">Zip Code A-Z</option>
-        <option value="zip-desc">Zip Code Z-A</option>
       </select>
     </div>
     <div class="result-count" id="result-count"></div>
@@ -417,7 +419,9 @@ const STATE_SOURCES = {
 let allBusinesses = [];
 let filteredBusinesses = [];
 let zipCounts = {};         // { '30301': 42, ... }
-let activeZipFilter = null; // zip clicked from heatmap or dropdown
+let activeZipFilter = null; // zip clicked from dropdown
+let activeCountyFilter = null; // county clicked from map
+let countyNamesList = {}; // Store county names for filtering
 
 // ═══════════════════════════════════════════════
 // LOAD DATA
@@ -484,6 +488,17 @@ function getZip(biz) {
   return /^\d{5}$/.test(last) ? last : null;
 }
 
+function getCounty(biz) {
+  const addr = (biz.address || '').toLowerCase();
+  // Look for county name in address
+  for (const [id, name] of Object.entries(countyNamesList)) {
+    if (addr.includes(name.toLowerCase())) {
+      return id;
+    }
+  }
+  return null;
+}
+
 // ═══════════════════════════════════════════════
 // ZIP CENTROID LOOKUP  (lat/lon centers for dots)
 // ═══════════════════════════════════════════════
@@ -546,12 +561,14 @@ async function buildCountyMap() {
     }
 
     // County name lookup
-    const countyNames = {};
+    const countyNames = {}; // Local to this function for tooltip display
     if (us.objects.counties.geometries) {
       us.objects.counties.geometries.forEach(g => {
         if (String(g.id).padStart(5,'0').startsWith(fips)) {
-          countyNames[g.id] = g.properties && g.properties.name
+          const name = g.properties && g.properties.name
             ? g.properties.name : `County ${g.id}`;
+          countyNames[g.id] = name;
+          countyNamesList[g.id] = name; // Store globally for filtering
         }
       });
     }
@@ -633,11 +650,19 @@ async function buildCountyMap() {
           .attr('stroke-width', '0.5');
       })
       .on('click', function(event, d) {
-        const name = countyNames[d.id] || '';
-        if (name) {
-          document.getElementById('searchInput').value = name;
-          applyFilters();
+        const countyId = d.id;
+        const countySelect = document.getElementById('countyFilter');
+        
+        // Toggle county filter
+        if (activeCountyFilter === countyId) {
+          activeCountyFilter = null;
+          countySelect.value = '';
+        } else {
+          activeCountyFilter = countyId;
+          countySelect.value = countyId;
         }
+        
+        applyFilters();
       });
 
     // ── STATE OUTLINE ──
@@ -797,19 +822,29 @@ function populateFilters() {
     o.value = zip; o.textContent = `${zip} (${zipCounts[zip]})`;
     zipFilter.appendChild(o);
   });
+
+  // Populate county filter
+  const countyFilter = document.getElementById('countyFilter');
+  const sortedCounties = Object.entries(countyNamesList).sort((a, b) => a[1].localeCompare(b[1]));
+  sortedCounties.forEach(([id, name]) => {
+    const o = document.createElement('option');
+    o.value = id;
+    o.textContent = name;
+    countyFilter.appendChild(o);
+  });
 }
 
 function applyFilters() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
   const type   = document.getElementById('typeFilter').value;
   const zip    = document.getElementById('zipFilter').value || activeZipFilter || '';
+  const county = document.getElementById('countyFilter').value || activeCountyFilter || '';
   const sort   = document.getElementById('sortBy').value;
 
   filteredBusinesses = allBusinesses.filter(b => {
-    const matchSearch = (b.name || '').toLowerCase().includes(search);
     const matchType   = !type || (b.entity_type || '') === type;
     const matchZip    = !zip  || getZip(b) === zip;
-    return matchSearch && matchType && matchZip;
+    const matchCounty = !county || getCounty(b) === county;
+    return matchType && matchZip && matchCounty;
   });
 
   filteredBusinesses.sort((a, b) => {
@@ -889,10 +924,13 @@ function renderBusinesses() {
 // ═══════════════════════════════════════════════
 // EVENT LISTENERS
 // ═══════════════════════════════════════════════
-document.getElementById('searchInput').addEventListener('input', applyFilters);
 document.getElementById('typeFilter').addEventListener('change', applyFilters);
 document.getElementById('zipFilter').addEventListener('change', function() {
   activeZipFilter = this.value || null;
+  applyFilters();
+});
+document.getElementById('countyFilter').addEventListener('change', function() {
+  activeCountyFilter = this.value || null;
   applyFilters();
 });
 document.getElementById('sortBy').addEventListener('change', applyFilters);
