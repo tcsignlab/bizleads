@@ -29,14 +29,15 @@ def scrape():
         # Return Alabama slice from the shared data file
         import json
         data = json.load(open(s.config['data_file']))
-        al = [b for b in data if b.get('state') == 'AL']
-        logger.info(f"Alabama scraper: returning {len(al)} businesses")
-        return al
+        cutoff = (__import__("datetime").datetime.now() - __import__("datetime").timedelta(days=30)).strftime("%Y-%m-%d")
+        results = [b for b in data if b.get("state") == "AL" and b.get("registration_date", "") >= cutoff]
+        logger.info(f"Alabama scraper: returning {len(results)} businesses")
+        return results
     except Exception as e:
         logger.warning(f"Alabama scraper delegation failed ({e}), running inline")
-        return _inline_generate(20)
+        return _inline_generate(1000)
 
-def _inline_generate(count=20):
+def _inline_generate(count=1000):
     """Fallback: generate inline without importing the scheduler module."""
     import hashlib, random
     from datetime import datetime, timedelta
@@ -60,7 +61,7 @@ def _inline_generate(count=20):
         name = f"{random.choice(AL_CITIES)} {random.choice(INDUSTRIES)} {random.choice(TYPES)} {sfx}"
         base = str(100_000_000 + i)
         enum = f"{base[:3]}-{base[3:6]}-{base[6:]}"
-        days_ago = min(int(random.expovariate(1/10)), 30)
+        days_ago = max(1, min(int(random.expovariate(1/10)), 30))
         businesses.append({
             'name':              name,
             'state':             'AL',
