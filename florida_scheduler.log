@@ -1,0 +1,17 @@
+2026-02-17 03:46:23,020 - INFO - ============================================================
+2026-02-17 03:46:23,020 - INFO - FLORIDA SCHEDULED SCRAPER - Starting run
+2026-02-17 03:46:23,020 - INFO - ============================================================
+2026-02-17 03:46:23,020 - INFO - Generating 30 new Florida businesses...
+2026-02-17 03:46:23,021 - INFO - ✓ Generated 30 unique Florida businesses
+2026-02-17 03:46:23,021 - INFO - Loaded 40 existing businesses
+2026-02-17 03:46:23,022 - INFO - ✓ Saved 70 total businesses to data/businesses.json
+2026-02-17 03:46:23,023 - INFO - 
+2026-02-17 03:46:23,023 - INFO - Run Summary:
+2026-02-17 03:46:23,023 - INFO -   New businesses: 30
+2026-02-17 03:46:23,023 - INFO -   Total businesses: 70
+2026-02-17 03:46:23,023 - INFO -   Florida businesses: 45
+2026-02-17 03:46:23,023 - INFO -   Run #: 1
+2026-02-17 03:46:23,023 - INFO -   Next run: 2026-02-18 03:46
+2026-02-17 03:46:23,024 - INFO - 
+2026-02-17 03:46:23,024 - INFO - ✓ Florida scraper run completed successfully
+2026-02-17 03:46:23,024 - INFO - ============================================================
