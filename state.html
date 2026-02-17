@@ -117,7 +117,8 @@ header {
   font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:3px; color:var(--muted);
 }
 .map-wrap { padding: 16px; position: relative; }
-#county-map { width:100%; display:block; }
+#county-map { width:100%; display:block; cursor: grab; }
+#county-map:active { cursor: grabbing; }
 .county-tooltip {
   position:fixed; background:rgba(10,12,16,0.97); border:1px solid var(--border);
   border-radius:10px; padding:12px 16px; pointer-events:none; opacity:0;
@@ -419,7 +420,7 @@ header {
       <div class="county-map-panel">
         <div class="panel-header">
           <div class="panel-title">🗺️ COUNTY MAP — <span id="map-state-label">...</span></div>
-          <div style="font-size:0.72rem;color:var(--muted);">Hover to see details</div>
+          <div style="font-size:0.72rem;color:var(--muted);">Scroll to zoom • Drag to pan</div>
         </div>
         <div class="map-wrap">
           <div id="county-map-container">
@@ -732,6 +733,18 @@ async function buildCountyMap() {
       .style('display', 'block')
       .style('width', '100%');
 
+    // Create main group for zoom
+    const g = svg.append('g');
+
+    // Add zoom behavior
+    const zoom = d3.zoom()
+      .scaleExtent([1, 8])  // Allow zoom from 1x to 8x
+      .on('zoom', (event) => {
+        g.attr('transform', event.transform);
+      });
+
+    svg.call(zoom);
+
     // ── PROJECTION: fitExtent with generous padding so ALL counties are visible ──
     const PAD = 48;
     const projection = d3.geoAlbersUsa()
@@ -772,7 +785,7 @@ async function buildCountyMap() {
     // ── DRAW COUNTIES ──
     const tooltip = document.getElementById('county-tooltip');
 
-    svg.selectAll('.county-path')
+    g.selectAll('.county-path')
       .data(stateCounties.features)
       .enter().append('path')
       .attr('class', 'county-path')
@@ -811,7 +824,7 @@ async function buildCountyMap() {
       .datum(stateCounties)
       .attr('d', path);
 
-    svg.append('path')
+    g.append('path')
       .datum(stateCounties)
       .attr('class', 'state-outline')
       .attr('d', path);
@@ -846,9 +859,9 @@ async function buildCountyMap() {
 
     // Dot layer — one circle per unique zip, radius scaled by count
     const maxZipCount = Math.max(...Object.values(zipCounts), 1);
-    const rScale = d3.scaleSqrt().domain([1, maxZipCount]).range([3, 14]);
+    const rScale = d3.scaleSqrt().domain([1, maxZipCount]).range([2, 8]);
 
-    const dotsGroup = svg.append('g')
+    const dotsGroup = g.append('g')
       .attr('class', 'dots-layer')
       .attr('clip-path', 'url(#state-clip)');
 
@@ -1017,10 +1030,6 @@ function renderBusinesses() {
       </div>
       <div class="business-details">
         <div class="detail-item">
-          <div class="detail-label">Entity Number</div>
-          <div class="detail-value">${biz.entity_number || 'N/A'}</div>
-        </div>
-        <div class="detail-item">
           <div class="detail-label">Registration Date</div>
           <div class="detail-value">${biz.registration_date || biz.date || 'N/A'}</div>
         </div>
@@ -1032,10 +1041,6 @@ function renderBusinesses() {
           <div class="detail-label">Status</div>
           <div class="detail-value">${biz.status || 'N/A'}</div>
         </div>
-        ${biz.registered_agent ? `<div class="detail-item">
-          <div class="detail-label">Registered Agent</div>
-          <div class="detail-value">${biz.registered_agent}</div>
-        </div>` : ''}
         ${biz.address ? `<div class="detail-item">
           <div class="detail-label">Address</div>
           <div class="detail-value">${biz.address}</div>
