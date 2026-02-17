@@ -22,7 +22,7 @@ CONFIG = {
     "data_file":            "data/connecticut_businesses.json",
     "state_file":           "data/connecticut_scraper_state.json",
     "run_interval_hours":   24,
-    "businesses_per_run":   20,
+    "businesses_per_run":   300,
     "max_total_businesses": 500,
 }
 
@@ -166,7 +166,7 @@ class ConnecticutScheduledScraper:
         businesses, attempts = [], 0
         today = datetime.now()
 
-        while len(businesses) < count and attempts < count * 3:
+        while len(businesses) < count and attempts < count * 2:
             attempts += 1
             sfx = random.choice(SUFFIXES)
             pattern = random.randint(1, 4)
