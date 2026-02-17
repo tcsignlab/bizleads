@@ -183,30 +183,92 @@
   .ad-slot .ad-label { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.15); margin-bottom:8px; }
   .ad-slot .ad-placeholder { font-size:0.7rem; color:rgba(255,255,255,0.12); }
 
-  /* Top States Below Map */
-  .top-states-below {
+  /* ─── FAVORITES PANEL ─── */
+  .favorites-panel {
     width:100%; max-width:880px; margin-top:20px;
-    background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px 24px;
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;
   }
-  .top-states-below .panel-title { margin-bottom:12px; }
-  .top-states-grid {
-    display:flex; flex-direction:row; align-items:stretch;
+  .favorites-panel-header {
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    padding:14px 20px; border-bottom:1px solid var(--border);
   }
-  .top-state-item {
-    display:flex; align-items:center; gap:8px; padding:8px 16px;
-    cursor:pointer; transition:background 0.2s; font-size:0.82rem;
-    flex:1; border-radius:8px;
+  .favorites-panel-header .panel-title { margin-bottom:0; border-bottom:none; padding-bottom:0; }
+  .fav-header-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .fav-search-input {
+    padding:7px 12px; background:rgba(255,255,255,0.06); border:1px solid var(--border);
+    border-radius:8px; color:var(--text); font-family:inherit; font-size:0.82rem;
+    width:200px; transition:border-color 0.2s;
   }
-  .top-state-item:hover { background:rgba(255,255,255,0.05); }
-  .top-state-divider {
-    width:1px; background:var(--border); align-self:stretch; flex-shrink:0;
+  .fav-search-input:focus { outline:none; border-color:#ffd700; }
+  .fav-search-input::placeholder { color:var(--muted); }
+  .fav-state-filter {
+    padding:7px 12px; background:rgba(255,255,255,0.06); border:1px solid var(--border);
+    border-radius:8px; color:var(--text); font-family:inherit; font-size:0.82rem;
+    cursor:pointer; transition:border-color 0.2s;
   }
-  .top-state-rank { font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--muted); width:18px; }
-  .top-state-name { flex:1; font-weight:600; white-space:nowrap; }
-  .top-state-leads {
-    background:rgba(102,126,234,0.15); color:var(--accent);
-    padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:700;
+  .fav-state-filter:focus { outline:none; border-color:#ffd700; }
+  .fav-state-filter option { background:#1a1f2e; }
+  .fav-total-badge {
+    background:#ffd700; color:#000; border-radius:10px;
+    font-size:0.72rem; font-weight:700; padding:2px 9px; white-space:nowrap;
   }
+  .fav-clear-btn {
+    padding:6px 12px; border-radius:8px; border:1px solid rgba(255,100,100,0.3);
+    background:rgba(255,100,100,0.06); color:rgba(255,120,120,0.8);
+    font-family:inherit; font-size:0.78rem; cursor:pointer; transition:all 0.2s;
+    white-space:nowrap;
+  }
+  .fav-clear-btn:hover { border-color:rgba(255,80,80,0.6); color:#ff8080; background:rgba(255,80,80,0.12); }
+  .fav-cards-grid {
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+    gap:14px; padding:16px; max-height:460px; overflow-y:auto;
+  }
+  .fav-cards-grid::-webkit-scrollbar { width:8px; }
+  .fav-cards-grid::-webkit-scrollbar-track { background:rgba(255,255,255,0.02); }
+  .fav-cards-grid::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.12); border-radius:4px; }
+  .fav-card {
+    background:rgba(255,215,0,0.03); border:1px solid rgba(255,215,0,0.18);
+    border-radius:10px; padding:14px 16px; position:relative;
+    transition:border-color 0.2s, background 0.2s;
+  }
+  .fav-card:hover { background:rgba(255,215,0,0.07); border-color:rgba(255,215,0,0.4); }
+  .fav-card-name {
+    font-size:0.95rem; font-weight:700; margin-bottom:8px; padding-right:28px;
+  }
+  .fav-card-name a { color:#ffd700; text-decoration:none; transition:color 0.2s; }
+  .fav-card-name a:hover { color:#ffe566; text-decoration:underline; }
+  .fav-card-meta { display:flex; flex-wrap:wrap; gap:6px; font-size:0.76rem; margin-bottom:8px; }
+  .fav-meta-chip {
+    background:rgba(255,255,255,0.06); border:1px solid var(--border);
+    border-radius:6px; padding:2px 8px; color:#a0aec0;
+  }
+  .fav-meta-chip strong { color:var(--text); }
+  .fav-state-tag {
+    background:rgba(102,126,234,0.15); border:1px solid rgba(102,126,234,0.25);
+    border-radius:6px; padding:2px 8px; font-size:0.72rem; font-weight:700;
+    color:#667eea; cursor:pointer; transition:background 0.2s;
+  }
+  .fav-state-tag:hover { background:rgba(102,126,234,0.28); }
+  .fav-remove-btn {
+    position:absolute; top:10px; right:10px; background:none; border:none;
+    color:rgba(255,215,0,0.5); font-size:1.1rem; cursor:pointer; padding:2px 4px;
+    border-radius:6px; transition:all 0.15s; line-height:1;
+  }
+  .fav-remove-btn:hover { color:#ffd700; background:rgba(255,215,0,0.12); transform:scale(1.15); }
+  .fav-goto-state {
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:0.72rem; color:rgba(102,126,234,0.7); text-decoration:none;
+    border:1px solid rgba(102,126,234,0.2); border-radius:6px; padding:2px 8px;
+    transition:all 0.2s; margin-top:2px;
+  }
+  .fav-goto-state:hover { color:#667eea; border-color:rgba(102,126,234,0.5); background:rgba(102,126,234,0.08); }
+  .fav-empty {
+    text-align:center; padding:48px 20px; color:var(--muted);
+    grid-column: 1 / -1;
+  }
+  .fav-empty-icon { font-size:2.5rem; margin-bottom:12px; }
+  .fav-empty-title { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:rgba(255,255,255,0.3); letter-spacing:2px; margin-bottom:6px; }
+  .fav-empty-sub { font-size:0.8rem; line-height:1.6; }
 
   @media (max-width: 1024px) {
     .main { grid-template-columns: 1fr; }
@@ -218,18 +280,19 @@
     }
     .ads-panel .panel-title { width:100%; }
     .ad-slot { margin-bottom:0 !important; }
-    .top-states-grid { flex-wrap:wrap; }
-    .top-state-divider { display:none; }
     .header-stats { gap:20px; }
     .hstat-val { font-size:1.6rem; }
+    .fav-search-input { width:140px; }
   }
   @media (max-width: 640px) {
     header { flex-direction:column; gap:16px; }
     .header-stats { width:100%; justify-content:space-around; }
     .ads-panel { justify-content:center; }
-    .top-states-grid { flex-direction:column; }
-    .top-state-divider { display:none; }
     .map-area { padding:16px; }
+    .fav-header-right { flex-direction:column; align-items:stretch; }
+    .fav-search-input { width:100%; }
+    .fav-state-filter { width:100%; }
+    .fav-cards-grid { grid-template-columns:1fr; }
   }
 </style>
 </head>
@@ -286,11 +349,25 @@
       <span>Data Source: Government New Business Registries</span>
     </div>
 
-    <!-- TOP STATES BELOW MAP -->
-    <div class="top-states-below">
-      <div class="panel-title">🏆 TOP STATES</div>
-      <div style="text-align:left; font-size:0.75rem; color:var(--muted); margin-bottom:12px;" id="top-states-total">—</div>
-      <div class="top-states-grid" id="top-states-list"></div>
+    <!-- FAVORITES / BOOKMARKED CARDS -->
+    <div class="favorites-panel" id="favorites-panel">
+      <div class="favorites-panel-header">
+        <div class="panel-title">⭐ SAVED BUSINESSES <span class="fav-total-badge" id="fav-total-badge">0</span></div>
+        <div class="fav-header-right">
+          <input class="fav-search-input" id="fav-search" type="text" placeholder="Search saved businesses…" />
+          <select class="fav-state-filter" id="fav-state-select">
+            <option value="">All States</option>
+          </select>
+          <button class="fav-clear-btn" id="fav-clear-all" title="Remove all saved businesses">🗑 Clear All</button>
+        </div>
+      </div>
+      <div class="fav-cards-grid" id="fav-cards-grid">
+        <div class="fav-empty">
+          <div class="fav-empty-icon">⭐</div>
+          <div class="fav-empty-title">No Saved Businesses</div>
+          <div class="fav-empty-sub">Open any state, then star a business card to bookmark it here.</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -548,18 +625,6 @@ function updateSidePanels() {
     .filter(([,d]) => d.leads > 0)
     .sort((a,b) => b[1].leads - a[1].leads)
     .slice(0, 5);
-  const topTotal = sorted.reduce((sum,[,d]) => sum + d.leads, 0);
-  document.getElementById('top-states-total').textContent = topTotal.toLocaleString() + ' total leads';
-
-  const items = sorted.map(([abbr,d], i) => `
-    <div class="top-state-item" onclick="handleStateClick('${abbr}')">
-      <div class="top-state-rank">${i+1}</div>
-      <div class="top-state-name">${STATE_NAMES[abbr] || abbr}</div>
-      <div class="top-state-leads">${d.leads}</div>
-    </div>`);
-
-  document.getElementById('top-states-list').innerHTML =
-    items.join('<div class="top-state-divider"></div>');
 }
 
 function timeAgo(date) {
@@ -589,6 +654,122 @@ function handleStateClick(abbr) {
     window.location.href = `state.html?state=${abbr}`;
   }
 }
+
+// ═══════════════════════════════════════════════
+// FAVORITES PANEL
+// ═══════════════════════════════════════════════
+const STATE_ABBRS = Object.keys(STATE_NAMES);
+
+function loadAllFavorites() {
+  const all = [];
+  STATE_ABBRS.forEach(state => {
+    const key = `leadsource_favs_${state}`;
+    const stored = localStorage.getItem(key);
+    if (!stored) return;
+    try {
+      const ids = JSON.parse(stored);
+      ids.forEach(bizId => {
+        const [name, date] = bizId.split('|');
+        all.push({ bizId, name: name || 'Unknown', date: date || '', state });
+      });
+    } catch(e) {}
+  });
+  return all;
+}
+
+function removeFavorite(bizId, state) {
+  const key = `leadsource_favs_${state}`;
+  try {
+    const ids = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+    ids.delete(bizId);
+    localStorage.setItem(key, JSON.stringify([...ids]));
+  } catch(e) {}
+  renderFavoritesPanel();
+}
+
+function clearAllFavorites() {
+  if (!confirm('Remove all saved businesses? This cannot be undone.')) return;
+  STATE_ABBRS.forEach(state => {
+    localStorage.removeItem(`leadsource_favs_${state}`);
+  });
+  renderFavoritesPanel();
+}
+
+function renderFavoritesPanel() {
+  const all = loadAllFavorites();
+  const searchVal = (document.getElementById('fav-search')?.value || '').toLowerCase().trim();
+  const stateVal  = document.getElementById('fav-state-select')?.value || '';
+
+  // Populate state filter dropdown
+  const stateSelect = document.getElementById('fav-state-select');
+  if (stateSelect) {
+    const presentStates = [...new Set(all.map(f => f.state))].sort();
+    const currentVal = stateSelect.value;
+    stateSelect.innerHTML = '<option value="">All States</option>';
+    presentStates.forEach(s => {
+      const o = document.createElement('option');
+      o.value = s; o.textContent = `${STATE_NAMES[s] || s} (${all.filter(f=>f.state===s).length})`;
+      stateSelect.appendChild(o);
+    });
+    stateSelect.value = currentVal;
+  }
+
+  // Badge total
+  document.getElementById('fav-total-badge').textContent = all.length;
+
+  // Filter
+  const filtered = all.filter(f => {
+    const matchSearch = !searchVal || f.name.toLowerCase().includes(searchVal) || f.state.toLowerCase().includes(searchVal) || (STATE_NAMES[f.state]||'').toLowerCase().includes(searchVal);
+    const matchState  = !stateVal  || f.state === stateVal;
+    return matchSearch && matchState;
+  });
+
+  const grid = document.getElementById('fav-cards-grid');
+  if (!grid) return;
+
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="fav-empty">
+        <div class="fav-empty-icon">${all.length ? '🔍' : '⭐'}</div>
+        <div class="fav-empty-title">${all.length ? 'No Matches' : 'No Saved Businesses'}</div>
+        <div class="fav-empty-sub">${all.length ? 'Try a different search or state filter.' : 'Open any state, then star a business card to bookmark it here.'}</div>
+      </div>`;
+    return;
+  }
+
+  // Sort: newest first by date, then alphabetically
+  filtered.sort((a,b) => (b.date||'').localeCompare(a.date||'') || (a.name||'').localeCompare(b.name||''));
+
+  grid.innerHTML = filtered.map(f => {
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(f.name + ' ' + (STATE_NAMES[f.state] || f.state))}`;
+    const statePageUrl = `state.html?state=${f.state}`;
+    const safeId = f.bizId.replace(/"/g, '&quot;');
+    return `
+      <div class="fav-card">
+        <button class="fav-remove-btn" title="Remove from saved" onclick="removeFavorite('${safeId}','${f.state}')">⭐</button>
+        <div class="fav-card-name">
+          <a href="${searchUrl}" target="_blank" rel="noopener noreferrer">${f.name} 🔍</a>
+        </div>
+        <div class="fav-card-meta">
+          ${f.date ? `<span class="fav-meta-chip"><strong>${f.date}</strong></span>` : ''}
+          <span class="fav-state-tag" onclick="document.getElementById('fav-state-select').value='${f.state}';renderFavoritesPanel()">
+            ${f.state}
+          </span>
+        </div>
+        <a href="${statePageUrl}" class="fav-goto-state">View ${STATE_NAMES[f.state] || f.state} listings →</a>
+      </div>`;
+  }).join('');
+}
+
+// Wire up favorites panel events
+document.addEventListener('DOMContentLoaded', () => {
+  renderFavoritesPanel();
+  document.getElementById('fav-search')?.addEventListener('input', renderFavoritesPanel);
+  document.getElementById('fav-state-select')?.addEventListener('change', renderFavoritesPanel);
+  document.getElementById('fav-clear-all')?.addEventListener('click', clearAllFavorites);
+  // Re-render if user comes back from a state page (storage may have changed)
+  window.addEventListener('focus', renderFavoritesPanel);
+});
 
 // ═══════════════════════════════════════════════
 // INIT
