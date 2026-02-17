@@ -355,12 +355,11 @@ async function loadBusinessData() {
           todayCounts[state] = (todayCounts[state] || 0) + 1;
         }
       }
-        // Track most recent scrape time
-        if (biz.scraped_at) {
-          const scrapeTime = new Date(biz.scraped_at).getTime();
-          if (!lastScrapeTime || scrapeTime > lastScrapeTime) {
-            lastScrapeTime = scrapeTime;
-          }
+      // Track most recent scrape time
+      if (biz.scraped_at) {
+        const scrapeTime = new Date(biz.scraped_at).getTime();
+        if (!lastScrapeTime || scrapeTime > lastScrapeTime) {
+          lastScrapeTime = scrapeTime;
         }
       }
     });
