@@ -127,6 +127,28 @@ header {
 .detail-value {
   color: #e8eaf6;
 }
+.business-name a {
+  color: #667eea;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.business-name a:hover {
+  color: #a78bfa;
+  text-decoration: underline;
+}
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  padding: 3px 10px;
+  background: rgba(102,126,234,0.1);
+  border: 1px solid rgba(102,126,234,0.25);
+  border-radius: 20px;
+  font-size: 0.72rem;
+  color: #8898c8;
+}
+.source-badge span { color: #667eea; font-weight: 600; }
 .empty-state {
   text-align: center;
   padding: 80px 40px;
@@ -175,6 +197,8 @@ header {
         <option value="date-asc">Oldest First</option>
         <option value="name-asc">Name A-Z</option>
         <option value="name-desc">Name Z-A</option>
+        <option value="zip-asc">Zip Code A-Z</option>
+        <option value="zip-desc">Zip Code Z-A</option>
       </select>
     </div>
   </div>
@@ -202,6 +226,59 @@ const stateNames = {
   'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah',
   'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia',
   'WI': 'Wisconsin', 'WY': 'Wyoming'
+};
+
+const STATE_SOURCES = {
+  'AL': { label: 'arc-sos.state.al.us',    url: 'https://arc-sos.state.al.us/CGI/CORPNAME.MBR/INPUT' },
+  'AK': { label: 'myalaska.state.ak.us',   url: 'https://myalaska.state.ak.us/business' },
+  'AZ': { label: 'azcc.gov',               url: 'https://ecorp.azcc.gov/EntitySearch/Index' },
+  'AR': { label: 'sos.arkansas.gov',       url: 'https://www.sos.arkansas.gov/corps/search_all.php' },
+  'CA': { label: 'bizfileonline.sos.ca.gov', url: 'https://bizfileonline.sos.ca.gov/search/business' },
+  'CO': { label: 'sos.state.co.us',        url: 'https://www.sos.state.co.us/biz/BusinessEntityCriteriaExt.do' },
+  'CT': { label: 'service.ct.gov',         url: 'https://service.ct.gov/business/s/onlinebusinesssearch' },
+  'DE': { label: 'icis.corp.delaware.gov', url: 'https://icis.corp.delaware.gov/ecorp/entitysearch/namesearch.aspx' },
+  'FL': { label: 'sunbiz.org',             url: 'https://search.sunbiz.org/Inquiry/CorporationSearch/ByName' },
+  'GA': { label: 'ecorp.sos.ga.gov',       url: 'https://ecorp.sos.ga.gov/BusinessSearch' },
+  'HI': { label: 'hbe.ehawaii.gov',        url: 'https://hbe.ehawaii.gov/documents/search.html' },
+  'ID': { label: 'sosbiz.idaho.gov',       url: 'https://sosbiz.idaho.gov/search/business' },
+  'IL': { label: 'ilsos.gov',              url: 'https://apps.ilsos.gov/businessentitysearch/' },
+  'IN': { label: 'sos.in.gov',             url: 'https://bsd.sos.in.gov/publicbusinesssearch' },
+  'IA': { label: 'sos.iowa.gov',           url: 'https://sos.iowa.gov/search/business/' },
+  'KS': { label: 'kansas.gov',             url: 'https://www.kansas.gov/bess/flow/main' },
+  'KY': { label: 'sos.ky.gov',             url: 'https://web.sos.ky.gov/ftsearch/' },
+  'LA': { label: 'coraweb.sos.la.gov',     url: 'https://coraweb.sos.la.gov/CommercialSearch/CommercialSearch.aspx' },
+  'ME': { label: 'informe.org',            url: 'https://icrs.informe.org/nei-sos-icrs/ICRS' },
+  'MD': { label: 'egov.maryland.gov',      url: 'https://egov.maryland.gov/BusinessExpress/EntitySearch' },
+  'MA': { label: 'corp.sec.state.ma.us',   url: 'https://corp.sec.state.ma.us/corpweb/CorpSearch/CorpSearch.aspx' },
+  'MI': { label: 'lara.state.mi.us',       url: 'https://cofs.lara.state.mi.us/SearchApi/Search/Search' },
+  'MN': { label: 'sos.state.mn.us',        url: 'https://mblsportal.sos.state.mn.us/Business/Search' },
+  'MS': { label: 'business.sos.ms.gov',    url: 'https://business.sos.ms.gov/corp/soskb/csearch.asp' },
+  'MO': { label: 'bsd.sos.mo.gov',         url: 'https://bsd.sos.mo.gov/BusinessEntity/BESearch.aspx' },
+  'MT': { label: 'biz.sosmt.gov',          url: 'https://biz.sosmt.gov/search/business' },
+  'NE': { label: 'nebraska.gov',           url: 'https://www.nebraska.gov/sos/corp/corpsearch.cgi' },
+  'NV': { label: 'esos.nv.gov',            url: 'https://esos.nv.gov/EntitySearch/OnlineEntitySearch' },
+  'NH': { label: 'sos.nh.gov',             url: 'https://quickstart.sos.nh.gov/online/Account/LandingPage' },
+  'NJ': { label: 'njportal.com',           url: 'https://www.njportal.com/DOR/BusinessRecords/' },
+  'NM': { label: 'sos.state.nm.us',        url: 'https://portal.sos.state.nm.us/BFS/online/CorporationBusinessSearch' },
+  'NY': { label: 'dos.ny.gov',             url: 'https://appext20.dos.ny.gov/corp_public/corpsearch.entity_search_entry' },
+  'NC': { label: 'sosnc.gov',              url: 'https://www.sosnc.gov/online_services/search/by_title/_Business_Registration' },
+  'ND': { label: 'firststop.sos.nd.gov',   url: 'https://firststop.sos.nd.gov/search/business' },
+  'OH': { label: 'businesssearch.ohiosos.gov', url: 'https://businesssearch.ohiosos.gov/' },
+  'OK': { label: 'sos.ok.gov',             url: 'https://www.sos.ok.gov/corp/corpInquiryFind.aspx' },
+  'OR': { label: 'sos.state.or.us',        url: 'https://egov.sos.state.or.us/br/pkg_web_name_srch_inq.login' },
+  'PA': { label: 'corporations.pa.gov',    url: 'https://www.corporations.pa.gov/search/corpsearch' },
+  'RI': { label: 'business.sos.ri.gov',    url: 'https://business.sos.ri.gov/CorpWeb/CorpSearch/CorpSearch.aspx' },
+  'SC': { label: 'businessfilings.sc.gov', url: 'https://businessfilings.sc.gov/BusinessFiling/Entity/Search' },
+  'SD': { label: 'sosenterprise.sd.gov',   url: 'https://sosenterprise.sd.gov/BusinessServices/Business/FilingSearch.aspx' },
+  'TN': { label: 'tnbear.tn.gov',          url: 'https://tnbear.tn.gov/Ecommerce/FilingSearch.aspx' },
+  'TX': { label: 'mycpa.cpa.state.tx.us',  url: 'https://mycpa.cpa.state.tx.us/coa/' },
+  'UT': { label: 'secure.utah.gov',        url: 'https://secure.utah.gov/bes/' },
+  'VT': { label: 'bizfilings.vermont.gov', url: 'https://bizfilings.vermont.gov/online/BusinessInquire/' },
+  'VA': { label: 'cis.scc.virginia.gov',   url: 'https://cis.scc.virginia.gov/EntitySearch/Index' },
+  'WA': { label: 'ccfs.sos.wa.gov',        url: 'https://ccfs.sos.wa.gov/#/' },
+  'WV': { label: 'apps.wv.gov',            url: 'https://apps.wv.gov/SOS/BusinessEntitySearch/' },
+  'WI': { label: 'wdfi.org',               url: 'https://www.wdfi.org/apps/CorpSearch/' },
+  'WY': { label: 'wyobiz.wyo.gov',         url: 'https://wyobiz.wyo.gov/Business/FilingSearch.aspx' },
 };
 
 let allBusinesses = [];
@@ -258,11 +335,17 @@ function renderBusinesses() {
   
   document.getElementById('emptyState').style.display = 'none';
   
+  const src = STATE_SOURCES[stateCode] || null;
+
   filteredBusinesses.forEach(biz => {
+    const bizName = biz.name || biz.entity_name || 'Unknown';
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(bizName + ' ' + (stateNames[stateCode] || stateCode))}`;
     const card = document.createElement('div');
     card.className = 'business-card';
     card.innerHTML = `
-      <div class="business-name">${biz.name || biz.entity_name || 'Unknown'}</div>
+      <div class="business-name">
+        <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="Search the web for this business">${bizName} 🔍</a>
+      </div>
       <div class="business-details">
         <div class="detail-item">
           <div class="detail-label">Entity Number</div>
@@ -291,6 +374,7 @@ function renderBusinesses() {
           <div class="detail-value">${biz.address}</div>
         </div>` : ''}
       </div>
+      ${src ? `<div class="source-badge">📋 Source: <span><a href="${src.url}" target="_blank" rel="noopener noreferrer" style="color:#667eea;text-decoration:none;">${src.label}</a></span></div>` : ''}
     `;
     list.appendChild(card);
   });
@@ -308,10 +392,13 @@ function applyFilters() {
   });
   
   filteredBusinesses.sort((a, b) => {
+    const getZip = biz => (biz.address || '').trim().split(' ').pop() || '';
     if (sort === 'date-desc') return (b.registration_date || '').localeCompare(a.registration_date || '');
-    if (sort === 'date-asc') return (a.registration_date || '').localeCompare(b.registration_date || '');
-    if (sort === 'name-asc') return (a.name || '').localeCompare(b.name || '');
+    if (sort === 'date-asc')  return (a.registration_date || '').localeCompare(b.registration_date || '');
+    if (sort === 'name-asc')  return (a.name || '').localeCompare(b.name || '');
     if (sort === 'name-desc') return (b.name || '').localeCompare(a.name || '');
+    if (sort === 'zip-asc')   return getZip(a).localeCompare(getZip(b));
+    if (sort === 'zip-desc')  return getZip(b).localeCompare(getZip(a));
     return 0;
   });
   
