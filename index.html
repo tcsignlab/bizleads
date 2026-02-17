@@ -28,9 +28,7 @@
     font-family: 'Inter', sans-serif;
     color: var(--text);
     min-height: 100vh;
-    background-image:
-      radial-gradient(ellipse at 20% 0%, rgba(102,126,234,0.18) 0%, transparent 55%),
-      radial-gradient(ellipse at 80% 100%, rgba(118,75,162,0.12) 0%, transparent 55%);
+
   }
 
   /* ─── HEADER ─── */
@@ -79,7 +77,7 @@
   }
 
   /* ─── LAYOUT ─── */
-  .main { display:grid; grid-template-columns:1fr 240px; min-height:calc(100vh - 73px); }
+  .main { display:grid; grid-template-columns:220px 1fr 200px; min-height:calc(100vh - 73px); }
   .side-panel { background:var(--panel); border-right:1px solid var(--border); padding:24px 16px; overflow-y:auto; }
   .side-panel.right { border-right:none; border-left:1px solid var(--border); }
   .panel-title {
@@ -181,10 +179,21 @@
   }
   @keyframes spin { to { transform:rotate(360deg); } }
 
+  /* Ads Panel */
+  .ads-panel { background:var(--panel); border-left:1px solid var(--border); padding:24px 14px; overflow-y:auto; }
+  .ad-slot {
+    background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 16px 10px; text-align: center; margin-bottom: 14px;
+    color: var(--muted); font-size: 0.72rem; letter-spacing: 1px;
+  }
+  .ad-slot .ad-label { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.15); margin-bottom:8px; }
+  .ad-slot .ad-placeholder { font-size:0.7rem; color:rgba(255,255,255,0.12); }
+
   @media (max-width: 1024px) {
     .main { grid-template-columns: 1fr; }
     .side-panel { border:none; border-bottom:1px solid var(--border); }
     .side-panel.right { border-top:1px solid var(--border); border-bottom:none; }
+    .ads-panel { border-top:1px solid var(--border); border-left:none; }
     .header-stats { gap:20px; }
     .hstat-val { font-size:1.6rem; }
   }
@@ -213,6 +222,10 @@
       <div class="hstat-val" id="stat-active-states">—</div>
       <div class="hstat-label">Active States</div>
     </div>
+    <div class="hstat">
+      <div class="hstat-val" id="stat-new-today">—</div>
+      <div class="hstat-label">New Leads Today</div>
+    </div>
   </div>
   <div class="header-right">
     <div class="live-badge">
@@ -225,6 +238,12 @@
 
 <div class="main">
 
+  <!-- LEFT PANEL: TOP STATES -->
+  <div class="side-panel">
+    <div class="panel-title">🏆 TOP STATES</div>
+    <div style="text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:12px;" id="top-states-total">—</div>
+    <div id="top-states-list"></div>
+  </div>
 
   <!-- CENTER: MAP -->
   <div class="map-area">
@@ -245,13 +264,27 @@
     </div>
   </div>
 
-  <!-- RIGHT PANEL: TOP STATES & ACTIVITY -->
-  <div class="side-panel right">
-    <div class="panel-title">🏆 TOP STATES</div>
-    <div style="text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:12px;" id="top-states-total">—</div>
-    <div id="top-states-list"></div>
-    
-
+  <!-- RIGHT PANEL: ADS -->
+  <div class="ads-panel">
+    <div class="panel-title">📢 SPONSORED</div>
+    <div class="ad-slot">
+      <div class="ad-label">Advertisement</div>
+      <div style="height:120px; display:flex; align-items:center; justify-content:center;">
+        <div class="ad-placeholder">160 × 120<br>Ad Space</div>
+      </div>
+    </div>
+    <div class="ad-slot">
+      <div class="ad-label">Advertisement</div>
+      <div style="height:200px; display:flex; align-items:center; justify-content:center;">
+        <div class="ad-placeholder">160 × 200<br>Ad Space</div>
+      </div>
+    </div>
+    <div class="ad-slot">
+      <div class="ad-label">Advertisement</div>
+      <div style="height:120px; display:flex; align-items:center; justify-content:center;">
+        <div class="ad-placeholder">160 × 120<br>Ad Space</div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -265,7 +298,11 @@
   <div class="tt-click">Click to view details →</div>
 </div>
 
-<script src="https://d3js.org/d3.v7.min.js"></script>
+<footer style="text-align:center; padding:16px 32px; border-top:1px solid var(--border); background:rgba(10,12,16,0.96); color:var(--muted); font-size:0.75rem; letter-spacing:1px;">
+  © 2026 LeadSource USA. All rights reserved.
+</footer>
+
+
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
 <script>
 // ═══════════════════════════════════════════════
@@ -305,10 +342,18 @@ async function loadBusinessData() {
     
     // Count businesses by state
     const stateCounts = {};
+    const todayCounts = {};
+    const todayStr = new Date().toDateString();
     data.forEach(biz => {
       const state = biz.state || biz.State || '';
       if (state) {
         stateCounts[state] = (stateCounts[state] || 0) + 1;
+        // Count if added today
+        const addedDate = biz.scraped_at || biz.created_at || biz.date || '';
+        if (addedDate && new Date(addedDate).toDateString() === todayStr) {
+          todayCounts[state] = (todayCounts[state] || 0) + 1;
+        }
+      }
         // Track most recent scrape time
         if (biz.scraped_at) {
           const scrapeTime = new Date(biz.scraped_at).getTime();
@@ -321,7 +366,7 @@ async function loadBusinessData() {
 
     // Convert to stateData format
     Object.keys(stateCounts).forEach(state => {
-      stateData[state] = { leads: stateCounts[state] };
+      stateData[state] = { leads: stateCounts[state], newToday: todayCounts[state] || 0 };
     });
 
     updateStats();
@@ -445,14 +490,16 @@ function applyHeatMap() {
 // STATS + PANELS
 // ═══════════════════════════════════════════════
 function updateStats() {
-  let totalLeads = 0, activeStates = 0;
+  let totalLeads = 0, activeStates = 0, newToday = 0;
 
   Object.values(stateData).forEach(d => {
     if (d.leads > 0) { totalLeads += d.leads; activeStates++; }
+    if (d.newToday > 0) { newToday += d.newToday; }
   });
 
   document.getElementById('stat-total-leads').textContent = totalLeads > 0 ? totalLeads.toLocaleString() : '—';
   document.getElementById('stat-active-states').textContent = activeStates || '—';
+  document.getElementById('stat-new-today').textContent = newToday > 0 ? newToday.toLocaleString() : '0';
 }
 
 function updateSidePanels() {
