@@ -29,9 +29,9 @@
   }
 
   /* ─── HEADER ─── */
-  heer {
+  header {
     display: flex; align-items: center; justify-content: space-between;
-    pding: 18px 32px;
+    padding: 18px 32px;
     border-bottom: 1px solid var(--border);
     background: rgba(10,12,16,0.96);
     position: sticky; top: 0; z-index: 100;
@@ -39,30 +39,30 @@
   }
   .logo { display: flex; align-items: center; gap: 14px; }
   .logo-icon {
-    width:44px; height:44px; background:transparent; border-rius:8px;
+    width:44px; height:44px; background:transparent; border-radius:8px;
     display:flex; align-items:center; justify-content:center; font-size:20px;
-    box-show:0 0 24px var(--glow);
+    box-shadow:0 0 24px var(--glow);
   }
   .logo-text { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:2px; line-height:1; }
   .logo-sub { font-size:0.7rem; color:var(--muted); letter-spacing:3px; text-transform:uppercase; }
-  .heer-stats { display:flex; gap:32px; }
+  .header-stats { display:flex; gap:32px; }
   .hstat { text-align:center; }
   .hstat-val { font-family:'Bebas Neue',sans-serif; font-size:2rem; line-height:1; color:var(--accent); }
   .hstat-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:2px; }
-  .heer-right { display:flex; align-items:center; gap:16px; }
-  .live-bge {
+  .header-right { display:flex; align-items:center; gap:16px; }
+  .live-badge {
     display:flex; align-items:center; gap:8px;
     background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3);
-    pding:8px 16px; border-rius:24px; font-size:0.75rem;
+    padding:8px 16px; border-radius:24px; font-size:0.75rem;
     color:#10b981; font-weight:700; letter-spacing:1px;
   }
-  .live-dot { width:8px; height:8px; background:#10b981; border-rius:50%; animation:pulse-green 2s infinite; }
-  @keyframes pulse-green { 0%,100%{box-show:0 0 0 0 rgba(16,185,129,0.6)} 50%{box-show:0 0 0 6px rgba(16,185,129,0)} }
+  .live-dot { width:8px; height:8px; background:#10b981; border-radius:50%; animation:pulse-green 2s infinite; }
+  @keyframes pulse-green { 0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,0.6)} 50%{box-shadow:0 0 0 6px rgba(16,185,129,0)} }
   .btn-status {
-    pding: 10px 20px;
+    padding: 10px 20px;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-rius: 8px;
+    border-radius: 8px;
     color: #e8eaf6;
     text-decoration: none;
     font-size: 0.9rem;
@@ -75,40 +75,40 @@
 
   /* ─── LAYOUT ─── */
   .main { display:grid; grid-template-columns:220px 1fr 200px; min-height:calc(100vh - 73px); }
-  .side-panel { background:var(--panel); border-right:1px solid var(--border); pding:24px 16px; overflow-y:auto; }
+  .side-panel { background:var(--panel); border-right:1px solid var(--border); padding:24px 16px; overflow-y:auto; }
   .side-panel.right { border-right:none; border-left:1px solid var(--border); }
   .panel-title {
     font-family:'Bebas Neue',sans-serif; font-size:0.95rem; letter-spacing:3px;
-    color:var(--muted); margin-bottom:16px; pding-bottom:8px; border-bottom:1px solid var(--border);
+    color:var(--muted); margin-bottom:16px; padding-bottom:8px; border-bottom:1px solid var(--border);
   }
 
   /* Legend */
   .legend-item { display:flex; align-items:center; gap:12px; margin:10px 0; font-size:0.82rem; }
-  .legend-dot { width:14px; height:14px; border-rius:3px; flex-shrink:0; }
+  .legend-dot { width:14px; height:14px; border-radius:3px; flex-shrink:0; }
   .legend-label { color:#c0c8d8; }
   .legend-count { margin-left:auto; color:var(--muted); font-size:0.75rem; }
 
   /* Top States */
   .top-state-item {
-    display:flex; align-items:center; gap:10px; pding:8px 10px;
-    border-rius:8px; margin:4px 0; cursor:pointer; transition:background 0.2s; font-size:0.82rem;
+    display:flex; align-items:center; gap:10px; padding:8px 10px;
+    border-radius:8px; margin:4px 0; cursor:pointer; transition:background 0.2s; font-size:0.82rem;
   }
   .top-state-item:hover { background:rgba(255,255,255,0.05); }
   .top-state-rank { font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--muted); width:20px; }
   .top-state-name { flex:1; font-weight:600; }
-  .top-state-les {
+  .top-state-leads {
     background:rgba(102,126,234,0.15); color:var(--accent);
-    pding:2px 8px; border-rius:12px; font-size:0.75rem; font-weight:700;
+    padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:700;
   }
 
   /* Activity */
-  .activity-item { display:flex; gap:8px; pding:8px 0; border-bottom:1px solid var(--border); font-size:0.78rem; }
-  .activity-dot { width:8px; height:8px; border-rius:50%; margin-top:4px; flex-shrink:0; }
+  .activity-item { display:flex; gap:8px; padding:8px 0; border-bottom:1px solid var(--border); font-size:0.78rem; }
+  .activity-dot { width:8px; height:8px; border-radius:50%; margin-top:4px; flex-shrink:0; }
   .activity-text { color:#a0aec0; line-height:1.4; }
   .activity-time { color:var(--muted); font-size:0.7rem; margin-top:2px; }
 
   /* ─── MAP AREA ─── */
-  .map-area { pding:28px 32px; display:flex; flex-direction:column; align-items:center; }
+  .map-area { padding:28px 32px; display:flex; flex-direction:column; align-items:center; }
   .map-title-row { text-align:center; margin-bottom:20px; }
   .map-title-row h2 { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; letter-spacing:4px; line-height:1; }
   .map-title-row p { color:var(--muted); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; margin-top:4px; }
@@ -122,7 +122,7 @@
     transition: fill 0.3s ease, filter 0.2s ease;
   }
   .state-path:hover {
-    filter: brightness(1.6) drop-show(0 0 6px rgba(102,126,234,0.5));
+    filter: brightness(1.6) drop-shadow(0 0 6px rgba(102,126,234,0.5));
     stroke: rgba(255,255,255,0.5);
     stroke-width: 1.5px;
   }
@@ -137,14 +137,14 @@
   /* ─── TOOLTIP ─── */
   #tooltip {
     position:fixed; background:rgba(10,12,16,0.97); border:1px solid var(--border);
-    border-rius:12px; pding:18px 22px; pointer-events:none; opacity:0;
+    border-radius:12px; padding:18px 22px; pointer-events:none; opacity:0;
     transition:opacity 0.15s; z-index:1000; min-width:210px;
     backdrop-filter:blur(20px);
-    box-show:0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
+    box-shadow:0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.05);
   }
   #tooltip.visible { opacity:1; }
   .tt-state { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:2px; margin-bottom:8px; }
-  .tt-les { font-size:2rem; font-weight:900; color:var(--accent); line-height:1; }
+  .tt-leads { font-size:2rem; font-weight:900; color:var(--accent); line-height:1; }
   .tt-sub { font-size:0.75rem; color:var(--muted); margin-top:2px; }
   .tt-hot-warm { font-size:0.78rem; color:#a0aec0; margin-top:6px; }
   .tt-status { margin-top:10px; font-size:0.75rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; }
@@ -155,33 +155,33 @@
   /* Sync bar */
   .sync-bar {
     width:100%; max-width:880px; display:flex; align-items:center; justify-content:space-between;
-    margin-top:12px; pding:8px 16px;
-    background:rgba(255,255,255,0.03); border:1px solid var(--border); border-rius:8px;
+    margin-top:12px; padding:8px 16px;
+    background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px;
     font-size:0.75rem; color:var(--muted);
   }
   .sync-bar span { display:flex; align-items:center; gap:6px; }
 
-  /* Loing state */
-  .loing-map {
+  /* Loading state */
+  .loading-map {
     display:flex; flex-direction:column; align-items:center; justify-content:center;
-    pding:80px 20px; text-align:center; color:var(--muted);
+    padding:80px 20px; text-align:center; color:var(--muted);
   }
-  .loing-map .spinner {
+  .loading-map .spinner {
     width:40px; height:40px; margin-bottom:20px;
     border:3px solid rgba(102,126,234,0.2); border-top-color:var(--accent);
-    border-rius:50%; animation:spin 1s linear infinite;
+    border-radius:50%; animation:spin 1s linear infinite;
   }
   @keyframes spin { to { transform:rotate(360deg); } }
 
-  /* s Panel */
-  .s-panel { background:var(--panel); border-left:1px solid var(--border); pding:24px 14px; overflow-y:auto; }
-  .-slot {
+  /* Ads Panel */
+  .ads-panel { background:var(--panel); border-left:1px solid var(--border); padding:24px 14px; overflow-y:auto; }
+  .ad-slot {
     background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1);
-    border-rius: 8px; pding: 16px 10px; text-align: center; margin-bottom: 14px;
+    border-radius: 8px; padding: 16px 10px; text-align: center; margin-bottom: 14px;
     color: var(--muted); font-size: 0.72rem; letter-spacing: 1px;
   }
-  .-slot .-label { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.15); margin-bottom:8px; }
-  .-slot .-placeholder { font-size:0.7rem; color:rgba(255,255,255,0.12); }
+  .ad-slot .ad-label { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.15); margin-bottom:8px; }
+  .ad-slot .ad-placeholder { font-size:0.7rem; color:rgba(255,255,255,0.12); }
 
   @media (max-width: 1024px) {
     .main { grid-template-columns: 1fr; }
@@ -263,7 +263,7 @@
     <div class="panel-title">📢 SPONSORED</div>
     <div class="ad-slot" style="padding:0;border:none;background:none;margin-bottom:14px;">
       <a href="https://tcsignlab.github.io/bizleads/index.html" target="_blank" style="text-decoration:none;">
-        <div style="width:160px;height:170px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;position:relative;cursor:pointer;border-radius:8px;">
+        <div style="width:160px;height:120px;background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);color:#fff;font-family:Arial,Helvetica,sans-serif;overflow:hidden;position:relative;cursor:pointer;border-radius:8px;">
           <div style="position:absolute;top:15px;left:10px;right:10px;font-size:14px;font-weight:bold;line-height:1.1;animation:adSlideIn 1s ease-out forwards;">Need More Leads?</div>
           <div style="position:absolute;top:55px;left:10px;right:10px;font-size:11px;opacity:0;animation:adFadeIn 1s ease-out 1s forwards;">Grow your business fast with LeadSource USA</div>
           <div style="position:absolute;bottom:10px;left:10px;right:10px;background:#00e6a8;color:#000;text-align:center;font-size:11px;font-weight:bold;padding:6px 0;border-radius:4px;animation:adPulse 1.8s infinite;">Get More Leads</div>
