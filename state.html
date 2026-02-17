@@ -321,10 +321,34 @@ header {
   border-radius: 12px;
   padding: 20px 24px;
   transition: border-color 0.2s, background 0.2s;
+  position: relative;
 }
 .business-card:hover {
   background: rgba(102,126,234,0.05);
   border-color: rgba(102,126,234,0.4);
+}
+.business-card.new-today {
+  background: rgba(255,77,125,0.08);
+  border: 2px solid rgba(255,77,125,0.4);
+  box-shadow: 0 0 20px rgba(255,77,125,0.15);
+}
+.business-card.new-today:hover {
+  background: rgba(255,77,125,0.12);
+  border-color: rgba(255,77,125,0.6);
+}
+.business-card.new-today::before {
+  content: "NEW TODAY";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #ff0033, #ff6b9d);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 8px rgba(255,0,51,0.3);
 }
 .business-name {
   font-size:1.15rem; font-weight:700; margin-bottom:12px;
@@ -443,10 +467,10 @@ header {
         <div class="filter-group">
           <label>Sort By</label>
           <select id="sortBy">
-            <option value="zip-asc">Zip Code A-Z</option>
-            <option value="zip-desc">Zip Code Z-A</option>
             <option value="date-desc">Newest First</option>
             <option value="date-asc">Oldest First</option>
+            <option value="zip-asc">Zip Code A-Z</option>
+            <option value="zip-desc">Zip Code Z-A</option>
             <option value="name-asc">Name A-Z</option>
             <option value="name-desc">Name Z-A</option>
           </select>
@@ -1080,12 +1104,24 @@ function renderBusinesses() {
   document.getElementById('emptyState').style.display = 'none';
 
   const src = STATE_SOURCES[stateCode] || null;
+  
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0];
 
   filteredBusinesses.forEach(biz => {
     const bizName  = biz.name || biz.entity_name || 'Unknown';
     const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(bizName + ' ' + (stateNames[stateCode] || stateCode))}`;
     const card = document.createElement('div');
     card.className = 'business-card';
+    
+    // Check if business was registered today
+    const regDate = biz.registration_date || biz.date || '';
+    const isNewToday = regDate.startsWith(today);
+    
+    if (isNewToday) {
+      card.classList.add('new-today');
+    }
+    
     card.innerHTML = `
       <div class="business-name">
         <a href="${searchUrl}" target="_blank" rel="noopener noreferrer" title="Search the web for this business">${bizName} 🔍</a>
