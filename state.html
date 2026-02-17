@@ -76,10 +76,9 @@ header {
 /* ─── MAP + HEATMAP ROW ─── */
 .map-heatmap-row {
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr;
   gap: 24px;
   margin-bottom: 28px;
-  align-items: start;
 }
 
 /* ─── COUNTY MAP ─── */
@@ -98,7 +97,7 @@ header {
   font-family:'Bebas Neue',sans-serif; font-size:1rem; letter-spacing:3px; color:var(--muted);
 }
 .map-wrap { padding: 16px; position: relative; }
-#county-map { width:100%; height:320px; }
+#county-map { width:100%; display:block; }
 .county-tooltip {
   position:fixed; background:rgba(10,12,16,0.97); border:1px solid var(--border);
   border-radius:10px; padding:12px 16px; pointer-events:none; opacity:0;
@@ -145,10 +144,14 @@ header {
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
 }
-.zip-list { padding: 8px 0; overflow-y: auto; max-height: 290px; }
+.zip-list {
+  padding: 8px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  max-height: 220px;
+  overflow-y: auto;
+}
 .zip-row {
   display: flex; align-items: center; gap: 10px;
   padding: 7px 16px; transition: background 0.15s; cursor: pointer;
@@ -258,8 +261,7 @@ header {
 }
 
 @media (max-width:1100px) {
-  .map-heatmap-row { grid-template-columns:1fr; }
-  .zip-list { max-height:200px; }
+  .zip-list { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
 }
 @media (max-width:640px) {
   header { flex-direction:column; gap:12px; }
@@ -601,6 +603,34 @@ function filterByZip(zip) {
 }
 
 // ═══════════════════════════════════════════════
+// ZIP CENTROID LOOKUP  (lat/lon centers for dots)
+// ═══════════════════════════════════════════════
+let zipCentroids = {};   // { '30301': [lon, lat], ... }
+
+async function loadZipCentroids() {
+  try {
+    // Free zip centroid CSV from SimpleMaps
+    const resp = await fetch('https://cdn.jsdelivr.net/npm/zipcodes-us@0.1.0/data/zip_codes_states.csv');
+    if (!resp.ok) throw new Error('csv failed');
+    const text = await resp.text();
+    text.split('\n').slice(1).forEach(line => {
+      const cols = line.split(',');
+      if (cols.length >= 4) {
+        const zip = (cols[0] || '').replace(/"/g,'').trim();
+        const lat = parseFloat(cols[1]);
+        const lon = parseFloat(cols[2]);
+        if (zip && !isNaN(lat) && !isNaN(lon)) {
+          zipCentroids[zip] = [lon, lat];
+        }
+      }
+    });
+  } catch(e) {
+    // Fallback: we'll scatter dots randomly within state bounds if no centroid data
+    console.warn('Zip centroid CSV unavailable, using state-bound scattering');
+  }
+}
+
+// ═══════════════════════════════════════════════
 // COUNTY MAP
 // ═══════════════════════════════════════════════
 async function buildCountyMap() {
@@ -612,10 +642,13 @@ async function buildCountyMap() {
   }
 
   try {
-    // Load US county topology
-    const us = await d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json');
+    // Load topology + zip centroids in parallel
+    const [us] = await Promise.all([
+      d3.json('https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json'),
+      loadZipCentroids()
+    ]);
 
-    // Filter counties that belong to this state
+    // Filter counties for this state
     const allCounties = topojson.feature(us, us.objects.counties);
     const stateCounties = {
       type: 'FeatureCollection',
@@ -630,100 +663,204 @@ async function buildCountyMap() {
       return;
     }
 
-    // Zip → county approximation: use first 3 digits of zip to group
-    // (since we don't have actual county in data, shade counties by zip prefix proximity)
-    // We'll shade by zip count density using a simple color scale
-    const zipPrefixCounts = {};
-    Object.entries(zipCounts).forEach(([zip, count]) => {
-      const prefix = zip.slice(0,3);
-      zipPrefixCounts[prefix] = (zipPrefixCounts[prefix] || 0) + count;
-    });
-
-    const maxVal = Math.max(...Object.values(zipPrefixCounts), 1);
-    const colorScale = d3.scaleSequential()
-      .domain([0, maxVal])
-      .interpolator(t => {
-        if (t === 0) return '#1a1f2e';
-        return d3.interpolateRgb('#2d3748', '#667eea')(t);
-      });
-
-    const svg = d3.select('#county-map');
-    const container = document.getElementById('county-map-container');
-    const W = container.clientWidth || 700;
-    const H = 320;
-
-    svg.attr('viewBox', `0 0 ${W} ${H}`)
-       .attr('preserveAspectRatio', 'xMidYMid meet')
-       .style('display', 'block');
-
-    const projection = d3.geoAlbersUsa()
-      .fitSize([W - 20, H - 20], stateCounties)
-      .translate([(W)/2, (H)/2]);
-
-    const path = d3.geoPath().projection(projection);
-
-    // County name lookup from topology
+    // County name lookup
     const countyNames = {};
     if (us.objects.counties.geometries) {
       us.objects.counties.geometries.forEach(g => {
         if (String(g.id).padStart(5,'0').startsWith(fips)) {
-          countyNames[g.id] = g.properties && g.properties.name ? g.properties.name : `County ${g.id}`;
+          countyNames[g.id] = g.properties && g.properties.name
+            ? g.properties.name : `County ${g.id}`;
         }
       });
     }
 
+    // Count businesses per county (by zip → county containment)
+    // Build zip-level counts for county coloring
+    const countyBizCounts = {};
+
+    // ── SVG SETUP ──
+    const panel   = document.getElementById('county-map-container');
+    const W = Math.max(panel.clientWidth || 900, 600);
+    const H = Math.round(W * 0.58);   // aspect ratio
+
+    // Update SVG height so it fills proportionally
+    document.getElementById('county-map').style.height = H + 'px';
+
+    const svg = d3.select('#county-map')
+      .attr('viewBox', `0 0 ${W} ${H}`)
+      .attr('preserveAspectRatio', 'xMidYMid meet')
+      .style('display', 'block')
+      .style('width', '100%');
+
+    // ── PROJECTION: fitExtent with generous padding so ALL counties are visible ──
+    const PAD = 48;
+    const projection = d3.geoAlbersUsa()
+      .fitExtent([[PAD, PAD], [W - PAD, H - PAD]], stateCounties);
+
+    const path = d3.geoPath().projection(projection);
+
+    // ── COUNTY HEAT COLOR by zip prefix density ──
+    const zipPrefixCounts = {};
+    Object.entries(zipCounts).forEach(([zip, count]) => {
+      zipPrefixCounts[zip.slice(0,3)] = (zipPrefixCounts[zip.slice(0,3)] || 0) + count;
+    });
+    const maxPfx = Math.max(...Object.values(zipPrefixCounts), 1);
+
+    function countyFill(d) {
+      const cf = String(d.id).padStart(5,'0');
+      // Map county sub-index to zip prefix for shading
+      const idx = Math.floor((parseInt(cf.slice(2)) / 999) * Object.keys(zipPrefixCounts).length);
+      const pfxKey = Object.keys(zipPrefixCounts).sort()[idx] || '';
+      const val = (zipPrefixCounts[pfxKey] || 0) / maxPfx;
+      return val > 0
+        ? d3.interpolateRgb('#1e2a42', '#5b63d3')(val)
+        : '#161b2a';
+    }
+
+    // ── DRAW COUNTIES ──
     const tooltip = document.getElementById('county-tooltip');
 
     svg.selectAll('.county-path')
       .data(stateCounties.features)
-      .enter()
-      .append('path')
+      .enter().append('path')
       .attr('class', 'county-path')
       .attr('d', path)
-      .attr('fill', d => {
-        // Use zip prefix from county FIPS for color approximation
-        const countyFips = String(d.id).padStart(5,'0');
-        // Try to find any matching zip data
-        const prefix = Object.keys(zipPrefixCounts).find(p =>
-          p.startsWith(fips.slice(0,1))
-        );
-        const val = zipPrefixCounts[Object.keys(zipPrefixCounts)[
-          Math.floor((parseInt(countyFips.slice(2)) / 200) * Object.keys(zipPrefixCounts).length)
-        ] || ''] || 0;
-        return colorScale(val);
-      })
+      .attr('fill', countyFill)
       .on('mouseenter', function(event, d) {
-        const name = countyNames[d.id] || `County`;
-        // Count businesses in this area (approximate by state)
-        const count = allBusinesses.length
-          ? Math.floor(allBusinesses.length / stateCounties.features.length)
-          : 0;
-        document.getElementById('ct-name').textContent = name + ' County';
-        document.getElementById('ct-count').textContent = count;
+        const name = (countyNames[d.id] || 'County') + ' County';
+        // Count dots in this county
+        const countyDotCount = d3.selectAll('.biz-dot')
+          .filter(function() { return this.dataset.county == d.id; })
+          .size();
+        document.getElementById('ct-name').textContent = name;
+        document.getElementById('ct-count').textContent =
+          countyDotCount || Math.ceil(allBusinesses.length / stateCounties.features.length);
         tooltip.classList.add('visible');
         moveCountyTooltip(event);
-        d3.select(this).attr('fill', '#667eea').attr('stroke', 'rgba(255,255,255,0.5)');
+        d3.select(this)
+          .attr('fill', 'rgba(102,126,234,0.6)')
+          .attr('stroke', 'rgba(255,255,255,0.5)')
+          .attr('stroke-width', '1.2');
       })
       .on('mousemove', moveCountyTooltip)
       .on('mouseleave', function(event, d) {
         tooltip.classList.remove('visible');
-        const countyFips = String(d.id).padStart(5,'0');
-        const val = zipPrefixCounts[Object.keys(zipPrefixCounts)[
-          Math.floor((parseInt(countyFips.slice(2)) / 200) * Object.keys(zipPrefixCounts).length)
-        ] || ''] || 0;
-        d3.select(this).attr('fill', colorScale(val)).attr('stroke', 'rgba(255,255,255,0.08)');
+        d3.select(this)
+          .attr('fill', countyFill(d))
+          .attr('stroke', 'rgba(255,255,255,0.08)')
+          .attr('stroke-width', '0.5');
       })
       .on('click', function(event, d) {
-        const name = countyNames[d.id] || 'County';
-        document.getElementById('searchInput').value = name.split(' ')[0];
-        applyFilters();
+        const name = countyNames[d.id] || '';
+        if (name) {
+          document.getElementById('searchInput').value = name;
+          applyFilters();
+        }
       });
 
-    // State outline
+    // ── STATE OUTLINE ──
     svg.append('path')
       .datum(stateCounties)
       .attr('class', 'state-outline')
       .attr('d', path);
+
+    // ── BUSINESS DOTS ──
+    // Group businesses by zip, then place one dot per zip (sized by count)
+    // Fall back to jittered random placement within state bbox if no centroid
+    const bounds = path.bounds(stateCounties);
+    const bx1 = bounds[0][0], by1 = bounds[0][1];
+    const bx2 = bounds[1][0], by2 = bounds[1][1];
+
+    // Seed-based deterministic jitter so dots don't jump on re-render
+    function seededRand(seed) {
+      const x = Math.sin(seed + 1) * 10000;
+      return x - Math.floor(x);
+    }
+
+    // Build zip → projected [x,y]
+    const zipPositions = {};
+    let seedIdx = 0;
+    Object.keys(zipCounts).forEach(zip => {
+      if (zipCentroids[zip]) {
+        const proj = projection(zipCentroids[zip]);
+        if (proj) { zipPositions[zip] = proj; return; }
+      }
+      // Fallback: scatter deterministically within state bounds
+      const rx = bx1 + seededRand(seedIdx)   * (bx2 - bx1);
+      const ry = by1 + seededRand(seedIdx+1) * (by2 - by1);
+      zipPositions[zip] = [rx, ry];
+      seedIdx += 2;
+    });
+
+    // Dot layer — one circle per unique zip, radius scaled by count
+    const maxZipCount = Math.max(...Object.values(zipCounts), 1);
+    const rScale = d3.scaleSqrt().domain([1, maxZipCount]).range([3, 14]);
+
+    const dotsGroup = svg.append('g').attr('class', 'dots-layer');
+
+    Object.entries(zipCounts).forEach(([zip, count], i) => {
+      const pos = zipPositions[zip];
+      if (!pos) return;
+      const [cx, cy] = pos;
+
+      // Outer glow ring
+      dotsGroup.append('circle')
+        .attr('cx', cx).attr('cy', cy)
+        .attr('r', rScale(count) + 3)
+        .attr('fill', 'rgba(102,126,234,0.15)')
+        .attr('pointer-events', 'none');
+
+      // Main dot
+      dotsGroup.append('circle')
+        .attr('class', 'biz-dot')
+        .attr('cx', cx).attr('cy', cy)
+        .attr('r', rScale(count))
+        .attr('fill', count >= maxZipCount * 0.7 ? '#a78bfa'
+                     : count >= maxZipCount * 0.3 ? '#667eea'
+                     : '#4a5e99')
+        .attr('stroke', 'rgba(255,255,255,0.6)')
+        .attr('stroke-width', '0.8')
+        .attr('opacity', '0.9')
+        .attr('cursor', 'pointer')
+        .attr('data-zip', zip)
+        .on('mouseenter', function(event) {
+          d3.select(this).attr('r', rScale(count) + 3).attr('opacity', '1');
+          document.getElementById('ct-name').textContent = `ZIP ${zip}`;
+          document.getElementById('ct-count').textContent = count;
+          tooltip.classList.add('visible');
+          moveCountyTooltip(event);
+        })
+        .on('mousemove', moveCountyTooltip)
+        .on('mouseleave', function() {
+          d3.select(this).attr('r', rScale(count)).attr('opacity', '0.9');
+          tooltip.classList.remove('visible');
+        })
+        .on('click', function() {
+          filterByZip(zip);
+        });
+    });
+
+    // Pulse animation on top-3 zips
+    const top3 = Object.entries(zipCounts)
+      .sort((a,b) => b[1]-a[1]).slice(0,3).map(([z]) => z);
+    top3.forEach(zip => {
+      const pos = zipPositions[zip];
+      if (!pos) return;
+      dotsGroup.append('circle')
+        .attr('cx', pos[0]).attr('cy', pos[1])
+        .attr('r', rScale(zipCounts[zip]))
+        .attr('fill', 'none')
+        .attr('stroke', '#a78bfa')
+        .attr('stroke-width', '1.5')
+        .attr('opacity', '0.8')
+        .attr('pointer-events', 'none')
+        .append('animate')
+        .attr('attributeName', 'r')
+        .attr('from', rScale(zipCounts[zip]))
+        .attr('to',   rScale(zipCounts[zip]) + 10)
+        .attr('dur',  '2s')
+        .attr('repeatCount', 'indefinite');
+    });
 
     document.getElementById('map-loading').style.display = 'none';
 
@@ -866,12 +1003,12 @@ document.getElementById('zipFilter').addEventListener('change', function() {
 document.getElementById('sortBy').addEventListener('change', applyFilters);
 
 // ═══════════════════════════════════════════════
-// INIT
+// INIT — load data first so zipCounts is ready for dots
 // ═══════════════════════════════════════════════
-Promise.allSettled([
-  loadData(),
-  buildCountyMap()
-]);
+(async () => {
+  await loadData();
+  await buildCountyMap();
+})();
 </script>
 </body>
 </html>
