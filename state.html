@@ -937,7 +937,7 @@ async function buildCountyMap() {
       const pfxKey = Object.keys(zipPrefixCounts).sort()[idx] || '';
       const val = (zipPrefixCounts[pfxKey] || 0) / maxPfx;
       return val > 0
-        ? d3.interpolateRgb('#0a1220', '#2a3d8f')(val)
+        ? d3.interpolateRgb('#0a1220', '#1a1f2e')(val)
         : '#050a15';
     }
 
