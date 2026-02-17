@@ -51,18 +51,15 @@ jobs:
     - name: Check for changes
       id: git-check
       run: |
-        git add data/businesses.json
-        if git diff --staged --quiet; then
-          echo "changed=false" >> $GITHUB_OUTPUT
-        else
-          echo "changed=true" >> $GITHUB_OUTPUT
-        fi
+        git diff --exit-code data/businesses.json || echo "changed=true" >> $GITHUB_OUTPUT
 
     - name: Commit and push data
       if: steps.git-check.outputs.changed == 'true'
       run: |
         git config user.email "bizleads-bot@github.com"
         git config user.name "BizLeads Scraper Bot"
+        git add data/businesses.json
+        git add scraper.log
         timestamp=$(date -u)
         git commit -m "🔄 Update business data - ${timestamp}"
         git push
