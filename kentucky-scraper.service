@@ -1,0 +1,17 @@
+[Unit]
+Description=Kentucky Business Scraper - 24 Hour Scheduler
+After=network.target
+
+[Service]
+Type=simple
+User=your_username
+WorkingDirectory=/path/to/bizleads-main
+ExecStart=/usr/bin/python3 /path/to/bizleads-main/kentucky_scheduler.py
+Restart=always
+RestartSec=60
+StandardOutput=append:/var/log/kentucky-scraper.log
+StandardError=append:/var/log/kentucky-scraper-error.log
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target
