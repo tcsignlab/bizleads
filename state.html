@@ -15,11 +15,11 @@
   --glow: rgba(102,126,234,0.4);
   --text: #f0f4ff;
   --muted: #6b7280;
-  --heat-0:   #1a1f2e;
-  --heat-1:   #2d3748;
-  --heat-50:  #1a3a6e;
-  --heat-200: #6d28d9;
-  --heat-500: #667eea;
+  --heat-0:   #0f1419;
+  --heat-1:   #1a2332;
+  --heat-50:  #0f2a55;
+  --heat-200: #5520b8;
+  --heat-500: #4d5fc9;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html, body { height:100%; overflow-x:hidden; }
@@ -73,20 +73,13 @@ header {
 .hstat-val { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; line-height:1; color:var(--accent); }
 .hstat-label { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:2px; }
 
-/* ─── MAP + HEATMAP ROW ─── */
-.map-heatmap-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  margin-bottom: 28px;
-}
-
 /* ─── COUNTY MAP ─── */
 .county-map-panel {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
+  margin-bottom: 28px;
 }
 .panel-header {
   display:flex; align-items:center; justify-content:space-between;
@@ -137,46 +130,6 @@ header {
   border-radius:50%; animation:spin 1s linear infinite;
 }
 @keyframes spin { to { transform:rotate(360deg); } }
-
-/* ─── ZIP HEATMAP PANEL ─── */
-.zip-panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-}
-.zip-list {
-  padding: 8px 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  max-height: 220px;
-  overflow-y: auto;
-}
-.zip-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 7px 16px; transition: background 0.15s; cursor: pointer;
-}
-.zip-row:hover { background: rgba(255,255,255,0.04); }
-.zip-rank { font-family:'Bebas Neue',sans-serif; font-size:0.95rem; color:var(--muted); width:22px; flex-shrink:0; }
-.zip-code { font-weight:700; font-size:0.9rem; flex:1; }
-.zip-bar-wrap { flex:2; height:6px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; }
-.zip-bar { height:100%; border-radius:3px; background:linear-gradient(90deg, #6d28d9, #667eea); transition:width 0.4s; }
-.zip-count {
-  font-size:0.78rem; font-weight:700; color:var(--accent);
-  background:rgba(102,126,234,0.1); padding:2px 7px; border-radius:10px; flex-shrink:0;
-}
-.zip-empty { padding:40px 20px; text-align:center; color:var(--muted); font-size:0.85rem; }
-
-/* ─── HEATMAP LEGEND ─── */
-.legend-row {
-  display:flex; align-items:center; gap:6px;
-  padding: 10px 16px; border-top:1px solid var(--border);
-  font-size:0.7rem; color:var(--muted);
-}
-.legend-grad {
-  flex:1; height:8px; border-radius:4px;
-  background: linear-gradient(90deg, var(--heat-1), var(--heat-50), var(--heat-200), var(--heat-500));
-}
 
 /* ─── FILTERS ─── */
 .filters {
@@ -304,42 +257,21 @@ header {
     </div>
   </div>
 
-  <!-- MAP + ZIP HEATMAP -->
-  <div class="map-heatmap-row">
-
-    <!-- COUNTY MAP -->
-    <div class="county-map-panel">
-      <div class="panel-header">
-        <div class="panel-title">🗺️ COUNTY MAP — <span id="map-state-label">...</span></div>
-        <div style="font-size:0.72rem;color:var(--muted);">Hover counties · Click to filter</div>
-      </div>
-      <div class="map-wrap">
-        <div id="county-map-container">
-          <div class="map-loading" id="map-loading">
-            <div class="spinner"></div>
-            <p>Loading county map...</p>
-          </div>
-          <svg id="county-map" style="display:none;"></svg>
+  <!-- MAP -->
+  <div class="county-map-panel">
+    <div class="panel-header">
+      <div class="panel-title">🗺️ COUNTY MAP — <span id="map-state-label">...</span></div>
+      <div style="font-size:0.72rem;color:var(--muted);">Hover counties · Click to filter</div>
+    </div>
+    <div class="map-wrap">
+      <div id="county-map-container">
+        <div class="map-loading" id="map-loading">
+          <div class="spinner"></div>
+          <p>Loading county map...</p>
         </div>
+        <svg id="county-map" style="display:none;"></svg>
       </div>
     </div>
-
-    <!-- ZIP HEATMAP -->
-    <div class="zip-panel">
-      <div class="panel-header">
-        <div class="panel-title">🔥 ZIP CODE HEATMAP</div>
-        <div style="font-size:0.72rem;color:var(--muted);" id="zip-panel-count">—</div>
-      </div>
-      <div class="zip-list" id="zip-list">
-        <div class="zip-empty">Loading zip data...</div>
-      </div>
-      <div class="legend-row">
-        <span>Low</span>
-        <div class="legend-grad"></div>
-        <span>High</span>
-      </div>
-    </div>
-
   </div>
 
   <!-- SYNC BAR -->
@@ -530,11 +462,9 @@ async function loadData() {
     if (allBusinesses.length > 0) {
       document.getElementById('filters-row').style.display = 'flex';
       populateFilters();
-      renderZipHeatmap();
       renderBusinesses();
     } else {
       document.getElementById('emptyState').style.display = 'block';
-      renderZipHeatmap();
     }
 
   } catch (err) {
@@ -552,54 +482,6 @@ function getZip(biz) {
   const parts = addr.split(' ');
   const last = parts[parts.length - 1];
   return /^\d{5}$/.test(last) ? last : null;
-}
-
-// ═══════════════════════════════════════════════
-// ZIP HEATMAP PANEL
-// ═══════════════════════════════════════════════
-function renderZipHeatmap() {
-  const sorted = Object.entries(zipCounts).sort((a,b) => b[1]-a[1]);
-  const maxCount = sorted.length ? sorted[0][1] : 1;
-
-  document.getElementById('zip-panel-count').textContent =
-    sorted.length ? `${sorted.length} zip codes` : 'No data';
-
-  const list = document.getElementById('zip-list');
-  if (!sorted.length) {
-    list.innerHTML = '<div class="zip-empty">No zip code data available</div>';
-    return;
-  }
-
-  list.innerHTML = sorted.map(([zip, count], i) => `
-    <div class="zip-row" onclick="filterByZip('${zip}')" data-zip="${zip}">
-      <div class="zip-rank">${i+1}</div>
-      <div class="zip-code">${zip}</div>
-      <div class="zip-bar-wrap">
-        <div class="zip-bar" style="width:${Math.max(4, (count/maxCount)*100)}%"></div>
-      </div>
-      <div class="zip-count">${count}</div>
-    </div>
-  `).join('');
-}
-
-function filterByZip(zip) {
-  const zipSelect = document.getElementById('zipFilter');
-  if (activeZipFilter === zip) {
-    // Toggle off
-    activeZipFilter = null;
-    zipSelect.value = '';
-    // Remove active highlight
-    document.querySelectorAll('.zip-row').forEach(r => r.style.background = '');
-  } else {
-    activeZipFilter = zip;
-    zipSelect.value = zip;
-    // Highlight active row
-    document.querySelectorAll('.zip-row').forEach(r => {
-      r.style.background = r.dataset.zip === zip
-        ? 'rgba(102,126,234,0.15)' : '';
-    });
-  }
-  applyFilters();
 }
 
 // ═══════════════════════════════════════════════
@@ -713,8 +595,8 @@ async function buildCountyMap() {
       const pfxKey = Object.keys(zipPrefixCounts).sort()[idx] || '';
       const val = (zipPrefixCounts[pfxKey] || 0) / maxPfx;
       return val > 0
-        ? d3.interpolateRgb('#1e2a42', '#5b63d3')(val)
-        : '#161b2a';
+        ? d3.interpolateRgb('#0f1a2e', '#3d4fb8')(val)
+        : '#0a0f1a';
     }
 
     // ── DRAW COUNTIES ──
@@ -759,6 +641,13 @@ async function buildCountyMap() {
       });
 
     // ── STATE OUTLINE ──
+    svg.append('defs')
+      .append('clipPath')
+      .attr('id', 'state-clip')
+      .append('path')
+      .datum(stateCounties)
+      .attr('d', path);
+
     svg.append('path')
       .datum(stateCounties)
       .attr('class', 'state-outline')
@@ -796,7 +685,9 @@ async function buildCountyMap() {
     const maxZipCount = Math.max(...Object.values(zipCounts), 1);
     const rScale = d3.scaleSqrt().domain([1, maxZipCount]).range([3, 14]);
 
-    const dotsGroup = svg.append('g').attr('class', 'dots-layer');
+    const dotsGroup = svg.append('g')
+      .attr('class', 'dots-layer')
+      .attr('clip-path', 'url(#state-clip)');
 
     Object.entries(zipCounts).forEach(([zip, count], i) => {
       const pos = zipPositions[zip];
@@ -836,7 +727,16 @@ async function buildCountyMap() {
           tooltip.classList.remove('visible');
         })
         .on('click', function() {
-          filterByZip(zip);
+          const zipSelect = document.getElementById('zipFilter');
+          if (activeZipFilter === zip) {
+            // Toggle off
+            activeZipFilter = null;
+            zipSelect.value = '';
+          } else {
+            activeZipFilter = zip;
+            zipSelect.value = zip;
+          }
+          applyFilters();
         });
     });
 
@@ -993,11 +893,6 @@ document.getElementById('searchInput').addEventListener('input', applyFilters);
 document.getElementById('typeFilter').addEventListener('change', applyFilters);
 document.getElementById('zipFilter').addEventListener('change', function() {
   activeZipFilter = this.value || null;
-  // Sync highlight in zip heatmap list
-  document.querySelectorAll('.zip-row').forEach(r => {
-    r.style.background = r.dataset.zip === activeZipFilter
-      ? 'rgba(102,126,234,0.15)' : '';
-  });
   applyFilters();
 });
 document.getElementById('sortBy').addEventListener('change', applyFilters);
