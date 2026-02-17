@@ -1,0 +1,91 @@
+name: Run Scraper
+
+on:
+  schedule:
+    # Run daily at 3 AM UTC (24-hour refresh cycle)
+    - cron: "0 3 * * *"
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120  # 2 hour timeout for all states
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Cache dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install Playwright browsers (if needed)
+      run: |
+        playwright install chromium
+      continue-on-error: true
+
+    - name: Run scraper
+      env:
+        CA_SOS_API_KEY: ${{ secrets.CA_SOS_API_KEY }}
+      run: |
+        python -m scrapers.super_scraper
+      continue-on-error: true  # Don't fail workflow if some states fail
+
+    - name: Check for changes
+      id: git-check
+      run: |
+        git add data/businesses.json
+        if git diff --staged --quiet; then
+          echo "changed=false" >> $GITHUB_OUTPUT
+        else
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Commit and push data
+      if: steps.git-check.outputs.changed == 'true'
+      run: |
+        git config user.email "bizleads-bot@github.com"
+        git config user.name "BizLeads Scraper Bot"
+        timestamp=$(date -u)
+        git commit -m "🔄 Update business data - ${timestamp}"
+        git push
+
+    - name: Upload scraper log
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: scraper-log
+        path: scraper.log
+        retention-days: 30
+        if-no-files-found: ignore  # Don't fail if log file doesn't exist
+
+    - name: Create summary
+      if: always()
+      run: |
+        echo "## Scraper Run Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f scraper.log ]; then
+          echo "### Last 20 lines of log:" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -n 20 scraper.log >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+        fi
