@@ -186,19 +186,23 @@
   /* Top States Below Map */
   .top-states-below {
     width:100%; max-width:880px; margin-top:20px;
-    background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:20px 24px;
+    background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px 24px;
   }
   .top-states-below .panel-title { margin-bottom:12px; }
   .top-states-grid {
-    display:grid; grid-template-columns:repeat(5,1fr); gap:6px;
+    display:flex; flex-direction:row; align-items:stretch;
   }
   .top-state-item {
-    display:flex; align-items:center; gap:10px; padding:8px 10px;
-    border-radius:8px; margin:4px 0; cursor:pointer; transition:background 0.2s; font-size:0.82rem;
+    display:flex; align-items:center; gap:8px; padding:8px 16px;
+    cursor:pointer; transition:background 0.2s; font-size:0.82rem;
+    flex:1; border-radius:8px;
   }
   .top-state-item:hover { background:rgba(255,255,255,0.05); }
-  .top-state-rank { font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--muted); width:20px; }
-  .top-state-name { flex:1; font-weight:600; }
+  .top-state-divider {
+    width:1px; background:var(--border); align-self:stretch; flex-shrink:0;
+  }
+  .top-state-rank { font-family:'Bebas Neue',sans-serif; font-size:1rem; color:var(--muted); width:18px; }
+  .top-state-name { flex:1; font-weight:600; white-space:nowrap; }
   .top-state-leads {
     background:rgba(102,126,234,0.15); color:var(--accent);
     padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:700;
@@ -214,7 +218,8 @@
     }
     .ads-panel .panel-title { width:100%; }
     .ad-slot { margin-bottom:0 !important; }
-    .top-states-grid { grid-template-columns:repeat(2,1fr); }
+    .top-states-grid { flex-wrap:wrap; }
+    .top-state-divider { display:none; }
     .header-stats { gap:20px; }
     .hstat-val { font-size:1.6rem; }
   }
@@ -222,7 +227,8 @@
     header { flex-direction:column; gap:16px; }
     .header-stats { width:100%; justify-content:space-around; }
     .ads-panel { justify-content:center; }
-    .top-states-grid { grid-template-columns:1fr; }
+    .top-states-grid { flex-direction:column; }
+    .top-state-divider { display:none; }
     .map-area { padding:16px; }
   }
 </style>
@@ -538,20 +544,22 @@ function updateStats() {
 }
 
 function updateSidePanels() {
-  // Top states list
   const sorted = Object.entries(stateData)
     .filter(([,d]) => d.leads > 0)
     .sort((a,b) => b[1].leads - a[1].leads)
-    .slice(0, 10);
+    .slice(0, 5);
   const topTotal = sorted.reduce((sum,[,d]) => sum + d.leads, 0);
   document.getElementById('top-states-total').textContent = topTotal.toLocaleString() + ' total leads';
-  document.getElementById('top-states-list').innerHTML = sorted.map(([abbr,d], i) => `
+
+  const items = sorted.map(([abbr,d], i) => `
     <div class="top-state-item" onclick="handleStateClick('${abbr}')">
       <div class="top-state-rank">${i+1}</div>
       <div class="top-state-name">${STATE_NAMES[abbr] || abbr}</div>
       <div class="top-state-leads">${d.leads}</div>
-    </div>`).join('');
+    </div>`);
 
+  document.getElementById('top-states-list').innerHTML =
+    items.join('<div class="top-state-divider"></div>');
 }
 
 function timeAgo(date) {
