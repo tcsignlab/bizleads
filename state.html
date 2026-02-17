@@ -621,8 +621,8 @@ async function buildCountyMap() {
       const pfxKey = Object.keys(zipPrefixCounts).sort()[idx] || '';
       const val = (zipPrefixCounts[pfxKey] || 0) / maxPfx;
       return val > 0
-        ? d3.interpolateRgb('#0f1a2e', '#3d4fb8')(val)
-        : '#0a0f1a';
+        ? d3.interpolateRgb('#0a1220', '#2a3d8f')(val)
+        : '#050a15';
     }
 
     // ── DRAW COUNTIES ──
@@ -657,21 +657,6 @@ async function buildCountyMap() {
           .attr('fill', countyFill(d))
           .attr('stroke', 'rgba(255,255,255,0.08)')
           .attr('stroke-width', '0.5');
-      })
-      .on('click', function(event, d) {
-        const countyId = d.id;
-        const countySelect = document.getElementById('countyFilter');
-        
-        // Toggle county filter
-        if (activeCountyFilter === countyId) {
-          activeCountyFilter = null;
-          countySelect.value = '';
-        } else {
-          activeCountyFilter = countyId;
-          countySelect.value = countyId;
-        }
-        
-        applyFilters();
       });
 
     // ── STATE OUTLINE ──
@@ -732,7 +717,7 @@ async function buildCountyMap() {
       dotsGroup.append('circle')
         .attr('cx', cx).attr('cy', cy)
         .attr('r', rScale(count) + 3)
-        .attr('fill', 'rgba(102,126,234,0.15)')
+        .attr('fill', 'rgba(255,77,125,0.15)')
         .attr('pointer-events', 'none');
 
       // Main dot
@@ -740,9 +725,9 @@ async function buildCountyMap() {
         .attr('class', 'biz-dot')
         .attr('cx', cx).attr('cy', cy)
         .attr('r', rScale(count))
-        .attr('fill', count >= maxZipCount * 0.7 ? '#a78bfa'
-                     : count >= maxZipCount * 0.3 ? '#667eea'
-                     : '#4a5e99')
+        .attr('fill', count >= maxZipCount * 0.7 ? '#ff6b9d'
+                     : count >= maxZipCount * 0.3 ? '#ff4d7d'
+                     : '#e63946')
         .attr('stroke', 'rgba(255,255,255,0.6)')
         .attr('stroke-width', '0.8')
         .attr('opacity', '0.9')
@@ -784,7 +769,7 @@ async function buildCountyMap() {
         .attr('cx', pos[0]).attr('cy', pos[1])
         .attr('r', rScale(zipCounts[zip]))
         .attr('fill', 'none')
-        .attr('stroke', '#a78bfa')
+        .attr('stroke', '#ff6b9d')
         .attr('stroke-width', '1.5')
         .attr('opacity', '0.8')
         .attr('pointer-events', 'none')
