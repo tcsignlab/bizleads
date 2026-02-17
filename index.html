@@ -79,7 +79,7 @@
   }
 
   /* ─── LAYOUT ─── */
-  .main { display:grid; grid-template-columns:240px 1fr 240px; min-height:calc(100vh - 73px); }
+  .main { display:grid; grid-template-columns:1fr 240px; min-height:calc(100vh - 73px); }
   .side-panel { background:var(--panel); border-right:1px solid var(--border); padding:24px 16px; overflow-y:auto; }
   .side-panel.right { border-right:none; border-left:1px solid var(--border); }
   .panel-title {
@@ -219,45 +219,17 @@
       <div class="live-dot"></div>
       <span>LIVE DATA</span>
     </div>
-    <a href="status.html" class="btn-status">📊 Status</a>
+    <a href="status.html" class="btn-status" style="display:none;">📊 Status</a>
   </div>
 </header>
 
 <div class="main">
-  <!-- LEFT PANEL: LEGEND -->
-  <div class="side-panel">
-    <div class="panel-title">🎨 HEAT MAP</div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-500)"></div>
-      <div class="legend-label">500+ leads</div>
-      <div class="legend-count" id="leg-500">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-200)"></div>
-      <div class="legend-label">200-499</div>
-      <div class="legend-count" id="leg-200">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-50)"></div>
-      <div class="legend-label">50-199</div>
-      <div class="legend-count" id="leg-50">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-1)"></div>
-      <div class="legend-label">1-49</div>
-      <div class="legend-count" id="leg-1">—</div>
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background:var(--heat-0)"></div>
-      <div class="legend-label">No data</div>
-      <div class="legend-count" id="leg-0">—</div>
-    </div>
-  </div>
+
 
   <!-- CENTER: MAP -->
   <div class="map-area">
     <div class="map-title-row">
-      <h2>NATIONAL BUSINESS REGISTRATIONS</h2>
+      <h2>NEW BUSINESS REGISTRATIONS</h2>
       <p>Click any state to view detailed business listings</p>
     </div>
     <div id="map-container">
@@ -269,7 +241,7 @@
     </div>
     <div class="sync-bar">
       <span>Last updated: <strong id="last-update">—</strong></span>
-      <span>Data source: State Business Registries</span>
+      <span>Data Source: Government Business Registries</span>
     </div>
   </div>
 
@@ -279,8 +251,7 @@
     <div style="text-align:center; font-size:0.75rem; color:var(--muted); margin-bottom:12px;" id="top-states-total">—</div>
     <div id="top-states-list"></div>
     
-    <div class="panel-title" style="margin-top:32px;">⚡ RECENT ACTIVITY</div>
-    <div id="activity-feed"></div>
+
   </div>
 </div>
 
@@ -485,18 +456,6 @@ function updateStats() {
 }
 
 function updateSidePanels() {
-  const allAbbrs = Object.values(FIPS_TO_ABBR);
-  const counts = {'0':0,'1':0,'50':0,'200':0,'500':0};
-  allAbbrs.forEach(abbr => {
-    counts[getTier((stateData[abbr] || {}).leads || 0)]++;
-  });
-
-  document.getElementById('leg-500').textContent = counts['500'] + ' states';
-  document.getElementById('leg-200').textContent = counts['200'] + ' states';
-  document.getElementById('leg-50').textContent  = counts['50']  + ' states';
-  document.getElementById('leg-1').textContent   = counts['1']   + ' states';
-  document.getElementById('leg-0').textContent   = counts['0']   + ' states';
-
   // Top states list
   const sorted = Object.entries(stateData)
     .filter(([,d]) => d.leads > 0)
@@ -511,25 +470,6 @@ function updateSidePanels() {
       <div class="top-state-leads">${d.leads}</div>
     </div>`).join('');
 
-  // Activity feed
-  const recentStates = sorted.slice(0,5).map(([abbr,d]) => ({
-    color:'#10b981',
-    text:`${STATE_NAMES[abbr]} — ${d.leads} businesses`,
-    time: lastScrapeTime ? timeAgo(lastScrapeTime) : 'recent'
-  }));
-
-  const staticItems = [
-    { color:'#667eea', text:'System operational', time:'status' },
-    { color:'#4a90e2', text:'Auto-refresh enabled', time:'config' },
-    { color:'#6b7280', text:'All 50 states tracked', time:'coverage' },
-  ];
-
-  const items = [...recentStates, ...staticItems].slice(0, 8);
-  document.getElementById('activity-feed').innerHTML = items.map(a => `
-    <div class="activity-item">
-      <div class="activity-dot" style="background:${a.color}"></div>
-      <div><div class="activity-text">${a.text}</div><div class="activity-time">${a.time}</div></div>
-    </div>`).join('');
 }
 
 function timeAgo(date) {
