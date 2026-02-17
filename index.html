@@ -74,7 +74,7 @@
   }
 
   /* ─── LAYOUT ─── */
-  .main { display:grid; grid-template-columns:1fr 200px; min-height:calc(100vh - 73px); }
+  .main { display:grid; grid-template-columns:1fr 320px; min-height:calc(100vh - 73px); }
   .side-panel { background:var(--panel); border-right:1px solid var(--border); padding:24px 16px; overflow-y:auto; }
   .side-panel.right { border-right:none; border-left:1px solid var(--border); }
   .panel-title {
@@ -173,38 +173,29 @@
   }
   @keyframes spin { to { transform:rotate(360deg); } }
 
-  /* Ads Panel */
-  .ads-panel { background:var(--panel); border-left:1px solid var(--border); padding:24px 14px; overflow-y:auto; }
-  .ad-slot {
-    background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.1);
-    border-radius: 8px; padding: 16px 10px; text-align: center; margin-bottom: 14px;
-    color: var(--muted); font-size: 0.72rem; letter-spacing: 1px;
-  }
-  .ad-slot .ad-label { font-family:'Bebas Neue',sans-serif; font-size:0.8rem; letter-spacing:2px; color:rgba(255,255,255,0.15); margin-bottom:8px; }
-  .ad-slot .ad-placeholder { font-size:0.7rem; color:rgba(255,255,255,0.12); }
-
-  /* ─── FAVORITES PANEL ─── */
+  /* ─── FAVORITES PANEL (right column) ─── */
   .favorites-panel {
-    width:100%; max-width:880px; margin-top:20px;
-    background:var(--panel); border:1px solid var(--border); border-radius:12px; overflow:hidden;
+    background:var(--panel); border-left:1px solid var(--border);
+    display:flex; flex-direction:column;
+    position:sticky; top:73px; height:calc(100vh - 73px); overflow:hidden;
   }
   .favorites-panel-header {
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
-    padding:14px 20px; border-bottom:1px solid var(--border);
+    display:flex; flex-direction:column; gap:8px;
+    padding:16px; border-bottom:1px solid var(--border); flex-shrink:0;
   }
   .favorites-panel-header .panel-title { margin-bottom:0; border-bottom:none; padding-bottom:0; }
-  .fav-header-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .fav-header-right { display:flex; flex-direction:column; gap:6px; }
   .fav-search-input {
-    padding:7px 12px; background:rgba(255,255,255,0.06); border:1px solid var(--border);
+    padding:7px 10px; background:rgba(255,255,255,0.06); border:1px solid var(--border);
     border-radius:8px; color:var(--text); font-family:inherit; font-size:0.82rem;
-    width:200px; transition:border-color 0.2s;
+    width:100%; transition:border-color 0.2s;
   }
   .fav-search-input:focus { outline:none; border-color:#ffd700; }
   .fav-search-input::placeholder { color:var(--muted); }
   .fav-state-filter {
-    padding:7px 12px; background:rgba(255,255,255,0.06); border:1px solid var(--border);
+    padding:7px 10px; background:rgba(255,255,255,0.06); border:1px solid var(--border);
     border-radius:8px; color:var(--text); font-family:inherit; font-size:0.82rem;
-    cursor:pointer; transition:border-color 0.2s;
+    cursor:pointer; transition:border-color 0.2s; width:100%;
   }
   .fav-state-filter:focus { outline:none; border-color:#ffd700; }
   .fav-state-filter option { background:#1a1f2e; }
@@ -213,86 +204,75 @@
     font-size:0.72rem; font-weight:700; padding:2px 9px; white-space:nowrap;
   }
   .fav-clear-btn {
-    padding:6px 12px; border-radius:8px; border:1px solid rgba(255,100,100,0.3);
+    padding:6px 10px; border-radius:8px; border:1px solid rgba(255,100,100,0.3);
     background:rgba(255,100,100,0.06); color:rgba(255,120,120,0.8);
-    font-family:inherit; font-size:0.78rem; cursor:pointer; transition:all 0.2s;
-    white-space:nowrap;
+    font-family:inherit; font-size:0.78rem; cursor:pointer; transition:all 0.2s; width:100%;
   }
   .fav-clear-btn:hover { border-color:rgba(255,80,80,0.6); color:#ff8080; background:rgba(255,80,80,0.12); }
   .fav-cards-grid {
-    display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-    gap:14px; padding:16px; max-height:460px; overflow-y:auto;
+    display:flex; flex-direction:column;
+    gap:10px; padding:12px; overflow-y:auto; flex:1;
   }
-  .fav-cards-grid::-webkit-scrollbar { width:8px; }
+  .fav-cards-grid::-webkit-scrollbar { width:6px; }
   .fav-cards-grid::-webkit-scrollbar-track { background:rgba(255,255,255,0.02); }
   .fav-cards-grid::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.12); border-radius:4px; }
   .fav-card {
     background:rgba(255,215,0,0.03); border:1px solid rgba(255,215,0,0.18);
-    border-radius:10px; padding:14px 16px; position:relative;
+    border-radius:10px; padding:12px 14px; position:relative; flex-shrink:0;
     transition:border-color 0.2s, background 0.2s;
   }
   .fav-card:hover { background:rgba(255,215,0,0.07); border-color:rgba(255,215,0,0.4); }
   .fav-card-name {
-    font-size:0.95rem; font-weight:700; margin-bottom:8px; padding-right:28px;
+    font-size:0.88rem; font-weight:700; margin-bottom:7px; padding-right:26px;
   }
   .fav-card-name a { color:#ffd700; text-decoration:none; transition:color 0.2s; }
   .fav-card-name a:hover { color:#ffe566; text-decoration:underline; }
-  .fav-card-meta { display:flex; flex-wrap:wrap; gap:6px; font-size:0.76rem; margin-bottom:8px; }
+  .fav-card-meta { display:flex; flex-wrap:wrap; gap:5px; font-size:0.72rem; margin-bottom:7px; }
   .fav-meta-chip {
     background:rgba(255,255,255,0.06); border:1px solid var(--border);
-    border-radius:6px; padding:2px 8px; color:#a0aec0;
+    border-radius:6px; padding:2px 7px; color:#a0aec0;
   }
   .fav-meta-chip strong { color:var(--text); }
   .fav-state-tag {
     background:rgba(102,126,234,0.15); border:1px solid rgba(102,126,234,0.25);
-    border-radius:6px; padding:2px 8px; font-size:0.72rem; font-weight:700;
+    border-radius:6px; padding:2px 7px; font-size:0.7rem; font-weight:700;
     color:#667eea; cursor:pointer; transition:background 0.2s;
   }
   .fav-state-tag:hover { background:rgba(102,126,234,0.28); }
   .fav-remove-btn {
-    position:absolute; top:10px; right:10px; background:none; border:none;
-    color:rgba(255,215,0,0.5); font-size:1.1rem; cursor:pointer; padding:2px 4px;
+    position:absolute; top:9px; right:9px; background:none; border:none;
+    color:rgba(255,215,0,0.5); font-size:1rem; cursor:pointer; padding:2px 4px;
     border-radius:6px; transition:all 0.15s; line-height:1;
   }
   .fav-remove-btn:hover { color:#ffd700; background:rgba(255,215,0,0.12); transform:scale(1.15); }
   .fav-goto-state {
     display:inline-flex; align-items:center; gap:4px;
-    font-size:0.72rem; color:rgba(102,126,234,0.7); text-decoration:none;
-    border:1px solid rgba(102,126,234,0.2); border-radius:6px; padding:2px 8px;
+    font-size:0.7rem; color:rgba(102,126,234,0.7); text-decoration:none;
+    border:1px solid rgba(102,126,234,0.2); border-radius:6px; padding:2px 7px;
     transition:all 0.2s; margin-top:2px;
   }
   .fav-goto-state:hover { color:#667eea; border-color:rgba(102,126,234,0.5); background:rgba(102,126,234,0.08); }
   .fav-empty {
-    text-align:center; padding:48px 20px; color:var(--muted);
-    grid-column: 1 / -1;
+    text-align:center; padding:40px 16px; color:var(--muted);
   }
-  .fav-empty-icon { font-size:2.5rem; margin-bottom:12px; }
-  .fav-empty-title { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:rgba(255,255,255,0.3); letter-spacing:2px; margin-bottom:6px; }
-  .fav-empty-sub { font-size:0.8rem; line-height:1.6; }
+  .fav-empty-icon { font-size:2rem; margin-bottom:10px; }
+  .fav-empty-title { font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:rgba(255,255,255,0.3); letter-spacing:2px; margin-bottom:6px; }
+  .fav-empty-sub { font-size:0.78rem; line-height:1.6; }
 
   @media (max-width: 1024px) {
     .main { grid-template-columns: 1fr; }
     .side-panel { border:none; border-bottom:1px solid var(--border); }
-    .ads-panel {
-      border-top:1px solid var(--border); border-left:none;
-      display:flex; flex-direction:row; flex-wrap:wrap;
-      gap:12px; padding:16px; align-items:flex-start; justify-content:center;
+    .favorites-panel {
+      position:relative; top:0; height:auto; max-height:500px;
+      border-left:none; border-top:1px solid var(--border);
     }
-    .ads-panel .panel-title { width:100%; }
-    .ad-slot { margin-bottom:0 !important; }
     .header-stats { gap:20px; }
     .hstat-val { font-size:1.6rem; }
-    .fav-search-input { width:140px; }
   }
   @media (max-width: 640px) {
     header { flex-direction:column; gap:16px; }
     .header-stats { width:100%; justify-content:space-around; }
-    .ads-panel { justify-content:center; }
     .map-area { padding:16px; }
-    .fav-header-right { flex-direction:column; align-items:stretch; }
-    .fav-search-input { width:100%; }
-    .fav-state-filter { width:100%; }
-    .fav-cards-grid { grid-template-columns:1fr; }
   }
 </style>
 </head>
@@ -348,9 +328,10 @@
       <span>Last updated: <strong id="last-update">—</strong></span>
       <span>Data Source: Government New Business Registries</span>
     </div>
+  </div>
 
-    <!-- FAVORITES / BOOKMARKED CARDS -->
-    <div class="favorites-panel" id="favorites-panel">
+  <!-- RIGHT PANEL: SAVED BUSINESSES -->
+  <div class="favorites-panel" id="favorites-panel">
       <div class="favorites-panel-header">
         <div class="panel-title">⭐ SAVED BUSINESSES <span class="fav-total-badge" id="fav-total-badge">0</span></div>
         <div class="fav-header-right">
@@ -367,44 +348,6 @@
           <div class="fav-empty-title">No Saved Businesses</div>
           <div class="fav-empty-sub">Open any state, then star a business card to bookmark it here.</div>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RIGHT PANEL: ADS -->
-  <div class="ads-panel">
-    <div class="panel-title">📢 SPONSORED</div>
-    <div class="ad-slot" style="margin-bottom:14px;">
-      <div class="ad-label">Advertisement</div>
-      <div style="height:120px; display:flex; align-items:center; justify-content:center;">
-        <div class="ad-placeholder">160 × 120<br>Ad Space</div>
-      </div>
-    </div>
-    <style>
-      @keyframes bgMove { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
-      @keyframes floatUp { from{bottom:-10px;transform:scale(0.6)} to{bottom:210px;transform:scale(1.2)} }
-      @keyframes adPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
-      @keyframes adPulse2 { 0%{transform:scale(1)} 50%{transform:scale(1.12)} 100%{transform:scale(1)} }
-    </style>
-    <div class="ad-slot" style="padding:0;border:none;background:none;margin-bottom:14px;">
-      <a href="https://tcsignlab.github.io/bizleads/index.html" target="_blank" style="text-decoration:none;">
-        <div style="width:160px;height:200px;position:relative;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(270deg,#7f00ff,#00c6ff,#00ff99);background-size:600% 600%;animation:bgMove 6s ease infinite;border-radius:10px;box-shadow:0 0 18px rgba(0,255,200,0.6);">
-          <div style="position:absolute;left:20px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:0s;"></div>
-          <div style="position:absolute;left:80px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:1s;"></div>
-          <div style="position:absolute;left:130px;width:6px;height:6px;background:#fff;border-radius:50%;opacity:0.7;animation:floatUp 4s linear infinite;animation-delay:2s;"></div>
-          <div style="position:relative;z-index:2;padding:10px;text-align:center;color:#fff;">
-            <div style="font-size:15px;font-weight:bold;line-height:1.1;text-shadow:0 0 8px #000;animation:adPop 1.5s infinite;">NEED<br>MORE<br>LEADS?</div>
-            <div style="margin-top:10px;font-size:12px;font-weight:bold;">Grow Fast</div>
-            <div style="margin-top:10px;font-size:13px;font-weight:bold;color:#ffe600;text-shadow:0 0 6px #000;">LeadSource USA</div>
-          </div>
-          <div style="position:absolute;bottom:12px;left:10px;right:10px;background:#00ff66;color:#000;font-size:13px;font-weight:bold;padding:8px 0;border-radius:6px;text-align:center;box-shadow:0 0 15px rgba(0,255,100,0.9);animation:adPulse2 1.3s infinite;">GET LEADS</div>
-        </div>
-      </a>
-    </div>
-    <div class="ad-slot">
-      <div class="ad-label">Advertisement</div>
-      <div style="height:120px; display:flex; align-items:center; justify-content:center;">
-        <div class="ad-placeholder">160 × 120<br>Ad Space</div>
       </div>
     </div>
   </div>
