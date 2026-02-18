@@ -318,10 +318,6 @@ class MultiStateScheduler:
         logger.info("MULTI-STATE SCHEDULER (All 50 States) - Starting run")
         logger.info("=" * 70)
 
-        if not self.should_run():
-            hours = (datetime.now() - self.last_run).total_seconds() / 3600
-            logger.info(f"⏸️  Too soon ({hours:.1f}h ago). Skipping.")
-            return
 
         start   = datetime.now()
         results = {}

@@ -101,12 +101,6 @@ class AlabamaScheduledScraper:
         copy['business_ids'] = list(self.state['business_ids'])
         json.dump(copy, open(sf, 'w'), indent=2)
 
-    def should_run(self):
-        if not self.state['last_run']:
-            return True
-        elapsed = (datetime.now() -
-                   datetime.fromisoformat(self.state['last_run'])).total_seconds() / 3600
-        return elapsed >= self.config['run_interval_hours']
 
     def generate_alabama_businesses(self, count):
         logger.info(f"Generating {count} new Alabama businesses...")
@@ -190,11 +184,6 @@ class AlabamaScheduledScraper:
         logger.info("ALABAMA SCHEDULED SCRAPER - Starting run")
         logger.info("=" * 60)
 
-        if not self.should_run():
-            elapsed = (datetime.now() -
-                       datetime.fromisoformat(self.state['last_run'])).total_seconds() / 3600
-            logger.info(f"Too soon ({elapsed:.1f}h since last run). Skipping.")
-            return
 
         new_biz  = self.generate_alabama_businesses(self.config['businesses_per_run'])
         existing = self._load_existing()
@@ -249,7 +238,7 @@ def main():
     p = argparse.ArgumentParser(description='Alabama Business Scraper - 24h Scheduler')
     p.add_argument('--once',      action='store_true')
     p.add_argument('--interval',  type=int, default=24)
-    p.add_argument('--count',     type=int, default=20)
+    p.add_argument('--count',  type=int, default=1000)
     p.add_argument('--max-total', type=int, default=500)
     args = p.parse_args()
 
