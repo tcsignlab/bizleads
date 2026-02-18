@@ -90,7 +90,7 @@ jobs:
               bizs = json.load(open(filepath))
               seen, unique = set(), []
               for b in sorted(bizs, key=lambda x: x.get('scraped_at',''), reverse=True):
-                  k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+                  k = str(b.get('state','')) + '_' + str(b.get('entity_number','')) if b.get('entity_number') else b.get('business_id') or b.get('name','')
                   if k and k not in seen:
                       seen.add(k); unique.append(b)
               unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
@@ -100,7 +100,7 @@ jobs:
 
           seen, unique = set(), []
           for b in sorted(all_biz, key=lambda x: x.get('scraped_at',''), reverse=True):
-              k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+              k = str(b.get('state','')) + '_' + str(b.get('entity_number','')) if b.get('entity_number') else b.get('business_id') or b.get('name','')
               if k and k not in seen:
                   seen.add(k); unique.append(b)
           unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
@@ -152,7 +152,7 @@ jobs:
               before = len(bizs)
               seen, unique = set(), []
               for b in sorted(bizs, key=lambda x: x.get('scraped_at',''), reverse=True):
-                  k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+                  k = str(b.get('state','')) + '_' + str(b.get('entity_number','')) if b.get('entity_number') else b.get('business_id') or b.get('name','')
                   if k and k not in seen:
                       seen.add(k); unique.append(b)
               unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
@@ -168,7 +168,7 @@ jobs:
 
           seen, unique = set(), []
           for b in sorted(all_biz, key=lambda x: x.get('scraped_at',''), reverse=True):
-              k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+              k = str(b.get('state','')) + '_' + str(b.get('entity_number','')) if b.get('entity_number') else b.get('business_id') or b.get('name','')
               if k and k not in seen:
                   seen.add(k); unique.append(b)
           unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
