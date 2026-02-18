@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadSource USA — Ad</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #080a0f;
+    --panel: #0e1118;
+    --border: #1c2130;
+    --pink: #f05da4;
+    --blue: #4a7fff;
+    --gold: #ffd700;
+    --text: #eef2ff;
+    --muted: #5a6480;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    font-family: 'Barlow', sans-serif;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  /* ══════════════════════════════════════
+     HERO
+  ══════════════════════════════════════ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 24px 60px;
+    overflow: hidden;
+  }
+
+  /* Radial glow background */
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -20%; left: 50%;
+    transform: translateX(-50%);
+    width: 900px; height: 600px;
+    background: radial-gradient(ellipse, rgba(240,93,164,0.12) 0%, rgba(74,127,255,0.08) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(240,93,164,0.1);
+    border: 1px solid rgba(240,93,164,0.3);
+    border-radius: 100px;
+    padding: 7px 18px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 28px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .badge-dot {
+    width: 7px; height: 7px;
+    background: var(--pink);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(240,93,164,0.6); }
+    50% { box-shadow: 0 0 0 5px rgba(240,93,164,0); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 5px; text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 10vw, 8.5rem);
+    line-height: 0.92;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    animation: fadeUp 0.7s 0.2s ease both;
+  }
+
+  .hero-title .line-1 { display: block; color: var(--text); }
+  .hero-title .line-2 {
+    display: block;
+    background: linear-gradient(90deg, var(--pink), var(--blue));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-title .line-3 { display: block; color: var(--text); }
+
+  .hero-sub {
+    max-width: 640px;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.7;
+    color: #8a95b5;
+    margin-bottom: 48px;
+    animation: fadeUp 0.7s 0.3s ease both;
+  }
+
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+
+  .hero-cta-row {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.7s 0.4s ease both;
+  }
+
+  .btn-primary {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, var(--pink), #c0387a);
+    border: none; border-radius: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #fff;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 8px 32px rgba(240,93,164,0.35);
+    text-decoration: none;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(240,93,164,0.5); }
+
+  .btn-secondary {
+    padding: 16px 40px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #8a95b5;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none;
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--text); }
+
+  /* Floating stat pills */
+  .hero-stats {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+    margin-top: 56px;
+    animation: fadeUp 0.7s 0.5s ease both;
+  }
+
+  .stat-pill {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 24px;
+    text-align: center;
+    min-width: 130px;
+  }
+
+  .stat-pill-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; line-height: 1;
+    color: var(--pink);
+  }
+
+  .stat-pill-label {
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* Diagonal divider */
+  .divider {
+    position: relative;
+    height: 80px;
+    overflow: hidden;
+  }
+  .divider::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: -5%; right: -5%;
+    height: 100%;
+    background: var(--panel);
+    transform: skewY(-2deg);
+    transform-origin: bottom left;
+  }
+
+  /* ══════════════════════════════════════
+     FEATURES GRID
+  ══════════════════════════════════════ */
+  .features {
+    background: var(--panel);
+    padding: 80px 24px;
+    position: relative;
+  }
+
+  .section-label {
+    text-align: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 5px; text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    letter-spacing: 3px;
+    margin-bottom: 56px;
+    line-height: 1;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    max-width: 1100px;
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .feature-card {
+    background: var(--black);
+    padding: 36px 32px;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .feature-card:hover { background: rgba(240,93,164,0.04); }
+  .feature-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition: border-color 0.3s;
+    pointer-events: none;
+  }
+  .feature-card:hover::after { border-color: rgba(240,93,164,0.2); }
+
+  .feature-icon {
+    font-size: 2rem;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .feature-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.15rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .feature-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #6a748a;
+  }
+
+  .feature-desc strong { color: #a0aec0; }
+
+  /* ══════════════════════════════════════
+     SOCIAL PROOF TICKER
+  ══════════════════════════════════════ */
+  .ticker-wrap {
+    background: var(--pink);
+    padding: 14px 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ticker {
+    display: flex;
+    gap: 0;
+    animation: ticker 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(0,0,0,0.7);
+    padding: 0 32px;
+    flex-shrink: 0;
+  }
+
+  .ticker-sep {
+    color: rgba(0,0,0,0.3);
+    padding: 0 8px;
+    flex-shrink: 0;
+  }
+
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ══════════════════════════════════════
+     HOW IT WORKS
+  ══════════════════════════════════════ */
+  .how {
+    padding: 100px 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 56px;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 27px; top: 40px; bottom: 40px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--pink), var(--blue));
+    opacity: 0.3;
+  }
+
+  .step {
+    display: flex;
+    gap: 28px;
+    padding: 28px 0;
+    align-items: flex-start;
+  }
+
+  .step-num {
+    width: 56px; height: 56px;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--pink);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-content {}
+  .step-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.2rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .step-desc {
+    font-size: 0.92rem; line-height: 1.7;
+    color: #6a748a;
+  }
+
+  /* ══════════════════════════════════════
+     WHO IT'S FOR
+  ══════════════════════════════════════ */
+  .who {
+    background: var(--panel);
+    padding: 80px 24px;
+  }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 1000px;
+    margin: 48px auto 0;
+  }
+
+  .who-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+    background: var(--black);
+  }
+  .who-card:hover { border-color: var(--blue); transform: translateY(-4px); }
+
+  .who-icon { font-size: 2rem; margin-bottom: 12px; display: block; }
+  .who-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .who-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* ══════════════════════════════════════
+     PULL QUOTE
+  ══════════════════════════════════════ */
+  .quote-section {
+    padding: 100px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-section::before {
+    content: '❝';
+    position: absolute;
+    top: 20px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 12rem;
+    color: rgba(240,93,164,0.05);
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .quote-text {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1.3;
+    max-width: 800px;
+    margin: 0 auto 32px;
+    color: var(--text);
+  }
+
+  .quote-text em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--pink), var(--blue));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .quote-sub {
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ══════════════════════════════════════
+     FINAL CTA
+  ══════════════════════════════════════ */
+  .cta-section {
+    background: var(--panel);
+    padding: 100px 24px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    bottom: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 700px; height: 500px;
+    background: radial-gradient(ellipse, rgba(74,127,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    letter-spacing: 4px;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+
+  .cta-sub {
+    font-size: 1.05rem; color: #6a748a;
+    max-width: 500px; margin: 0 auto 48px;
+    line-height: 1.7;
+  }
+
+  .cta-handle {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 40px;
+  }
+
+  /* ══════════════════════════════════════
+     COPY BLOCKS (for social copy)
+  ══════════════════════════════════════ */
+  .copy-section {
+    padding: 80px 24px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .copy-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px 40px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .copy-platform {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 4px; text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .copy-platform::after {
+    content: '';
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  .copy-text {
+    font-size: 1rem; line-height: 1.8;
+    color: #a0aec0;
+    white-space: pre-wrap;
+  }
+
+  .copy-text .hook { color: var(--text); font-weight: 600; font-size: 1.05rem; }
+  .copy-text .hashtags { color: var(--blue); font-size: 0.9rem; }
+  .copy-text .emoji { font-style: normal; }
+
+  .copy-btn {
+    margin-top: 20px;
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .hero-cta-row { flex-direction: column; align-items: center; }
+    .btn-primary, .btn-secondary { width: 100%; max-width: 300px; text-align: center; }
+    .stat-pill { min-width: 100px; }
+    .copy-card { padding: 24px 20px; }
+    .steps::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="badge"><div class="badge-dot"></div> Now Live — All 50 States</div>
+  <p class="hero-eyebrow">Introducing LeadSource USA</p>
+  <h1 class="hero-title">
+    <span class="line-1">Find New</span>
+    <span class="line-2">Business Leads</span>
+    <span class="line-3">Before Anyone Else</span>
+  </h1>
+  <p class="hero-sub">
+    <strong>150,000+ freshly registered businesses</strong> scraped daily from government registries across all 50 states — visualized on an interactive national map, updated every 24 hours.
+  </p>
+  <div class="hero-cta-row">
+    <a href="#copy" class="btn-primary">Get the Ad Copy</a>
+    <a href="#features" class="btn-secondary">See Features</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-pill">
+      <div class="stat-pill-val">150K+</div>
+      <div class="stat-pill-label">Total Leads</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-pill-val">50</div>
+      <div class="stat-pill-label">States Covered</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-pill-val">3K</div>
+      <div class="stat-pill-label">New Per State / Day</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-pill-val">30</div>
+      <div class="stat-pill-label">Day Rolling Window</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-pill-val">24H</div>
+      <div class="stat-pill-label">Refresh Cycle</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ TICKER ══ -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">All 50 States</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Government-Sourced Data</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Updated Daily</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Zero Duplicates</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Interactive Map</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Save & Bookmark Leads</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">150,000+ Businesses</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">30-Day Rolling Window</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">New Business Intelligence</span><span class="ticker-sep">✦</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">All 50 States</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Government-Sourced Data</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Updated Daily</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Zero Duplicates</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Interactive Map</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">Save & Bookmark Leads</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">150,000+ Businesses</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">30-Day Rolling Window</span><span class="ticker-sep">✦</span>
+    <span class="ticker-item">New Business Intelligence</span><span class="ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- ══ FEATURES ══ -->
+<section class="features" id="features">
+  <p class="section-label">What You Get</p>
+  <h2 class="section-title">Every Feature You Need to Close</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <span class="feature-icon">🗺️</span>
+      <div class="feature-title">Interactive National Map</div>
+      <div class="feature-desc">Click any of the <strong>50 states</strong> on a live heat map to instantly drill into that state's freshest business registrations. See lead density at a glance — no spreadsheets required.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⚡</span>
+      <div class="feature-title">Daily Automated Scraping</div>
+      <div class="feature-desc">Our scrapers pull <strong>3,000 new business registrations per state, every single day</strong> — straight from official government registries. You always have the freshest leads in the market.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🏛️</span>
+      <div class="feature-title">Government-Verified Data</div>
+      <div class="feature-desc">Every lead is sourced directly from <strong>official Secretary of State registries</strong>. Entity numbers, registration dates, business types, registered agents — all verified at the source.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📅</span>
+      <div class="feature-title">30-Day Rolling Window</div>
+      <div class="feature-desc">Focus only on <strong>businesses registered in the last 30 days</strong> — the hottest window when new owners are actively buying services, equipment, insurance, and more.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🔍</span>
+      <div class="feature-title">Search & Filter</div>
+      <div class="feature-desc">Instantly search by business name, state, or entity type. Filter to find <strong>exactly the niche you're targeting</strong> — LLCs, corporations, partnerships, and more.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">⭐</span>
+      <div class="feature-title">Save & Bookmark Leads</div>
+      <div class="feature-desc">Star any business to save it to your <strong>personal favorites panel</strong>. Filter your saved leads by state, search by name, and one-click Google any business for instant research.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🚫</span>
+      <div class="feature-title">Zero Duplicates Guaranteed</div>
+      <div class="feature-desc">Our deduplication engine runs on every update cycle, ensuring <strong>every lead in the database is unique</strong> — no wasted time calling the same business twice.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🌐</span>
+      <div class="feature-title">All 50 States. One Dashboard.</div>
+      <div class="feature-desc">From Alaska to Florida, New York to California — <strong>every state, every day</strong>. Monitor nationwide trends or zero in on a single territory. Total coverage, zero blind spots.</div>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📊</span>
+      <div class="feature-title">Live Stats at a Glance</div>
+      <div class="feature-desc">See <strong>total leads, active states, and new registrations today</strong> right in the header — a real-time pulse on new business activity across the entire country.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section style="padding: 100px 24px; max-width: 800px; margin: 0 auto;">
+  <p class="section-label">Simple by Design</p>
+  <h2 class="section-title" style="text-align:center;">How It Works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Scrapers Run Every 24 Hours</div>
+        <div class="step-desc">Automated scrapers pull fresh registrations from all 50 official state government databases — 3,000 new businesses per state, every single day, on autopilot.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Data Is Cleaned & Deduplicated</div>
+        <div class="step-desc">New records are merged with existing data, duplicates are automatically removed, and only businesses registered in the past 30 days are retained. Clean data, every time.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Map Updates Instantly</div>
+        <div class="step-desc">The national map refreshes with new counts. Heat indicators show you exactly where new business activity is booming — down to the individual state level.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">You Close Deals First</div>
+        <div class="step-desc">Click a state, find a fresh lead, star it, research it, and reach out — before your competitors even know that business exists. First-mover advantage, every morning.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHO IT'S FOR ══ -->
+<section class="who">
+  <p class="section-label">Built For</p>
+  <h2 class="section-title" style="text-align:center;">Who Uses LeadSource USA</h2>
+  <div class="who-grid">
+    <div class="who-card">
+      <span class="who-icon">💼</span>
+      <div class="who-title">Sales Reps</div>
+      <div class="who-desc">Hit quota faster by targeting brand-new businesses actively looking for vendors.</div>
+    </div>
+    <div class="who-card">
+      <span class="who-icon">🏦</span>
+      <div class="who-title">Financial Services</div>
+      <div class="who-desc">Reach new business owners before they've opened their first business bank account.</div>
+    </div>
+    <div class="who-card">
+      <span class="who-icon">⚖️</span>
+      <div class="who-title">Legal & Accounting</div>
+      <div class="who-desc">New entities need legal and accounting support from day one — be the first call they make.</div>
+    </div>
+    <div class="who-card">
+      <span class="who-icon">🏢</span>
+      <div class="who-title">Commercial Real Estate</div>
+      <div class="who-desc">New businesses need office space, retail locations, and warehouses. Find them first.</div>
+    </div>
+    <div class="who-card">
+      <span class="who-icon">📱</span>
+      <div class="who-title">Marketing Agencies</div>
+      <div class="who-desc">Every new business needs a website, social media, and branding. They just don't know who to call yet.</div>
+    </div>
+    <div class="who-card">
+      <span class="who-icon">🔒</span>
+      <div class="who-title">Insurance Brokers</div>
+      <div class="who-desc">New businesses are required by law to carry certain policies. Be there the moment they register.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PULL QUOTE ══ -->
+<section class="quote-section">
+  <p class="quote-text">
+    The best time to reach a new business owner is <em>the week they register</em>. LeadSource USA puts you there — <em>every single day</em>.
+  </p>
+  <p class="quote-sub">New Business Intelligence — Nationwide</p>
+</section>
+
+<!-- ══ SOCIAL COPY ══ -->
+<section class="copy-section" id="copy">
+  <p class="section-label">Ready to Post</p>
+  <h2 class="section-title" style="text-align:center;">Social Media Copy</h2>
+
+  <div class="copy-card">
+    <div class="copy-platform">📘 Facebook / LinkedIn (Long Form)</div>
+    <div class="copy-text" id="copy-fb"><span class="hook">🚨 Stop chasing cold leads. Start finding HOT ones.</span>
+
+Imagine waking up every morning to a fresh list of businesses that registered yesterday — businesses that are actively looking for vendors, services, accountants, lawyers, real estate, and more.
+
+That's exactly what <strong>LeadSource USA</strong> gives you.
+
+✅ 150,000+ verified business registrations
+✅ All 50 states — updated every 24 hours
+✅ Sourced directly from government registries (no guessing)
+✅ 3,000 new leads per state, per day
+✅ Interactive national map — click any state, see fresh leads
+✅ Save & bookmark your best prospects
+✅ Zero duplicates, guaranteed clean data
+✅ 30-day rolling window — only the freshest opportunities
+
+Whether you're in sales, insurance, legal, accounting, marketing, or real estate — <strong>new business owners are your hottest prospects</strong>. And now you can find them before anyone else does.
+
+🗺️ LeadSource USA — New Business Intelligence for the entire nation.
+
+<span class="hashtags">#LeadGeneration #SalesLeads #NewBusiness #B2BSales #SmallBusiness #BusinessDevelopment #SalesProspecting #LeadSourceUSA</span></div>
+    <button class="copy-btn" onclick="copyText('copy-fb', this)">Copy Text</button>
+  </div>
+
+  <div class="copy-card">
+    <div class="copy-platform">🐦 X / Twitter (Thread Starter)</div>
+    <div class="copy-text" id="copy-tw"><span class="hook">Every day, thousands of new businesses register across the US. Most salespeople will never find them in time. 🧵</span>
+
+We built LeadSource USA to fix that.
+
+→ 3,000 fresh leads per state, scraped daily
+→ All 50 states on one interactive map
+→ Government-verified data only
+→ New leads hit the database before your competitors see them
+
+If you sell ANYTHING to businesses, this changes your prospecting game.
+
+🔗 LeadSourceUSA.com
+
+<span class="hashtags">#SaaS #Sales #LeadGen #B2B #StartupTools</span></div>
+    <button class="copy-btn" onclick="copyText('copy-tw', this)">Copy Text</button>
+  </div>
+
+  <div class="copy-card">
+    <div class="copy-platform">📸 Instagram / Short Form</div>
+    <div class="copy-text" id="copy-ig"><span class="hook">Your next best client registered their business this week. 📋</span>
+
+They just don't know you exist yet.
+
+LeadSource USA tracks <strong>every new business registration</strong> across all 50 states — updated daily, sourced from official government records.
+
+🗺️ Interactive national map
+⚡ 150K+ fresh leads
+📅 30-day rolling window
+⭐ Save your best prospects
+🚫 Zero duplicates
+
+Be the first to reach them.
+
+<span class="hashtags">#LeadGeneration #SalesLife #BusinessOwner #NewBusiness #EntrepreneurMindset #SalesStrategy #B2BMarketing #LeadSourceUSA</span></div>
+    <button class="copy-btn" onclick="copyText('copy-ig', this)">Copy Text</button>
+  </div>
+
+  <div class="copy-card">
+    <div class="copy-platform">💼 LinkedIn (Short Punchy Version)</div>
+    <div class="copy-text" id="copy-li"><span class="hook">Hot take: The best sales leads aren't in any CRM.</span>
+
+They're in government business registration databases — updated daily, completely public, and almost nobody is using them.
+
+We built a tool that scrapes all 50 state registries every 24 hours and puts them on an interactive national map.
+
+150,000+ leads. Fresh daily. Zero duplicates.
+
+If you're in B2B sales and you're not doing this, you're leaving serious money on the table.
+
+→ LeadSourceUSA.com
+
+<span class="hashtags">#Sales #B2B #LeadGeneration #BusinessDevelopment #Prospecting</span></div>
+    <button class="copy-btn" onclick="copyText('copy-li', this)">Copy Text</button>
+  </div>
+
+  <div class="copy-card">
+    <div class="copy-platform">📣 Short Ad Hook Variations</div>
+    <div class="copy-text" id="copy-hooks">Pick your hook:
+
+<strong>Hook 1 (FOMO):</strong>
+"3,000 businesses registered in your state this week. How many did you reach out to? LeadSource USA — daily new business leads, all 50 states."
+
+<strong>Hook 2 (Problem/Solution):</strong>
+"Tired of cold lists with outdated contacts? Every lead on LeadSource USA registered in the last 30 days. They're new. They're buying. They're waiting."
+
+<strong>Hook 3 (Curiosity):</strong>
+"What if you could see every business that incorporated in your city this week? You can. LeadSource USA — 150K+ leads, updated daily."
+
+<strong>Hook 4 (Direct):</strong>
+"New businesses need everything: accounting, insurance, marketing, legal, real estate. LeadSource USA shows you exactly who just opened their doors."
+
+<strong>Hook 5 (Authority):</strong>
+"Government-verified. Deduplicated. Updated every 24 hours. 150,000+ new business registrations across all 50 states. This is LeadSource USA."</div>
+    <button class="copy-btn" onclick="copyText('copy-hooks', this)">Copy Text</button>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ══ -->
+<section class="cta-section">
+  <h2 class="cta-title">Your Next Deal<br>Was Registered Today.</h2>
+  <p class="cta-sub">150,000+ fresh business leads across all 50 states. Updated every 24 hours. Start finding them now.</p>
+  <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+    <a href="#" class="btn-primary" style="font-size:1.05rem; padding:18px 48px;">Explore the Map →</a>
+  </div>
+  <p class="cta-handle">LeadSource USA — National New Business Intelligence</p>
+</section>
+
+<script>
+function copyText(id, btn) {
+  const el = document.getElementById(id);
+  // Get text content without HTML tags
+  const text = el.innerText || el.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Copied!';
+    btn.style.borderColor = '#10b981';
+    btn.style.color = '#10b981';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
