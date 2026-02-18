@@ -40,50 +40,37 @@ jobs:
           pip install -r requirements.txt
           playwright install chromium --with-deps
 
-      # Always delete the stale businesses.json — rebuilt fresh after every scrape
-      - name: Clear stale aggregate file
-        if: ${{ github.event.inputs.mode != 'dry-run' }}
-        run: |
-          rm -f data/businesses.json
-          echo "Cleared stale businesses.json"
-
-      # On reset: also wipe all state scraper files and individual state data
+      # RESET: wipe everything clean before scraping fresh
       - name: Wipe all data (reset mode only)
         if: ${{ github.event.inputs.mode == 'reset' }}
         run: |
           rm -f data/*_scraper_state.json
           rm -f data/*_businesses.json
+          rm -f data/businesses.json
           echo "All state data wiped for fresh start"
 
       - name: Dry run preview
         if: ${{ github.event.inputs.mode == 'dry-run' }}
         run: python3 reset_and_refresh.py --dry-run
 
-      - name: Run all 50 state scrapers
-        if: ${{ github.event.inputs.mode != 'dry-run' }}
+      # RESET: scrape 3000 per state fresh
+      - name: Run scrapers - RESET (3000 per state)
+        if: ${{ github.event.inputs.mode == 'reset' }}
         run: |
           python3 - <<'EOF'
           import subprocess, sys, os, glob, json
 
           schedulers = sorted(glob.glob('*_scheduler.py'))
           schedulers = [s for s in schedulers if s != 'multi_state_scheduler.py']
-          print(f'Running {len(schedulers)} state scrapers...')
-
+          print(f'RESET: Running {len(schedulers)} state scrapers at 3000 per state...')
           os.makedirs('data', exist_ok=True)
           failed = []
 
           for script in schedulers:
               state = script.replace('_scheduler.py','').replace('_',' ').title()
-
-              # Delete state file so the 24h guard never blocks execution
-              state_key = script.replace('_scheduler.py', '')
-              state_file = os.path.join('data', f'{state_key}_scraper_state.json')
-              if os.path.exists(state_file):
-                  os.remove(state_file)
-
               result = subprocess.run(
-                  [sys.executable, script, '--once'],
-                  capture_output=True, text=True, timeout=120
+                  [sys.executable, script, '--once', '--count', '3000'],
+                  capture_output=True, text=True, timeout=180
               )
               if result.returncode == 0:
                   print(f'  v {state}')
@@ -93,56 +80,116 @@ jobs:
                       print(f'    {result.stderr.strip()[:300]}')
                   failed.append(state)
 
-          if failed:
-              print(f'\nWARNING: {len(failed)} states failed: {", ".join(failed)}')
-
-          # Deduplicate each individual state file
-          print('\nDeduplicating state files...')
+          # Dedup each state file
           for filepath in sorted(glob.glob('data/*_businesses.json')):
               try:
                   bizs = json.load(open(filepath))
                   seen, unique = set(), []
-                  bizs.sort(key=lambda x: x.get('scraped_at',''), reverse=True)
-                  for b in bizs:
+                  for b in sorted(bizs, key=lambda x: x.get('scraped_at',''), reverse=True):
                       k = b.get('entity_number') or b.get('business_id') or b.get('name','')
                       if k and k not in seen:
                           seen.add(k)
                           unique.append(b)
                   unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
-                  removed = len(bizs) - len(unique)
                   json.dump(unique, open(filepath,'w'), indent=2)
-                  name = os.path.basename(filepath)
-                  dupes = f' ({removed} dupes removed)' if removed else ''
-                  print(f'  {name}: {len(unique)} records{dupes}')
+                  print(f'  {os.path.basename(filepath)}: {len(unique)} records')
               except Exception as e:
                   print(f'  ERROR {filepath}: {e}')
 
-          # Rebuild businesses.json from all state files
-          print('\nRebuilding businesses.json...')
+          # Rebuild aggregate
           all_biz = []
           for filepath in sorted(glob.glob('data/*_businesses.json')):
-              try:
-                  bizs = json.load(open(filepath))
-                  all_biz.extend(bizs)
-              except Exception as e:
-                  print(f'  Error reading {filepath}: {e}')
-
+              all_biz.extend(json.load(open(filepath)))
           seen, unique = set(), []
-          all_biz.sort(key=lambda x: x.get('scraped_at',''), reverse=True)
-          for b in all_biz:
+          for b in sorted(all_biz, key=lambda x: x.get('scraped_at',''), reverse=True):
               k = b.get('entity_number') or b.get('business_id') or b.get('name','')
               if k and k not in seen:
                   seen.add(k)
                   unique.append(b)
           unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
-
           json.dump(unique, open('data/businesses.json','w'), indent=2)
-          size_mb = os.path.getsize('data/businesses.json') / 1024 / 1024
-          print(f'businesses.json: {len(unique)} total records ({size_mb:.1f} MB)')
-
+          mb = os.path.getsize('data/businesses.json') / 1024 / 1024
+          print(f'\nbusinesses.json: {len(unique)} total records ({mb:.1f} MB)')
           if failed:
+              print(f'WARNING: failed states: {", ".join(failed)}')
               sys.exit(1)
-          print('\nAll done.')
+          EOF
+
+      # DAILY: add 3000 new results per state to existing data, no wipe
+      - name: Run scrapers - DAILY (add 3000 new per state)
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'daily' }}
+        run: |
+          python3 - <<'EOF'
+          import subprocess, sys, os, glob, json
+
+          schedulers = sorted(glob.glob('*_scheduler.py'))
+          schedulers = [s for s in schedulers if s != 'multi_state_scheduler.py']
+          print(f'DAILY: Running {len(schedulers)} state scrapers, adding 3000 new per state...')
+          os.makedirs('data', exist_ok=True)
+          failed = []
+
+          for script in schedulers:
+              state = script.replace('_scheduler.py','').replace('_',' ').title()
+
+              # Remove only the state file (timer guard) — keep existing business data
+              state_key = script.replace('_scheduler.py', '')
+              state_file = os.path.join('data', f'{state_key}_scraper_state.json')
+              if os.path.exists(state_file):
+                  os.remove(state_file)
+
+              result = subprocess.run(
+                  [sys.executable, script, '--once', '--count', '3000'],
+                  capture_output=True, text=True, timeout=180
+              )
+              if result.returncode == 0:
+                  print(f'  v {state}')
+              else:
+                  print(f'  x {state} (exit {result.returncode})')
+                  if result.stderr:
+                      print(f'    {result.stderr.strip()[:300]}')
+                  failed.append(state)
+
+          # Dedup each state file (removes any dupes from the merge)
+          total_removed = 0
+          for filepath in sorted(glob.glob('data/*_businesses.json')):
+              try:
+                  bizs = json.load(open(filepath))
+                  before = len(bizs)
+                  seen, unique = set(), []
+                  for b in sorted(bizs, key=lambda x: x.get('scraped_at',''), reverse=True):
+                      k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+                      if k and k not in seen:
+                          seen.add(k)
+                          unique.append(b)
+                  unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
+                  removed = before - len(unique)
+                  total_removed += removed
+                  json.dump(unique, open(filepath,'w'), indent=2)
+                  dupes = f' (-{removed} dupes)' if removed else ''
+                  print(f'  {os.path.basename(filepath)}: {len(unique)} records{dupes}')
+              except Exception as e:
+                  print(f'  ERROR {filepath}: {e}')
+
+          if total_removed:
+              print(f'  Total duplicates removed: {total_removed}')
+
+          # Rebuild aggregate businesses.json
+          all_biz = []
+          for filepath in sorted(glob.glob('data/*_businesses.json')):
+              all_biz.extend(json.load(open(filepath)))
+          seen, unique = set(), []
+          for b in sorted(all_biz, key=lambda x: x.get('scraped_at',''), reverse=True):
+              k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+              if k and k not in seen:
+                  seen.add(k)
+                  unique.append(b)
+          unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
+          json.dump(unique, open('data/businesses.json','w'), indent=2)
+          mb = os.path.getsize('data/businesses.json') / 1024 / 1024
+          print(f'\nbusinesses.json: {len(unique)} total records ({mb:.1f} MB)')
+          if failed:
+              print(f'WARNING: failed states: {", ".join(failed)}')
+              sys.exit(1)
           EOF
 
       - name: Upload data artifact
