@@ -18,6 +18,9 @@ on:
           - reset       # wipe everything and start fresh
           - dry-run     # preview only, no changes
 
+permissions:
+  contents: write
+
 jobs:
   scrape:
     name: Run BizLeads Scrapers
