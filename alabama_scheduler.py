@@ -19,7 +19,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 CONFIG = {
-    'data_file':            'data/businesses.json',
+    'data_file':            'data/alabama_businesses.json',
     'state_file':           'data/alabama_scraper_state.json',
     'run_interval_hours':   24,
     'businesses_per_run':   1000,
