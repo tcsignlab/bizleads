@@ -1,11 +1,9 @@
 name: BizLeads Scraper
 
 on:
-  # Run daily at 2:00 AM UTC
   schedule:
     - cron: "0 2 * * *"
 
-  # Allow manual trigger from GitHub Actions UI
   workflow_dispatch:
     inputs:
       mode:
@@ -14,9 +12,9 @@ on:
         default: "daily"
         type: choice
         options:
-          - daily       # normal daily run (adds new, deduplicates)
-          - reset       # wipe everything and start fresh
-          - dry-run     # preview only, no changes
+          - daily
+          - reset
+          - dry-run
 
 permissions:
   contents: write
@@ -25,65 +23,59 @@ jobs:
   scrape:
     name: Run BizLeads Scrapers
     runs-on: ubuntu-latest
-    timeout-minutes: 120  # 2 hour cap for all 50 states
+    timeout-minutes: 120
 
     steps:
-      # ── 1. Checkout repo ──────────────────────────────────────────────
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ── 2. Set up Python ──────────────────────────────────────────────
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: pip
 
-      # ── 3. Install dependencies ───────────────────────────────────────
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
           playwright install chromium --with-deps
 
-      # ── 4. Restore cached data between runs ───────────────────────────
-      #       Skip restore on reset so we start clean
-      - name: Restore data cache
-        if: ${{ github.event.inputs.mode != 'reset' }}
-        uses: actions/cache@v4
-        with:
-          path: data/
-          key: bizleads-data-${{ runner.os }}
-          restore-keys: |
-            bizleads-data-
+      # Always delete the stale businesses.json — rebuilt fresh after every scrape
+      - name: Clear stale aggregate file
+        if: ${{ github.event.inputs.mode != 'dry-run' }}
+        run: |
+          rm -f data/businesses.json
+          echo "Cleared stale businesses.json"
 
-      # ── 5a. Full reset + fresh scrape ─────────────────────────────────
-      - name: Reset and scrape fresh (reset mode)
+      # On reset: also wipe all state scraper files and individual state data
+      - name: Wipe all data (reset mode only)
         if: ${{ github.event.inputs.mode == 'reset' }}
-        run: python3 reset_and_refresh.py
+        run: |
+          rm -f data/*_scraper_state.json
+          rm -f data/*_businesses.json
+          echo "All state data wiped for fresh start"
 
-      # ── 5b. Dry run (preview only) ────────────────────────────────────
       - name: Dry run preview
         if: ${{ github.event.inputs.mode == 'dry-run' }}
         run: python3 reset_and_refresh.py --dry-run
 
-      # ── 5c. Normal daily run (scheduled or manual daily) ──────────────
-      - name: Daily scrape (add new, deduplicate)
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'daily' }}
+      - name: Run all 50 state scrapers
+        if: ${{ github.event.inputs.mode != 'dry-run' }}
         run: |
-          python3 -c "
+          python3 - <<'EOF'
           import subprocess, sys, os, glob, json
-          from datetime import datetime
 
           schedulers = sorted(glob.glob('*_scheduler.py'))
-          # Exclude multi_state — we run each state directly
           schedulers = [s for s in schedulers if s != 'multi_state_scheduler.py']
-
           print(f'Running {len(schedulers)} state scrapers...')
+
+          os.makedirs('data', exist_ok=True)
           failed = []
+
           for script in schedulers:
               state = script.replace('_scheduler.py','').replace('_',' ').title()
 
-              # Clear state file so should_run() is not blocked by the 24h timer
+              # Delete state file so the 24h guard never blocks execution
               state_key = script.replace('_scheduler.py', '')
               state_file = os.path.join('data', f'{state_key}_scraper_state.json')
               if os.path.exists(state_file):
@@ -94,18 +86,21 @@ jobs:
                   capture_output=True, text=True, timeout=120
               )
               if result.returncode == 0:
-                  print(f'  ✓ {state}')
+                  print(f'  v {state}')
               else:
-                  print(f'  ✗ {state} (exit {result.returncode})')
+                  print(f'  x {state} (exit {result.returncode})')
                   if result.stderr:
-                      print(f'    {result.stderr.strip()[:200]}')
+                      print(f'    {result.stderr.strip()[:300]}')
                   failed.append(state)
 
-          # Deduplicate all data files
-          for filepath in glob.glob('data/*_businesses.json'):
+          if failed:
+              print(f'\nWARNING: {len(failed)} states failed: {", ".join(failed)}')
+
+          # Deduplicate each individual state file
+          print('\nDeduplicating state files...')
+          for filepath in sorted(glob.glob('data/*_businesses.json')):
               try:
-                  with open(filepath) as f:
-                      bizs = json.load(f)
+                  bizs = json.load(open(filepath))
                   seen, unique = set(), []
                   bizs.sort(key=lambda x: x.get('scraped_at',''), reverse=True)
                   for b in bizs:
@@ -115,22 +110,23 @@ jobs:
                           unique.append(b)
                   unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
                   removed = len(bizs) - len(unique)
-                  with open(filepath, 'w') as f:
-                      json.dump(unique, f, indent=2)
-                  if removed:
-                      print(f'  Deduped {os.path.basename(filepath)}: removed {removed}')
+                  json.dump(unique, open(filepath,'w'), indent=2)
+                  name = os.path.basename(filepath)
+                  dupes = f' ({removed} dupes removed)' if removed else ''
+                  print(f'  {name}: {len(unique)} records{dupes}')
               except Exception as e:
-                  print(f'  Dedup error {filepath}: {e}')
+                  print(f'  ERROR {filepath}: {e}')
 
-          # Rebuild aggregate businesses.json from all state files
-          print('Rebuilding businesses.json...')
+          # Rebuild businesses.json from all state files
+          print('\nRebuilding businesses.json...')
           all_biz = []
-          for filepath in glob.glob('data/*_businesses.json'):
+          for filepath in sorted(glob.glob('data/*_businesses.json')):
               try:
-                  with open(filepath) as f:
-                      all_biz.extend(json.load(f))
+                  bizs = json.load(open(filepath))
+                  all_biz.extend(bizs)
               except Exception as e:
                   print(f'  Error reading {filepath}: {e}')
+
           seen, unique = set(), []
           all_biz.sort(key=lambda x: x.get('scraped_at',''), reverse=True)
           for b in all_biz:
@@ -139,25 +135,16 @@ jobs:
                   seen.add(k)
                   unique.append(b)
           unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
-          with open('data/businesses.json', 'w') as f:
-              json.dump(unique, f, indent=2)
-          print(f'businesses.json rebuilt: {len(unique)} total records')
+
+          json.dump(unique, open('data/businesses.json','w'), indent=2)
+          size_mb = os.path.getsize('data/businesses.json') / 1024 / 1024
+          print(f'businesses.json: {len(unique)} total records ({size_mb:.1f} MB)')
 
           if failed:
-              print(f'WARNING: {len(failed)} states failed: {failed}')
               sys.exit(1)
-          print('All done.')
-          "
+          print('\nAll done.')
+          EOF
 
-      # ── 6. Save data cache for next run ───────────────────────────────
-      - name: Save data cache
-        if: ${{ github.event.inputs.mode != 'dry-run' && always() }}
-        uses: actions/cache@v4
-        with:
-          path: data/
-          key: bizleads-data-${{ runner.os }}
-
-      # ── 7. Upload data as artifact (keeps last 7 days) ────────────────
       - name: Upload data artifact
         if: ${{ github.event.inputs.mode != 'dry-run' }}
         uses: actions/upload-artifact@v4
@@ -166,7 +153,6 @@ jobs:
           path: data/
           retention-days: 7
 
-      # ── 8. Upload logs ────────────────────────────────────────────────
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
@@ -175,9 +161,7 @@ jobs:
           path: "*.log"
           retention-days: 7
 
-      # ── 9. Commit updated data back to repo (optional) ────────────────
-      #       Remove this step if you don't want data committed to git
-      - name: Commit data to repo
+      - name: Commit updated data to repo
         if: ${{ github.event.inputs.mode != 'dry-run' }}
         run: |
           git config user.name  "github-actions[bot]"
