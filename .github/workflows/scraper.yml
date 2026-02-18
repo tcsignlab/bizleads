@@ -122,6 +122,27 @@ jobs:
               except Exception as e:
                   print(f'  Dedup error {filepath}: {e}')
 
+          # Rebuild aggregate businesses.json from all state files
+          print('Rebuilding businesses.json...')
+          all_biz = []
+          for filepath in glob.glob('data/*_businesses.json'):
+              try:
+                  with open(filepath) as f:
+                      all_biz.extend(json.load(f))
+              except Exception as e:
+                  print(f'  Error reading {filepath}: {e}')
+          seen, unique = set(), []
+          all_biz.sort(key=lambda x: x.get('scraped_at',''), reverse=True)
+          for b in all_biz:
+              k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+              if k and k not in seen:
+                  seen.add(k)
+                  unique.append(b)
+          unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
+          with open('data/businesses.json', 'w') as f:
+              json.dump(unique, f, indent=2)
+          print(f'businesses.json rebuilt: {len(unique)} total records')
+
           if failed:
               print(f'WARNING: {len(failed)} states failed: {failed}')
               sys.exit(1)
