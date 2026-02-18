@@ -1,91 +1,154 @@
-name: Run Scraper
+name: BizLeads Scraper
 
 on:
+  # Run daily at 2:00 AM UTC
   schedule:
-    # Run daily at 3 AM UTC (24-hour refresh cycle)
-    - cron: "0 3 * * *"
-  workflow_dispatch:  # Allow manual trigger
+    - cron: "0 2 * * *"
 
-permissions:
-  contents: write
+  # Allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Run mode"
+        required: true
+        default: "daily"
+        type: choice
+        options:
+          - daily       # normal daily run (adds new, deduplicates)
+          - reset       # wipe everything and start fresh
+          - dry-run     # preview only, no changes
 
 jobs:
-  run:
+  scrape:
+    name: Run BizLeads Scrapers
     runs-on: ubuntu-latest
-    timeout-minutes: 120  # 2 hour timeout for all states
+    timeout-minutes: 120  # 2 hour cap for all 50 states
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v4
+      # ── 1. Checkout repo ──────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.11"
+      # ── 2. Set up Python ──────────────────────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
 
-    - name: Cache dependencies
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      # ── 3. Install dependencies ───────────────────────────────────────
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          playwright install chromium --with-deps
 
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip
-        pip install -r requirements.txt
+      # ── 4. Restore cached data between runs ───────────────────────────
+      #       Skip restore on reset so we start clean
+      - name: Restore data cache
+        if: ${{ github.event.inputs.mode != 'reset' }}
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: bizleads-data-${{ runner.os }}
+          restore-keys: |
+            bizleads-data-
 
-    - name: Install Playwright browsers (if needed)
-      run: |
-        playwright install chromium
-      continue-on-error: true
+      # ── 5a. Full reset + fresh scrape ─────────────────────────────────
+      - name: Reset and scrape fresh (reset mode)
+        if: ${{ github.event.inputs.mode == 'reset' }}
+        run: python3 reset_and_refresh.py
 
-    - name: Run scraper
-      env:
-        CA_SOS_API_KEY: ${{ secrets.CA_SOS_API_KEY }}
-      run: |
-        python -m scrapers.super_scraper
-      continue-on-error: true  # Don't fail workflow if some states fail
+      # ── 5b. Dry run (preview only) ────────────────────────────────────
+      - name: Dry run preview
+        if: ${{ github.event.inputs.mode == 'dry-run' }}
+        run: python3 reset_and_refresh.py --dry-run
 
-    - name: Check for changes
-      id: git-check
-      run: |
-        git add data/businesses.json
-        if git diff --staged --quiet; then
-          echo "changed=false" >> $GITHUB_OUTPUT
-        else
-          echo "changed=true" >> $GITHUB_OUTPUT
-        fi
+      # ── 5c. Normal daily run (scheduled or manual daily) ──────────────
+      - name: Daily scrape (add new, deduplicate)
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'daily' }}
+        run: |
+          python3 -c "
+          import subprocess, sys, os, glob, json
+          from datetime import datetime
 
-    - name: Commit and push data
-      if: steps.git-check.outputs.changed == 'true'
-      run: |
-        git config user.email "bizleads-bot@github.com"
-        git config user.name "BizLeads Scraper Bot"
-        timestamp=$(date -u)
-        git commit -m "🔄 Update business data - ${timestamp}"
-        git push
+          schedulers = sorted(glob.glob('*_scheduler.py'))
+          # Exclude multi_state — we run each state directly
+          schedulers = [s for s in schedulers if s != 'multi_state_scheduler.py']
 
-    - name: Upload scraper log
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: scraper-log
-        path: scraper.log
-        retention-days: 30
-        if-no-files-found: ignore  # Don't fail if log file doesn't exist
+          print(f'Running {len(schedulers)} state scrapers...')
+          failed = []
+          for script in schedulers:
+              state = script.replace('_scheduler.py','').replace('_',' ').title()
+              result = subprocess.run(
+                  [sys.executable, script, '--once'],
+                  capture_output=True, text=True, timeout=120
+              )
+              if result.returncode == 0:
+                  print(f'  ✓ {state}')
+              else:
+                  print(f'  ✗ {state} (exit {result.returncode})')
+                  failed.append(state)
 
-    - name: Create summary
-      if: always()
-      run: |
-        echo "## Scraper Run Summary" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**Date:** $(date -u)" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        if [ -f scraper.log ]; then
-          echo "### Last 20 lines of log:" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          tail -n 20 scraper.log >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-        fi
+          # Deduplicate all data files
+          for filepath in glob.glob('data/*_businesses.json'):
+              try:
+                  with open(filepath) as f:
+                      bizs = json.load(f)
+                  seen, unique = set(), []
+                  bizs.sort(key=lambda x: x.get('scraped_at',''), reverse=True)
+                  for b in bizs:
+                      k = b.get('entity_number') or b.get('business_id') or b.get('name','')
+                      if k and k not in seen:
+                          seen.add(k)
+                          unique.append(b)
+                  unique.sort(key=lambda x: x.get('registration_date',''), reverse=True)
+                  removed = len(bizs) - len(unique)
+                  with open(filepath, 'w') as f:
+                      json.dump(unique, f, indent=2)
+                  if removed:
+                      print(f'  Deduped {os.path.basename(filepath)}: removed {removed}')
+              except Exception as e:
+                  print(f'  Dedup error {filepath}: {e}')
+
+          if failed:
+              print(f'WARNING: {len(failed)} states failed: {failed}')
+              sys.exit(1)
+          print('All done.')
+          "
+
+      # ── 6. Save data cache for next run ───────────────────────────────
+      - name: Save data cache
+        if: ${{ github.event.inputs.mode != 'dry-run' && always() }}
+        uses: actions/cache@v4
+        with:
+          path: data/
+          key: bizleads-data-${{ runner.os }}
+
+      # ── 7. Upload data as artifact (keeps last 7 days) ────────────────
+      - name: Upload data artifact
+        if: ${{ github.event.inputs.mode != 'dry-run' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: bizleads-data-${{ github.run_number }}
+          path: data/
+          retention-days: 7
+
+      # ── 8. Upload logs ────────────────────────────────────────────────
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-logs-${{ github.run_number }}
+          path: "*.log"
+          retention-days: 7
+
+      # ── 9. Commit updated data back to repo (optional) ────────────────
+      #       Remove this step if you don't want data committed to git
+      - name: Commit data to repo
+        if: ${{ github.event.inputs.mode != 'dry-run' }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: update scraper data [skip ci]"
+          git push
