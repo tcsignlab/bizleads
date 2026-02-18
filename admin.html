@@ -333,7 +333,7 @@
 // ── ADMIN AUTH ──
 // Admin password hash — change this to your own admin password
 // Current: AdminSecure2026!
-const ADMIN_HASH = '925038c986a29ab92c68433f86bc89f4ecd9899e23687951b460e0bf45c3e06b';
+const ADMIN_HASH = '1c4d747bcd07e9c3d41babc1af9aed2c235f7c2f87622983cf7517210e9bea58';
 
 async function sha256(msg) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
