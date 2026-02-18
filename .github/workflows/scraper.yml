@@ -82,6 +82,13 @@ jobs:
           failed = []
           for script in schedulers:
               state = script.replace('_scheduler.py','').replace('_',' ').title()
+
+              # Clear state file so should_run() is not blocked by the 24h timer
+              state_key = script.replace('_scheduler.py', '')
+              state_file = os.path.join('data', f'{state_key}_scraper_state.json')
+              if os.path.exists(state_file):
+                  os.remove(state_file)
+
               result = subprocess.run(
                   [sys.executable, script, '--once'],
                   capture_output=True, text=True, timeout=120
@@ -90,6 +97,8 @@ jobs:
                   print(f'  ✓ {state}')
               else:
                   print(f'  ✗ {state} (exit {result.returncode})')
+                  if result.stderr:
+                      print(f'    {result.stderr.strip()[:200]}')
                   failed.append(state)
 
           # Deduplicate all data files
