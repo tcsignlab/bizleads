@@ -223,10 +223,13 @@ class MinnesotaScheduledScraper:
         cutoff = (datetime.now() - timedelta(days=30)).strftime("%Y-%m-%d")
         seen, unique = set(), []
         for biz in existing + new:
-            en = biz.get("entity_number")
+            en = biz.get("entity_number", "")
+            state = biz.get("state", "")
             reg = biz.get("registration_date", "")
-            if en and en not in seen and reg >= cutoff:
-                seen.add(en)
+            # Use state+entity_number as key so identical numbers across states don't collide
+            key = f"{state}_{en}" if en else biz.get("business_id", "")
+            if key and key not in seen and reg >= cutoff:
+                seen.add(key)
                 unique.append(biz)
         unique.sort(key=lambda x: x.get("registration_date", ""), reverse=True)
         logger.info(f"Retained {len(unique)} businesses registered in last 30 days")
