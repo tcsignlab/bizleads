@@ -462,6 +462,7 @@ header {
   }
 }
 </style>
+<script src="auth.js"></script>
 </head>
 <body>
 
@@ -470,7 +471,10 @@ header {
     <div class="logo-icon">💲</div>
     <span class="logo-text">LeadSource USA - State Intelligence Map</span>
   </a>
-  <a href="index.html" class="back-link">← Back to States</a>
+  <div style="display:flex;align-items:center;gap:12px;">
+    <a href="index.html" class="back-link">← Back to States</a>
+    <button onclick="leadsourceLogout()" style="padding:8px 16px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:#8a95b5; font-family:inherit; font-size:0.78rem; font-weight:600; cursor:pointer; letter-spacing:1px; transition:all 0.2s;" onmouseover="this.style.borderColor='#ef4444';this.style.color='#ef4444'" onmouseout="this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='#8a95b5'">Logout</button>
+  </div>
 </header>
 
 <div class="container">

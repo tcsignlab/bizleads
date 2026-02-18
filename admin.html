@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LeadSource USA — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #080a0f; --panel: #0e1118; --border: #1c2130;
+    --pink: #f05da4; --blue: #4a7fff; --gold: #ffd700;
+    --green: #10b981; --red: #ef4444;
+    --text: #eef2ff; --muted: #5a6480;
+  }
+  body {
+    background: var(--bg);
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px;
+  }
+
+  /* ── LOGIN GATE ── */
+  #admin-gate {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 48px 40px;
+    width: 100%; max-width: 400px;
+    text-align: center;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    margin: auto;
+  }
+
+  #admin-panel { display: none; width: 100%; max-width: 760px; }
+
+  .logo-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+  .logo-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 3px;
+  }
+  .logo-sub { font-size: 0.65rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; display: block; }
+
+  .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+  label {
+    display: block; text-align: left;
+    font-size: 0.7rem; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px;
+  }
+
+  input[type="password"], input[type="text"] {
+    width: 100%; padding: 13px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  input:focus { border-color: var(--pink); }
+
+  .btn {
+    padding: 12px 24px;
+    border: none; border-radius: 8px;
+    font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.2s, transform 0.2s;
+  }
+  .btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .btn-pink { background: linear-gradient(135deg, var(--pink), #c0387a); color: #fff; width: 100%; margin-top: 14px; padding: 14px; }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-red   { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  .btn-copy  { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--border); font-size: 0.78rem; padding: 8px 16px; }
+  .btn-sm    { padding: 7px 14px; font-size: 0.72rem; }
+
+  .error-msg { color: var(--red); font-size: 0.8rem; margin-top: 10px; display: none; }
+  .error-msg.show { display: block; }
+
+  /* ── ADMIN PANEL ── */
+  .admin-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+
+  .admin-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; }
+  .admin-sub { font-size: 0.72rem; color: var(--muted); letter-spacing: 1px; }
+
+  .section-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; letter-spacing: 3px;
+    color: var(--pink); margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Generate password */
+  .gen-result {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(16,185,129,0.06);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 10px;
+  }
+
+  .gen-result.show { display: block; }
+
+  .gen-password-display {
+    font-family: 'Courier New', monospace;
+    font-size: 1.5rem; font-weight: 700;
+    color: var(--green);
+    letter-spacing: 3px;
+    margin: 12px 0;
+    padding: 14px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .gen-label { font-size: 0.7rem; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+
+  .gen-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+  .email-template {
+    margin-top: 16px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    color: #8a95b5;
+    line-height: 1.7;
+    white-space: pre-wrap;
+  }
+
+  .note-input {
+    margin-bottom: 14px;
+  }
+
+  /* Password list */
+  .pw-table { width: 100%; border-collapse: collapse; }
+  .pw-table th {
+    text-align: left;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pw-table td {
+    padding: 12px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.82rem;
+    vertical-align: middle;
+  }
+  .pw-table tr:last-child td { border-bottom: none; }
+  .pw-table .hash-cell {
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+  }
+  .badge-active { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+  .badge-revoked { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+
+  .instructions {
+    padding: 18px 20px;
+    background: rgba(74,127,255,0.05);
+    border: 1px solid rgba(74,127,255,0.15);
+    border-radius: 8px;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    color: #8a95b5;
+  }
+  .instructions strong { color: var(--text); }
+  .instructions code {
+    background: rgba(255,255,255,0.06);
+    padding: 2px 6px; border-radius: 4px;
+    font-size: 0.78rem; color: var(--gold);
+  }
+
+  .logout-link {
+    font-size: 0.78rem; color: var(--muted); cursor: pointer;
+    border: none; background: none; font-family: inherit;
+    text-decoration: underline; text-decoration-color: transparent;
+    transition: color 0.2s;
+  }
+  .logout-link:hover { color: var(--red); }
+
+  .empty-state { text-align: center; padding: 32px; color: var(--muted); font-size: 0.85rem; }
+  .empty-icon { font-size: 2rem; display: block; margin-bottom: 8px; }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--green); color: #fff;
+    padding: 12px 20px; border-radius: 8px;
+    font-size: 0.85rem; font-weight: 600;
+    opacity: 0; transform: translateY(8px);
+    transition: all 0.3s; pointer-events: none; z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  .json-output {
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    color: var(--gold);
+    overflow-x: auto;
+    white-space: pre;
+    margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ── ADMIN LOGIN GATE ── -->
+<div id="admin-gate">
+  <span class="logo-icon">🔐</span>
+  <span class="logo-name">Admin Panel</span>
+  <span class="logo-sub">LeadSource USA</span>
+  <div class="divider"></div>
+  <label for="admin-pw">Admin Password</label>
+  <input type="password" id="admin-pw" placeholder="Enter admin password" />
+  <div class="error-msg" id="admin-error">Wrong password.</div>
+  <button class="btn btn-pink" onclick="adminLogin()">Login →</button>
+</div>
+
+<!-- ── ADMIN PANEL ── -->
+<div id="admin-panel">
+
+  <div class="admin-header">
+    <div>
+      <div class="admin-title">⚙️ LeadSource Admin</div>
+      <div class="admin-sub">Password Management Dashboard</div>
+    </div>
+    <button class="logout-link" onclick="adminLogout()">Logout</button>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section-card">
+    <div class="section-title">📋 How It Works</div>
+    <div class="instructions">
+      <strong>When a customer pays via Square:</strong><br>
+      1. Click <strong>Generate Password</strong> below — a unique password is created instantly.<br>
+      2. Copy the <strong>ready-to-send email template</strong> and send it to your customer.<br>
+      3. Click <strong>Add to passwords.json</strong> — copy the updated JSON shown.<br>
+      4. Go to your GitHub repo → <code>data/passwords.json</code> → edit → paste → commit.<br>
+      5. Customer can log in immediately after GitHub Pages deploys (~30 seconds).<br><br>
+      <strong>To revoke access:</strong> Remove the password's hash from <code>passwords.json</code> and commit. Access is revoked instantly on next page load.
+    </div>
+  </div>
+
+  <!-- GENERATE PASSWORD -->
+  <div class="section-card">
+    <div class="section-title">🔑 Generate New Password</div>
+
+    <div class="note-input">
+      <label for="pw-note">Customer Note (optional — for your records)</label>
+      <input type="text" id="pw-note" placeholder="e.g. john@example.com — Feb 2026" />
+    </div>
+
+    <button class="btn btn-green" onclick="generatePassword()">⚡ Generate Password</button>
+
+    <div class="gen-result" id="gen-result">
+      <div class="gen-label">Generated Password — send this to your customer</div>
+      <div class="gen-password-display" id="gen-pw-display">—</div>
+
+      <div class="gen-actions">
+        <button class="btn btn-copy btn-sm" onclick="copyPassword()">📋 Copy Password</button>
+        <button class="btn btn-copy btn-sm" onclick="copyEmail()">✉️ Copy Email Template</button>
+        <button class="btn btn-green btn-sm" onclick="addToJson()">✅ Add to passwords.json</button>
+      </div>
+
+      <div class="email-template" id="email-template">—</div>
+
+      <div id="json-section" style="display:none;">
+        <div class="gen-label" style="margin-top:16px;">📄 Updated passwords.json — Copy & paste into GitHub</div>
+        <div class="json-output" id="json-output">—</div>
+        <div style="margin-top:12px; display:flex; gap:10px;">
+          <button class="btn btn-copy btn-sm" onclick="copyJson()">📋 Copy JSON</button>
+          <a id="github-link" href="https://github.com/tcsignlab/bizleads/edit/main/data/passwords.json" target="_blank" class="btn btn-copy btn-sm" style="text-decoration:none;">🐙 Open in GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVE PASSWORDS -->
+  <div class="section-card">
+    <div class="section-title">🗄️ Active Passwords</div>
+    <div id="pw-list-container">
+      <div class="empty-state">
+        <span class="empty-icon">🔍</span>
+        Load passwords.json to see active passwords
+      </div>
+    </div>
+    <button class="btn btn-copy btn-sm" style="margin-top:16px;" onclick="loadPasswords()">🔄 Refresh from passwords.json</button>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">✓ Copied!</div>
+
+<script>
+// ── ADMIN AUTH ──
+// Admin password hash — change this to your own admin password
+// Current: AdminSecure2026!
+const ADMIN_HASH = '925038c986a29ab92c68433f86bc89f4ecd9899e23687951b460e0bf45c3e06b';
+
+async function sha256(msg) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function adminLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  const hash = await sha256(pw);
+  if (hash === ADMIN_HASH) {
+    sessionStorage.setItem('admin_auth', '1');
+    document.getElementById('admin-gate').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadPasswords();
+  } else {
+    document.getElementById('admin-error').classList.add('show');
+  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem('admin_auth');
+  location.reload();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (sessionStorage.getItem('admin_auth') === '1') {
+    document.getElementById('admin-gate').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    loadPasswords();
+  }
+  document.getElementById('admin-pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') adminLogin();
+  });
+});
+
+// ── PASSWORD GENERATION ──
+const WORDS = [
+  'apex','bolt','cedar','drift','echo','flare','grove','haven','iris','jade',
+  'keen','lark','mist','north','orbit','prism','quest','ridge','slate','tide',
+  'ultra','vault','wren','xenon','yield','zenith','amber','blaze','crane','dusk'
+];
+
+let currentPassword = null;
+let currentHash = null;
+let currentNote = '';
+let loadedPasswords = [];
+
+function genPasswordStr() {
+  const w1 = WORDS[Math.floor(Math.random() * WORDS.length)];
+  const w2 = WORDS[Math.floor(Math.random() * WORDS.length)];
+  const n  = String(Math.floor(Math.random() * 90) + 10);
+  return `${w1}-${w2}-${n}`;
+}
+
+async function generatePassword() {
+  const pw = genPasswordStr();
+  const hash = await sha256(pw);
+  const note = document.getElementById('pw-note').value.trim() || 'customer';
+  const today = new Date().toISOString().split('T')[0];
+
+  currentPassword = pw;
+  currentHash = hash;
+  currentNote = note;
+
+  document.getElementById('gen-pw-display').textContent = pw;
+
+  document.getElementById('email-template').textContent =
+`Subject: Your LeadSource USA Access Password
+
+Hi there,
+
+Thank you for subscribing to LeadSource USA!
+
+Your access password is:
+
+    ${pw}
+
+To log in, visit:
+    https://tcsignlab.github.io/bizleads/login.html
+
+Enter your password and you'll have immediate access to 150,000+ fresh
+business leads across all 50 states, updated every 24 hours.
+
+Keep this password safe — it's unique to your account.
+
+Questions? Reply to this email anytime.
+
+— LeadSource USA Team`;
+
+  document.getElementById('gen-result').classList.add('show');
+  document.getElementById('json-section').style.display = 'none';
+}
+
+async function addToJson() {
+  if (!currentHash) return;
+  const today = new Date().toISOString().split('T')[0];
+
+  const newEntry = {
+    hash: currentHash,
+    created: today,
+    note: currentNote
+  };
+
+  // Merge with loaded passwords
+  const updatedPasswords = [...loadedPasswords, newEntry];
+  const jsonStr = JSON.stringify({ passwords: updatedPasswords }, null, 2);
+
+  document.getElementById('json-output').textContent = jsonStr;
+  document.getElementById('json-section').style.display = 'block';
+
+  // Update local list
+  loadedPasswords = updatedPasswords;
+  renderPasswordList();
+  showToast('✅ Entry added — copy JSON and commit to GitHub');
+}
+
+// ── LOAD PASSWORDS ──
+async function loadPasswords() {
+  try {
+    const res = await fetch('../data/passwords.json?_=' + Date.now());
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    loadedPasswords = data.passwords || [];
+    renderPasswordList();
+  } catch(e) {
+    loadedPasswords = [];
+    document.getElementById('pw-list-container').innerHTML =
+      '<div class="empty-state"><span class="empty-icon">⚠️</span>Could not load passwords.json — make sure it exists in data/</div>';
+  }
+}
+
+function renderPasswordList() {
+  const container = document.getElementById('pw-list-container');
+  if (!loadedPasswords.length) {
+    container.innerHTML = '<div class="empty-state"><span class="empty-icon">🔑</span>No passwords yet. Generate one above.</div>';
+    return;
+  }
+
+  let html = `<table class="pw-table">
+    <thead><tr>
+      <th>#</th>
+      <th>Note</th>
+      <th>Created</th>
+      <th>Hash (partial)</th>
+      <th>Status</th>
+      <th></th>
+    </tr></thead><tbody>`;
+
+  loadedPasswords.forEach((pw, i) => {
+    const shortHash = pw.hash.substring(0, 16) + '...';
+    html += `<tr>
+      <td style="color:var(--muted)">${i + 1}</td>
+      <td>${pw.note || '—'}</td>
+      <td style="color:var(--muted)">${pw.created || '—'}</td>
+      <td class="hash-cell">${shortHash}</td>
+      <td><span class="status-badge badge-active">Active</span></td>
+      <td><button class="btn btn-red btn-sm" onclick="revokePassword(${i})">Revoke</button></td>
+    </tr>`;
+  });
+
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+function revokePassword(index) {
+  const pw = loadedPasswords[index];
+  if (!confirm(`Revoke access for "${pw.note || 'this customer'}"? They will be logged out immediately.`)) return;
+
+  loadedPasswords.splice(index, 1);
+  renderPasswordList();
+
+  const jsonStr = JSON.stringify({ passwords: loadedPasswords }, null, 2);
+  document.getElementById('json-output').textContent = jsonStr;
+  document.getElementById('json-section').style.display = 'block';
+  showToast('🚫 Revoked — copy JSON and commit to GitHub');
+}
+
+// ── COPY HELPERS ──
+function copyPassword() {
+  if (!currentPassword) return;
+  navigator.clipboard.writeText(currentPassword);
+  showToast('✓ Password copied!');
+}
+
+function copyEmail() {
+  const t = document.getElementById('email-template').textContent;
+  navigator.clipboard.writeText(t);
+  showToast('✓ Email template copied!');
+}
+
+function copyJson() {
+  const t = document.getElementById('json-output').textContent;
+  navigator.clipboard.writeText(t);
+  showToast('✓ JSON copied — paste into GitHub!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
