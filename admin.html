@@ -453,7 +453,7 @@ async function addToJson() {
 // ── LOAD PASSWORDS ──
 async function loadPasswords() {
   try {
-    const res = await fetch('../data/passwords.json?_=' + Date.now());
+    const res = await fetch('data/passwords.json?_=' + Date.now());
     if (!res.ok) throw new Error();
     const data = await res.json();
     loadedPasswords = data.passwords || [];
