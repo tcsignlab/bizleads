@@ -197,14 +197,36 @@ def deduplicate_file(filepath):
     return original_count, len(unique)
 
 
-def run_scraper_once(script_name, dry_run=False):
-    """Run a single state scheduler with --once flag."""
+def clear_state_file_for(script_name, dry_run=False):
+    """
+    Delete the scraper state file for a given scheduler script so that
+    should_run() returns True on the next execution (last_run will be None).
+    State file naming convention: data/{state}_scraper_state.json
+    """
+    state_key = script_name.replace("_scheduler.py", "")
+    state_file = os.path.join(DATA_DIR, f"{state_key}_scraper_state.json")
+    if os.path.exists(state_file):
+        if dry_run:
+            logger.info(f"    [DRY RUN] Would delete state: {os.path.basename(state_file)}")
+        else:
+            os.remove(state_file)
+            logger.info(f"    Cleared state: {os.path.basename(state_file)}")
+
+
+def run_scraper_once(script_name, dry_run=False, force=False):
+    """
+    Run a single state scheduler with --once flag.
+    If force=True, delete its state file first so should_run() is not blocked.
+    """
     script_path = os.path.join(BASE_DIR, script_name)
     if not os.path.exists(script_path):
         logger.warning(f"  Script not found, skipping: {script_name}")
         return False
 
     state_label = script_name.replace("_scheduler.py", "").replace("_", " ").title()
+
+    # Always force: clear state so the "too soon" guard doesn't skip the run
+    clear_state_file_for(script_name, dry_run=dry_run)
 
     if dry_run:
         logger.info(f"  [DRY RUN] Would run: python3 {script_name} --once")
