@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — LeadSource USA</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #000;
+    font-family: 'Barlow', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 16px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 560px;
+    background: #080a0f;
+    border-radius: 16px;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Header — matches email gradient */
+  .card-header {
+    background: linear-gradient(135deg, #f05da4, #4a7fff);
+    padding: 28px 40px;
+    text-align: center;
+  }
+  .card-header .icon { font-size: 1.8rem; margin-bottom: 6px; }
+  .card-header .brand {
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+  .card-header .tagline {
+    font-size: 0.68rem;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Body */
+  .card-body { padding: 32px 40px; }
+
+  .card-body h2 {
+    color: #eef2ff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .card-body p {
+    color: #8a95b5;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  /* Form */
+  .form-group { margin-bottom: 18px; }
+
+  label {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #5a6480;
+    margin-bottom: 8px;
+  }
+
+  input[type="email"],
+  input[type="text"],
+  textarea {
+    width: 100%;
+    background: #0e1118;
+    border: 2px solid #1c2130;
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: #eef2ff;
+    font-family: 'Barlow', Arial, sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    resize: vertical;
+  }
+
+  input[type="email"]:focus,
+  input[type="text"]:focus,
+  textarea:focus {
+    border-color: rgba(240, 93, 164, 0.6);
+    box-shadow: 0 0 0 3px rgba(240, 93, 164, 0.1);
+  }
+
+  textarea { min-height: 120px; }
+
+  /* Password-style highlight box reused for name */
+  .highlight-box {
+    background: #0e1118;
+    border: 2px solid rgba(255,215,0,0.35);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+  }
+  .highlight-box label { margin-bottom: 8px; }
+  .highlight-box input {
+    background: #020406;
+    border-color: transparent;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: #ffd700;
+  }
+  .highlight-box input:focus {
+    border-color: rgba(255,215,0,0.5);
+    box-shadow: 0 0 0 3px rgba(255,215,0,0.08);
+  }
+
+  /* Submit button */
+  .btn-submit {
+    display: inline-block;
+    width: 100%;
+    background: linear-gradient(135deg, #f05da4, #c0387a);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 14px 40px;
+    border-radius: 8px;
+    font-family: 'Barlow', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 8px;
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .btn-submit:hover  { opacity: 0.9; transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); opacity: 1; }
+
+  /* Success state */
+  .success-msg {
+    display: none;
+    background: #0e1118;
+    border: 2px solid rgba(74,127,255,0.4);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    color: #8a95b5;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin-top: 16px;
+  }
+  .success-msg strong { color: #eef2ff; display: block; margin-bottom: 4px; font-size: 1rem; }
+
+  /* Footer */
+  .card-footer {
+    padding: 16px 40px 28px;
+    border-top: 1px solid #1c2130;
+    text-align: center;
+  }
+  .card-footer p {
+    color: #3a4460;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <!-- Header -->
+  <div class="card-header">
+    <div class="icon">💲</div>
+    <div class="brand">LeadSource USA</div>
+    <div class="tagline">National New Business Intelligence</div>
+  </div>
+
+  <!-- Body / Form -->
+  <div class="card-body">
+    <h2>Get in touch</h2>
+    <p>Have a question about your subscription or leads data? Send us a message and we'll get back to you shortly.</p>
+
+    <form action="https://formspree.io/f/mrealdpw" method="POST" id="contact-form">
+
+      <!-- Name — styled like the password box -->
+      <div class="highlight-box">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="Full name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="How can we help you?" required></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit">Send Message</button>
+    </form>
+
+    <div class="success-msg" id="success-msg">
+      <strong>Message sent! ✓</strong>
+      We'll get back to you as soon as possible.
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="card-footer">
+    <p>LeadSource USA · $39.99/month · Cancel anytime<br>Or reply directly to your welcome email.</p>
+  </div>
+
+</div>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const successMsg = document.getElementById('success-msg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('.btn-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.style.display = 'none';
+        successMsg.style.display = 'block';
+      } else {
+        btn.textContent = 'Try Again';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Try Again';
+      btn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>
