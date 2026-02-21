@@ -1,5 +1,33 @@
 [
   {
+    "name": "New England Retail Enterprises LLC",
+    "state": "NH",
+    "entity_number": "100-000-849",
+    "registration_date": "2026-02-21",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #190",
+    "address": "Durham, NH 03399",
+    "scraped_at": "2026-02-21T05:14:00.836726",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "af4966cece95"
+  },
+  {
+    "name": "Freedom Systems LLC",
+    "state": "NH",
+    "entity_number": "100-001-759",
+    "registration_date": "2026-02-20",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #555",
+    "address": "Exeter, NH 03252",
+    "scraped_at": "2026-02-21T05:14:00.849254",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "8a42f92aaede"
+  },
+  {
     "name": "Nashua Services PC",
     "state": "NH",
     "entity_number": "100-002-620",
@@ -68,6 +96,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "be261ef7fae2"
+  },
+  {
+    "name": "Londonderry Tourism Inc",
+    "state": "NH",
+    "entity_number": "100-000-921",
+    "registration_date": "2026-02-19",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #351",
+    "address": "Londonderry, NH 03373",
+    "scraped_at": "2026-02-21T05:14:00.837694",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "d45ec0590e7b"
   },
   {
     "name": "Merrimack Legal Inc",
@@ -320,6 +362,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "8f4894270854"
+  },
+  {
+    "name": "Yankee Biotechnology Networks Corp",
+    "state": "NH",
+    "entity_number": "100-002-327",
+    "registration_date": "2026-02-18",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #238",
+    "address": "Milford, NH 03866",
+    "scraped_at": "2026-02-21T05:14:00.857768",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "68971074a04e"
   },
   {
     "name": "North Country Services Corp",
@@ -4254,6 +4310,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "6855234112f3"
+  },
+  {
+    "name": "Hampton Technology LP",
+    "state": "NH",
+    "entity_number": "100-002-294",
+    "registration_date": "2026-02-17",
+    "entity_type": "Limited Partnership",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #607",
+    "address": "Salem, NH 03451",
+    "scraped_at": "2026-02-21T05:14:00.857339",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "665d4214e56e"
   },
   {
     "name": "Hampton Education Corp",
@@ -17108,6 +17178,20 @@
     "business_id": "6a773575b04c"
   },
   {
+    "name": "New England Construction Logistics Inc",
+    "state": "NH",
+    "entity_number": "100-002-824",
+    "registration_date": "2026-02-13",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #773",
+    "address": "Merrimack, NH 03464",
+    "scraped_at": "2026-02-21T05:14:00.864504",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "806fed7dd81e"
+  },
+  {
     "name": "Derry Technologies PC",
     "state": "NH",
     "entity_number": "100-000-712",
@@ -19908,6 +19992,20 @@
     "business_id": "41c60eb29971"
   },
   {
+    "name": "North Country Technology Capital LLP",
+    "state": "NH",
+    "entity_number": "100-002-464",
+    "registration_date": "2026-02-12",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #456",
+    "address": "Milford, NH 03846",
+    "scraped_at": "2026-02-21T05:14:00.859648",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "c855ac00734e"
+  },
+  {
     "name": "Patriot Biotechnology Partners Inc",
     "state": "NH",
     "entity_number": "100-000-113",
@@ -22204,6 +22302,20 @@
     "business_id": "ac7723084ab1"
   },
   {
+    "name": "Freedom Healthcare Development Inc",
+    "state": "NH",
+    "entity_number": "100-001-299",
+    "registration_date": "2026-02-11",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #711",
+    "address": "Laconia, NH 03277",
+    "scraped_at": "2026-02-21T05:14:00.843043",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "657368aa278b"
+  },
+  {
     "name": "Nashua Technologies LP",
     "state": "NH",
     "entity_number": "100-002-804",
@@ -24260,6 +24372,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "cfef4732c075"
+  },
+  {
+    "name": "Bedford Legal LLP",
+    "state": "NH",
+    "entity_number": "100-001-535",
+    "registration_date": "2026-02-10",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #609",
+    "address": "Hudson, NH 03145",
+    "scraped_at": "2026-02-21T05:14:00.846231",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "40f31c63edd5"
   },
   {
     "name": "Milford Consulting PC",
@@ -40684,6 +40810,20 @@
     "business_id": "df8980fd781d"
   },
   {
+    "name": "Heritage Resources LLP",
+    "state": "NH",
+    "entity_number": "100-001-659",
+    "registration_date": "2026-01-25",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #803",
+    "address": "Hampton, NH 03794",
+    "scraped_at": "2026-02-21T05:14:00.847906",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "95979305cb29"
+  },
+  {
     "name": "Hudson Development Inc",
     "state": "NH",
     "entity_number": "100-001-993",
@@ -41074,6 +41214,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "1db2f0b0043f"
+  },
+  {
+    "name": "Laconia Construction LLC",
+    "state": "NH",
+    "entity_number": "100-001-362",
+    "registration_date": "2026-01-24",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #842",
+    "address": "Nashua, NH 03807",
+    "scraped_at": "2026-02-21T05:14:00.843893",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "3664d9099eca"
   },
   {
     "name": "Windham Healthcare Corp",
@@ -41608,6 +41762,34 @@
     "business_id": "0dce28821ce9"
   },
   {
+    "name": "Merrimack Legal LLP",
+    "state": "NH",
+    "entity_number": "100-001-558",
+    "registration_date": "2026-01-22",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #699",
+    "address": "Merrimack, NH 03505",
+    "scraped_at": "2026-02-21T05:14:00.846532",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "9e4327df81d3"
+  },
+  {
+    "name": "Seacoast Advisors Inc",
+    "state": "NH",
+    "entity_number": "100-001-348",
+    "registration_date": "2026-01-22",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "New Hampshire Registered Agent #681",
+    "address": "Bedford, NH 03433",
+    "scraped_at": "2026-02-21T05:14:00.843695",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "df2d29bf275e"
+  },
+  {
     "name": "White Mountain Biotechnology Resources Inc",
     "state": "NH",
     "entity_number": "100-000-869",
@@ -41816,187 +41998,5 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "c80b2fad1791"
-  },
-  {
-    "name": "White Mountain Management Corp",
-    "state": "NH",
-    "entity_number": "100-002-824",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #944",
-    "address": "Nashua, NH 03501",
-    "scraped_at": "2026-02-20T05:41:40.988344",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "3f2f484c4b52"
-  },
-  {
-    "name": "Portsmouth Enterprises Corp",
-    "state": "NH",
-    "entity_number": "100-001-759",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #992",
-    "address": "Derry, NH 03084",
-    "scraped_at": "2026-02-19T05:46:02.174907",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "15b82e4d023c"
-  },
-  {
-    "name": "Manchester Industries Inc",
-    "state": "NH",
-    "entity_number": "100-002-464",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #800",
-    "address": "Keene, NH 03260",
-    "scraped_at": "2026-02-18T03:23:44.919560",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "233557a01340"
-  },
-  {
-    "name": "Durham Biotechnology LP",
-    "state": "NH",
-    "entity_number": "100-002-327",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Partnership",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #826",
-    "address": "Rochester, NH 03884",
-    "scraped_at": "2026-02-18T03:23:44.917692",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "f16774e44a48"
-  },
-  {
-    "name": "Seacoast Real Estate Advisors Corp",
-    "state": "NH",
-    "entity_number": "100-002-294",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #382",
-    "address": "Durham, NH 03153",
-    "scraped_at": "2026-02-18T03:23:44.917248",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "dd3a61b7a13e"
-  },
-  {
-    "name": "Durham Defense LP",
-    "state": "NH",
-    "entity_number": "100-001-659",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Partnership",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #409",
-    "address": "Milford, NH 03226",
-    "scraped_at": "2026-02-18T03:23:44.907786",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "e95be6f389e2"
-  },
-  {
-    "name": "Portsmouth Enterprises LLP",
-    "state": "NH",
-    "entity_number": "100-001-558",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #835",
-    "address": "Concord, NH 03751",
-    "scraped_at": "2026-02-18T03:23:44.906392",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "a93e7e7681bd"
-  },
-  {
-    "name": "Granite State Holdings PC",
-    "state": "NH",
-    "entity_number": "100-001-535",
-    "registration_date": "2026-01-21",
-    "entity_type": "Professional Corporation",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #587",
-    "address": "Goffstown, NH 03381",
-    "scraped_at": "2026-02-18T03:23:44.906089",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "ce20f5781e89"
-  },
-  {
-    "name": "Lake Technology Advisors LLP",
-    "state": "NH",
-    "entity_number": "100-001-362",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #194",
-    "address": "Nashua, NH 03386",
-    "scraped_at": "2026-02-18T03:23:44.903715",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "45a6c9f85a1e"
-  },
-  {
-    "name": "Hudson Solutions LP",
-    "state": "NH",
-    "entity_number": "100-001-348",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Partnership",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #891",
-    "address": "Salem, NH 03186",
-    "scraped_at": "2026-02-18T03:23:44.903521",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "aa3e1020818c"
-  },
-  {
-    "name": "Milford Networks LP",
-    "state": "NH",
-    "entity_number": "100-001-299",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Partnership",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #906",
-    "address": "Concord, NH 03430",
-    "scraped_at": "2026-02-18T03:23:44.902807",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "42de09bf29d3"
-  },
-  {
-    "name": "Rochester Capital LLC",
-    "state": "NH",
-    "entity_number": "100-000-921",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Liability Company",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #827",
-    "address": "Londonderry, NH 03568",
-    "scraped_at": "2026-02-18T03:23:44.897476",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "da5324a8ca4a"
-  },
-  {
-    "name": "Nashua Retail LP",
-    "state": "NH",
-    "entity_number": "100-000-849",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Partnership",
-    "status": "Active",
-    "registered_agent": "New Hampshire Registered Agent #197",
-    "address": "Manchester, NH 03884",
-    "scraped_at": "2026-02-18T03:23:44.896504",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "9849486ceb2f"
   }
 ]

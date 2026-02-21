@@ -1,5 +1,19 @@
 [
   {
+    "name": "Brookings Associates LP",
+    "state": "SD",
+    "entity_number": "100-002-181",
+    "registration_date": "2026-02-21",
+    "entity_type": "Limited Partnership",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #317",
+    "address": "Brookings, SD 57798",
+    "scraped_at": "2026-02-21T05:14:02.357603",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "b0fa5cbc5589"
+  },
+  {
     "name": "Sturgis Resources LP",
     "state": "SD",
     "entity_number": "100-000-388",
@@ -264,6 +278,34 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "1d4f286f7538"
+  },
+  {
+    "name": "Coyote State Resources Corp",
+    "state": "SD",
+    "entity_number": "100-002-097",
+    "registration_date": "2026-02-18",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #743",
+    "address": "Spearfish, SD 57070",
+    "scraped_at": "2026-02-21T05:14:02.356490",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "542ad2638f8d"
+  },
+  {
+    "name": "Badlands Holdings PC",
+    "state": "SD",
+    "entity_number": "100-001-762",
+    "registration_date": "2026-02-18",
+    "entity_type": "Professional Corporation",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #905",
+    "address": "Madison, SD 57273",
+    "scraped_at": "2026-02-21T05:14:02.351217",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "6ca43df8389b"
   },
   {
     "name": "Pierre Systems Inc",
@@ -4744,6 +4786,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "09d544d673a2"
+  },
+  {
+    "name": "Lead Management PC",
+    "state": "SD",
+    "entity_number": "100-000-708",
+    "registration_date": "2026-02-17",
+    "entity_type": "Professional Corporation",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #764",
+    "address": "Rapid City, SD 57384",
+    "scraped_at": "2026-02-21T05:14:02.336903",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "6936da1c8b51"
   },
   {
     "name": "Mobridge Advisors LLP",
@@ -14952,6 +15008,20 @@
     "business_id": "6a23d13b1720"
   },
   {
+    "name": "Missouri River Solutions LLP",
+    "state": "SD",
+    "entity_number": "100-001-601",
+    "registration_date": "2026-02-14",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #812",
+    "address": "Belle Fourche, SD 57576",
+    "scraped_at": "2026-02-21T05:14:02.349072",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "f6a4ba5422c1"
+  },
+  {
     "name": "Aberdeen Healthcare LP",
     "state": "SD",
     "entity_number": "100-002-652",
@@ -22960,6 +23030,20 @@
     "business_id": "252bd01410ce"
   },
   {
+    "name": "Prairie Partners Corp",
+    "state": "SD",
+    "entity_number": "100-001-741",
+    "registration_date": "2026-02-11",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #266",
+    "address": "Pierre, SD 57440",
+    "scraped_at": "2026-02-21T05:14:02.350930",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "6132acc60cc8"
+  },
+  {
     "name": "Wind Cave Partners LLP",
     "state": "SD",
     "entity_number": "100-002-521",
@@ -27088,6 +27172,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "7b51bce92623"
+  },
+  {
+    "name": "Lakota Enterprises Corp",
+    "state": "SD",
+    "entity_number": "100-000-686",
+    "registration_date": "2026-02-09",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #402",
+    "address": "Deadwood, SD 57565",
+    "scraped_at": "2026-02-21T05:14:02.336574",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "46d475e12ef4"
   },
   {
     "name": "Brookings Construction LP",
@@ -33024,6 +33122,34 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "ce8645d9e63f"
+  },
+  {
+    "name": "Belle Fourche Industries LLP",
+    "state": "SD",
+    "entity_number": "100-002-405",
+    "registration_date": "2026-02-05",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #541",
+    "address": "Brookings, SD 57276",
+    "scraped_at": "2026-02-21T05:14:02.360590",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "65ae7c441a19"
+  },
+  {
+    "name": "Great Sioux Management Corp",
+    "state": "SD",
+    "entity_number": "100-002-039",
+    "registration_date": "2026-02-05",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #795",
+    "address": "Brandon, SD 57666",
+    "scraped_at": "2026-02-21T05:14:02.354917",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "1ff9b8b272e0"
   },
   {
     "name": "Spearfish Logistics LLC",
@@ -40922,6 +41048,20 @@
     "business_id": "c260a4a06c47"
   },
   {
+    "name": "Belle Fourche Management Corp",
+    "state": "SD",
+    "entity_number": "100-000-273",
+    "registration_date": "2026-01-24",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "South Dakota Registered Agent #714",
+    "address": "Watertown, SD 57066",
+    "scraped_at": "2026-02-21T05:14:02.330904",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "a36b97075a60"
+  },
+  {
     "name": "Mount Rushmore State Logistics Solutions Inc",
     "state": "SD",
     "entity_number": "100-002-693",
@@ -41858,145 +41998,5 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "dd1a7ed18d96"
-  },
-  {
-    "name": "Madison Energy Inc",
-    "state": "SD",
-    "entity_number": "100-002-405",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #836",
-    "address": "Brookings, SD 57241",
-    "scraped_at": "2026-02-18T03:23:46.307032",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "efe486cbe11d"
-  },
-  {
-    "name": "Corn Palace Construction Partners Corp",
-    "state": "SD",
-    "entity_number": "100-002-181",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #208",
-    "address": "Lead, SD 57248",
-    "scraped_at": "2026-02-18T03:23:46.303991",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "77ffe4a21b6c"
-  },
-  {
-    "name": "Pierre Group LLC",
-    "state": "SD",
-    "entity_number": "100-002-097",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Liability Company",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #742",
-    "address": "Mitchell, SD 57738",
-    "scraped_at": "2026-02-18T03:23:46.302812",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "0bdc63242061"
-  },
-  {
-    "name": "Wind Cave Legal Partners Corp",
-    "state": "SD",
-    "entity_number": "100-002-039",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #420",
-    "address": "Mobridge, SD 57216",
-    "scraped_at": "2026-02-18T03:23:46.301368",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "123919207b4f"
-  },
-  {
-    "name": "Badlands Industries LLP",
-    "state": "SD",
-    "entity_number": "100-001-762",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #553",
-    "address": "Brookings, SD 57062",
-    "scraped_at": "2026-02-18T03:23:46.297603",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "901a894d2798"
-  },
-  {
-    "name": "Great Sioux Finance Networks LLC",
-    "state": "SD",
-    "entity_number": "100-001-741",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Liability Company",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #669",
-    "address": "Madison, SD 57393",
-    "scraped_at": "2026-02-18T03:23:46.297310",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "ee8d06c2d03f"
-  },
-  {
-    "name": "South Dakota Resources Corp",
-    "state": "SD",
-    "entity_number": "100-001-601",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #503",
-    "address": "Brandon, SD 57576",
-    "scraped_at": "2026-02-18T03:23:46.295405",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "b29b1cec721a"
-  },
-  {
-    "name": "South Dakota Solutions Corp",
-    "state": "SD",
-    "entity_number": "100-000-708",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #291",
-    "address": "Madison, SD 57459",
-    "scraped_at": "2026-02-18T03:23:46.283051",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "88fc8e5836f1"
-  },
-  {
-    "name": "South Dakota Associates Inc",
-    "state": "SD",
-    "entity_number": "100-000-686",
-    "registration_date": "2026-01-21",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #385",
-    "address": "Deadwood, SD 57007",
-    "scraped_at": "2026-02-18T03:23:46.282734",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "86b9500dd890"
-  },
-  {
-    "name": "Great Plains Agriculture Logistics LP",
-    "state": "SD",
-    "entity_number": "100-000-273",
-    "registration_date": "2026-01-21",
-    "entity_type": "Limited Partnership",
-    "status": "Active",
-    "registered_agent": "South Dakota Registered Agent #974",
-    "address": "Mitchell, SD 57557",
-    "scraped_at": "2026-02-18T03:23:46.277004",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "d8c9f343df21"
   }
 ]
