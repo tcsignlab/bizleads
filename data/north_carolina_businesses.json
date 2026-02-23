@@ -1,5 +1,19 @@
 [
   {
+    "name": "Catawba Partners LLC",
+    "state": "NC",
+    "entity_number": "100-002-037",
+    "registration_date": "2026-02-22",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #825",
+    "address": "Winston-Salem, NC 28811",
+    "scraped_at": "2026-02-23T05:57:39.618655",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "02c29a1180ba"
+  },
+  {
     "name": "Huntersville Networks Corp",
     "state": "NC",
     "entity_number": "100-002-890",
@@ -12,6 +26,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "208db62fb791"
+  },
+  {
+    "name": "Tar Heel Industries LLC",
+    "state": "NC",
+    "entity_number": "100-001-873",
+    "registration_date": "2026-02-21",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #379",
+    "address": "Greenville, NC 28660",
+    "scraped_at": "2026-02-23T05:57:39.616498",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "ebf87342db09"
   },
   {
     "name": "Piedmont Management LLC",
@@ -96,6 +124,34 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "f5c436d89dab"
+  },
+  {
+    "name": "Concord Healthcare LLP",
+    "state": "NC",
+    "entity_number": "100-002-418",
+    "registration_date": "2026-02-19",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #228",
+    "address": "Gastonia, NC 27458",
+    "scraped_at": "2026-02-23T05:57:39.624440",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "b2a34898879f"
+  },
+  {
+    "name": "Asheville Retail LLP",
+    "state": "NC",
+    "entity_number": "100-000-315",
+    "registration_date": "2026-02-19",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #881",
+    "address": "Charlotte, NC 27078",
+    "scraped_at": "2026-02-23T05:57:39.594652",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "96e478e6c11b"
   },
   {
     "name": "Tar Heel Construction Holdings Corp",
@@ -362,6 +418,34 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "c7b34bd27345"
+  },
+  {
+    "name": "Research Triangle Ventures PC",
+    "state": "NC",
+    "entity_number": "100-001-822",
+    "registration_date": "2026-02-18",
+    "entity_type": "Professional Corporation",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #895",
+    "address": "Greenville, NC 27738",
+    "scraped_at": "2026-02-23T05:57:39.615815",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "730c079a26c0"
+  },
+  {
+    "name": "First in Flight Finance Consulting LLP",
+    "state": "NC",
+    "entity_number": "100-000-512",
+    "registration_date": "2026-02-18",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #837",
+    "address": "Charlotte, NC 27775",
+    "scraped_at": "2026-02-23T05:57:39.597460",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "e8396826f1cf"
   },
   {
     "name": "Outer Banks Defense Logistics Inc",
@@ -5012,6 +5096,20 @@
     "business_id": "28b26e088856"
   },
   {
+    "name": "Charlotte Finance LLP",
+    "state": "NC",
+    "entity_number": "100-001-860",
+    "registration_date": "2026-02-17",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #158",
+    "address": "Raleigh, NC 28716",
+    "scraped_at": "2026-02-23T05:57:39.616331",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "5d6690b89506"
+  },
+  {
     "name": "Crystal Coast Energy Consulting Corp",
     "state": "NC",
     "entity_number": "100-001-563",
@@ -9044,6 +9142,20 @@
     "business_id": "41cbf86665f5"
   },
   {
+    "name": "Raleigh Retail LLP",
+    "state": "NC",
+    "entity_number": "100-002-703",
+    "registration_date": "2026-02-16",
+    "entity_type": "Limited Liability Partnership",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #655",
+    "address": "Asheville, NC 27010",
+    "scraped_at": "2026-02-23T05:57:39.628210",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "10e012189777"
+  },
+  {
     "name": "Catawba Logistics LP",
     "state": "NC",
     "entity_number": "100-001-930",
@@ -12290,6 +12402,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "63eed859f268"
+  },
+  {
+    "name": "Outer Banks Real Estate Industries LLC",
+    "state": "NC",
+    "entity_number": "100-001-914",
+    "registration_date": "2026-02-15",
+    "entity_type": "Limited Liability Company",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #977",
+    "address": "Winston-Salem, NC 27954",
+    "scraped_at": "2026-02-23T05:57:39.617027",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "6f2e2fa3ca9b"
   },
   {
     "name": "First in Flight Agriculture Advisors LP",
@@ -18436,6 +18562,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "0943563169b5"
+  },
+  {
+    "name": "Yadkin Biotechnology Consulting PC",
+    "state": "NC",
+    "entity_number": "100-000-906",
+    "registration_date": "2026-02-13",
+    "entity_type": "Professional Corporation",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #983",
+    "address": "Greenville, NC 27459",
+    "scraped_at": "2026-02-23T05:57:39.603049",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "7b32dc4fb874"
   },
   {
     "name": "Burlington Development LP",
@@ -27384,6 +27524,20 @@
     "business_id": "4672272e1d9b"
   },
   {
+    "name": "Concord Industries LP",
+    "state": "NC",
+    "entity_number": "100-000-913",
+    "registration_date": "2026-02-09",
+    "entity_type": "Limited Partnership",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #567",
+    "address": "Charlotte, NC 27765",
+    "scraped_at": "2026-02-23T05:57:39.603175",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "6f82225a7d54"
+  },
+  {
     "name": "Fayetteville Technology Corp",
     "state": "NC",
     "entity_number": "100-002-452",
@@ -34412,6 +34566,20 @@
     "business_id": "bc9520084216"
   },
   {
+    "name": "Charlotte Networks Inc",
+    "state": "NC",
+    "entity_number": "100-001-098",
+    "registration_date": "2026-02-04",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #611",
+    "address": "Raleigh, NC 28685",
+    "scraped_at": "2026-02-23T05:57:39.605777",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "a23471d1c128"
+  },
+  {
     "name": "Carolina Logistics LP",
     "state": "NC",
     "entity_number": "100-000-767",
@@ -35320,6 +35488,20 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "a438ce4822e1"
+  },
+  {
+    "name": "Durham Education LP",
+    "state": "NC",
+    "entity_number": "100-002-114",
+    "registration_date": "2026-02-03",
+    "entity_type": "Limited Partnership",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #373",
+    "address": "Chapel Hill, NC 27845",
+    "scraped_at": "2026-02-23T05:57:39.620380",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "4a3502d42eb2"
   },
   {
     "name": "High Point Defense LP",
@@ -41468,6 +41650,20 @@
     "business_id": "c77210b6ac5b"
   },
   {
+    "name": "Raleigh Capital Inc",
+    "state": "NC",
+    "entity_number": "100-001-819",
+    "registration_date": "2026-01-24",
+    "entity_type": "Corporation",
+    "status": "Active",
+    "registered_agent": "North Carolina Registered Agent #513",
+    "address": "Fayetteville, NC 28613",
+    "scraped_at": "2026-02-23T05:57:39.615772",
+    "source": "scheduled_generation",
+    "generator_run": 1,
+    "business_id": "d10bb35ed942"
+  },
+  {
     "name": "Yadkin Energy Consulting Inc",
     "state": "NC",
     "entity_number": "100-002-820",
@@ -41802,201 +41998,5 @@
     "source": "scheduled_generation",
     "generator_run": 1,
     "business_id": "00140cf080e6"
-  },
-  {
-    "name": "Smoky Mountain Services Inc",
-    "state": "NC",
-    "entity_number": "100-001-822",
-    "registration_date": "2026-01-23",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #694",
-    "address": "High Point, NC 27270",
-    "scraped_at": "2026-02-19T05:46:02.661460",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "64b2075e4692"
-  },
-  {
-    "name": "Burlington Industries LLC",
-    "state": "NC",
-    "entity_number": "100-000-512",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Company",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #566",
-    "address": "Huntersville, NC 27630",
-    "scraped_at": "2026-02-19T05:46:02.643080",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "4369b28e0e06"
-  },
-  {
-    "name": "Greensboro Development PC",
-    "state": "NC",
-    "entity_number": "100-002-703",
-    "registration_date": "2026-01-23",
-    "entity_type": "Professional Corporation",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #233",
-    "address": "Wilson, NC 27261",
-    "scraped_at": "2026-02-18T03:23:45.387018",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "e26bfe0f3585"
-  },
-  {
-    "name": "Wilmington Holdings LLC",
-    "state": "NC",
-    "entity_number": "100-002-418",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Company",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #507",
-    "address": "Kannapolis, NC 28668",
-    "scraped_at": "2026-02-18T03:23:45.383184",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "f1d192446ec7"
-  },
-  {
-    "name": "Charlotte Properties LLP",
-    "state": "NC",
-    "entity_number": "100-002-114",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #514",
-    "address": "Concord, NC 28665",
-    "scraped_at": "2026-02-18T03:23:45.379094",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "7b48a6c8fc7c"
-  },
-  {
-    "name": "Raleigh Consulting LLC",
-    "state": "NC",
-    "entity_number": "100-002-037",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Company",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #409",
-    "address": "Greensboro, NC 27081",
-    "scraped_at": "2026-02-18T03:23:45.377393",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "ab1938cebc87"
-  },
-  {
-    "name": "Kannapolis Development PC",
-    "state": "NC",
-    "entity_number": "100-001-914",
-    "registration_date": "2026-01-23",
-    "entity_type": "Professional Corporation",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #101",
-    "address": "Jacksonville, NC 28523",
-    "scraped_at": "2026-02-18T03:23:45.375746",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "f5f186b29093"
-  },
-  {
-    "name": "Gastonia Biotechnology LLP",
-    "state": "NC",
-    "entity_number": "100-001-873",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #933",
-    "address": "Cary, NC 28547",
-    "scraped_at": "2026-02-18T03:23:45.375205",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "43e61e14004f"
-  },
-  {
-    "name": "Gastonia Partners PC",
-    "state": "NC",
-    "entity_number": "100-001-860",
-    "registration_date": "2026-01-23",
-    "entity_type": "Professional Corporation",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #472",
-    "address": "High Point, NC 27254",
-    "scraped_at": "2026-02-18T03:23:45.375036",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "2fdca903c202"
-  },
-  {
-    "name": "Raleigh Capital LLP",
-    "state": "NC",
-    "entity_number": "100-001-819",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Inactive",
-    "registered_agent": "North Carolina Registered Agent #114",
-    "address": "Concord, NC 28444",
-    "scraped_at": "2026-02-18T03:23:45.374475",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "41a0ebe96fe1"
-  },
-  {
-    "name": "Charlotte Finance Inc",
-    "state": "NC",
-    "entity_number": "100-001-098",
-    "registration_date": "2026-01-23",
-    "entity_type": "Corporation",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #906",
-    "address": "Raleigh, NC 27499",
-    "scraped_at": "2026-02-18T03:23:45.364632",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "a75c87c4c0b3"
-  },
-  {
-    "name": "Gastonia Education LLP",
-    "state": "NC",
-    "entity_number": "100-000-913",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #621",
-    "address": "Jacksonville, NC 27525",
-    "scraped_at": "2026-02-18T03:23:45.362131",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "6e41a449777a"
-  },
-  {
-    "name": "Gastonia Capital LLP",
-    "state": "NC",
-    "entity_number": "100-000-906",
-    "registration_date": "2026-01-23",
-    "entity_type": "Limited Liability Partnership",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #608",
-    "address": "Raleigh, NC 28472",
-    "scraped_at": "2026-02-18T03:23:45.362040",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "28533b519af5"
-  },
-  {
-    "name": "Research Triangle Legal Industries PC",
-    "state": "NC",
-    "entity_number": "100-000-315",
-    "registration_date": "2026-01-23",
-    "entity_type": "Professional Corporation",
-    "status": "Active",
-    "registered_agent": "North Carolina Registered Agent #511",
-    "address": "Greenville, NC 27450",
-    "scraped_at": "2026-02-18T03:23:45.353796",
-    "source": "scheduled_generation",
-    "generator_run": 1,
-    "business_id": "f835758ed37e"
   }
 ]
